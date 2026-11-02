@@ -14,6 +14,10 @@ concurrency:
   group: e2e-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # MongoDB 8 refuses to start on the runners' Linux 6.19+ kernels (SERVER-121912); test on 7.0 there.
+  EB_TEST_MONGO_IMAGE: mongo:7.0
+
 jobs:
   compose-config:
     if: >
