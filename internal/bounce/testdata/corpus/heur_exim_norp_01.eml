@@ -1,0 +1,12 @@
+From: Mail Delivery System <mailer-daemon@exim.example.com>
+To: sender@example.com
+Subject: Mail delivery failed: returning message to sender
+Message-ID: <heur-norp-exim-01@example.com>
+
+This message was created automatically by mail delivery software.
+
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error.
+
+fail-norp02@example.com
+550 5.1.1 unknown user

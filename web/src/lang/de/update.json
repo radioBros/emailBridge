@@ -1,0 +1,9 @@
+{
+  "update": {
+    "available_title": "Update verfügbar",
+    "available_body": "Eine neue Version ist verfügbar. Neu laden, um sie zu nutzen — ungespeicherte Arbeit geht verloren.",
+    "reload": "Neu laden",
+    "later": "Später",
+    "indicator_tooltip": "Neue Version verfügbar — zum Neuladen klicken"
+  }
+}

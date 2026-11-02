@@ -1,0 +1,9 @@
+From: Mail Delivery System <mailer-daemon@mx.example.com>
+Return-Path: <>
+To: sender@example.com
+Subject: Delayed Mail (try again later)
+X-Failed-Recipients: fullbox@example.com
+Message-ID: <heur-nullrp-soft-01@example.com>
+
+Delivery temporarily deferred for fullbox@example.com.
+451 4.2.1 try again later — mailbox resources temporarily unavailable

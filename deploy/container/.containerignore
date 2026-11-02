@@ -1,0 +1,8 @@
+.git
+spikes/
+.data/
+bin/
+*.cov
+.env*
+secrets/
+node_modules/

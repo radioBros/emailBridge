@@ -1,0 +1,17 @@
+From: Mailer-Daemon <mailer-daemon@mx.example.com>
+Return-Path: <>
+To: sender@example.com
+Subject: Failure Notice
+X-Failed-Recipients: gone@example.com
+Message-ID: <heur-headers-hard-01@example.com>
+
+Permanent failure delivering to gone@example.com.
+550 5.1.1 User unknown
+
+----- Original Message -----
+From: sender@example.com
+To: gone@example.com
+Message-ID: <orig-headers-hard-01@example.com>
+Subject: Hello
+
+Hi

@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "notifications": "通知"
+  },
+  "notifications": {
+    "title": "通知",
+    "subtitle": "EmailBridge が組織で検出した問題。新しい順。解決済みは 90 日間残ります。",
+    "bell_label": "通知",
+    "bell_label_unread": "通知、未読 {count} 件",
+    "toast_critical": "重大な問題: {title}",
+    "mark_all_read": "すべて既読にする",
+    "mark_all_read_short": "すべて既読",
+    "mark_read": "既読にする",
+    "open_centre": "通知センターを開く",
+    "open_link": "問題へ移動",
+    "retry": "再試行",
+    "empty_title": "すべて正常",
+    "empty_body": "未解決の問題はありません。新しい問題は検出され次第ここに表示されます。",
+    "unread": "未読",
+    "row_unread": "{title}、未読",
+    "occurrences": "×{count}",
+    "filters": "フィルター",
+    "clear_filters": "フィルターをクリア",
+    "no_results": "これらのフィルターに一致する通知はありません。",
+    "selected": "{count} 件選択",
+    "clear_selection": "クリア",
+    "select_page": "このページをすべて選択",
+    "select_row": "{title} を選択",
+    "resolve": "解決",
+    "resolve_info": "情報を解決（{count}）",
+    "bulk_resolve_hint": "一括解決できるのは情報レベルのみです。警告と重大は詳細から解決してください。",
+    "resolve_done": "通知を解決しました。",
+    "bulk_read_done": "{count} 件を既読にしました。",
+    "bulk_resolve_done": "{count} 件を解決しました。",
+    "bulk_resolve_failed": "{count} 件を解決できませんでした。{reason}",
+    "group": {
+      "critical": "重大",
+      "warning": "警告",
+      "info": "情報",
+      "resolved": "解決済み"
+    },
+    "state": {
+      "open": "未解決",
+      "resolved": "解決済み"
+    },
+    "severity": {
+      "critical": "重大",
+      "warning": "警告",
+      "info": "情報"
+    },
+    "category": {
+      "webhooks": "Webhook",
+      "queues": "キュー",
+      "accounts": "アカウント",
+      "sending": "送信",
+      "oauth": "OAuth",
+      "integrations": "連携",
+      "pec": "PEC",
+      "storage": "ストレージ",
+      "platform": "プラットフォーム",
+      "security": "セキュリティ",
+      "limits": "制限",
+      "internal": "内部エラー"
+    },
+    "scope": {
+      "organization": "この組織",
+      "instance": "インスタンス全体"
+    },
+    "col": {
+      "select": "選択",
+      "severity": "重大度",
+      "problem": "問題",
+      "category": "カテゴリ",
+      "occurrences": "発生回数",
+      "last_seen": "最終確認",
+      "first_seen": "初回確認"
+    },
+    "field": {
+      "first_seen": "初回確認",
+      "last_seen": "最終確認",
+      "opened_at": "再オープン",
+      "resolved_at": "解決",
+      "scope": "スコープ",
+      "data": "詳細"
+    },
+    "filter": {
+      "state": "状態",
+      "category": "カテゴリ",
+      "severity": "重大度",
+      "unread": "未読のみ"
+    },
+    "prefs": {
+      "title": "通知",
+      "unsaved": "未保存",
+      "org_disabled": "この組織ではアラートメールがオフです。オーナーまたは管理者は設定 → スイッチでオンにできます。ベルは動作します。",
+      "email_label": "問題をメールで受け取る",
+      "email_hint": "重大はすぐ届き、それ以外はダイジェストに従います。",
+      "email_role_hint": "閲覧者とオペレーターは既定でオフ。オンにするとアラートメールを受け取ります。",
+      "digest": "ダイジェスト",
+      "digest_immediate": "問題ごとにすぐ送る",
+      "digest_hourly": "1 時間ごとのダイジェスト",
+      "digest_daily": "日次ダイジェスト",
+      "min_severity": "メールの下限",
+      "min_info": "情報以上",
+      "min_warning": "警告以上",
+      "min_critical": "重大のみ",
+      "categories": "カテゴリ",
+      "col_bell": "ベル",
+      "col_email": "メール",
+      "bell_for": "ベルに {category} を表示",
+      "email_for": "{category} をメール",
+      "quiet": "静音時間",
+      "quiet_hint": "この時間帯は重大以外のメールが次のダイジェストまで待機します。",
+      "quiet_start": "開始",
+      "quiet_end": "終了",
+      "quiet_tz": "タイムゾーン",
+      "time_invalid": "HH:MM 形式で入力",
+      "discard": "破棄",
+      "save": "保存",
+      "saved": "通知の設定を保存しました。"
+    }
+  },
+  "notify": {
+    "webhook": {
+      "failing": {
+        "title": "Webhook {name} が失敗しています",
+        "detail": "{failures} 回連続で配信に失敗しました。エンドポイントと最近の配信を確認してください。"
+      },
+      "deadletter": {
+        "title": "Webhook {name} がイベントをデッドレターに送っています",
+        "detail": "過去 1 時間で {count} 件の配信がデッドレターになりました。"
+      }
+    },
+    "account": {
+      "auth": {
+        "title": "メールボックス {name} にサインインできません",
+        "detail": "メールサーバーが認証情報を拒否しました。同期を再開するには更新してください。"
+      },
+      "connect": {
+        "title": "メールボックス {name} に接続できません",
+        "detail": "メールサーバーに到達できないか、接続が拒否されました。"
+      },
+      "disabled": {
+        "title": "メールボックス {name} は無効です",
+        "detail": "アカウントを再度有効にするまで同期は一時停止します。"
+      },
+      "syncStall": {
+        "title": "メールボックス {name} の同期が停止しました",
+        "detail": "設定した上限より長く成功した同期がありません。"
+      },
+      "cert": {
+        "title": "{name} の証明書がまもなく期限切れです",
+        "detail": "メールボックス接続を維持するため、期限前にクライアント証明書を更新してください。"
+      }
+    },
+    "queue": {
+      "pending": {
+        "title": "キュー {queue} が滞留しています",
+        "detail": "{pending} 件のメッセージが待機しており、最近の確認がありません。"
+      },
+      "oldest": {
+        "title": "キュー {queue} に古いメッセージがあります",
+        "detail": "最古のメッセージが設定上限より長く待機しています。"
+      },
+      "paused": {
+        "title": "キュー {queue} がしばらく一時停止されています",
+        "detail": "キューが一時停止のまま作業が積み上がっています。"
+      }
+    },
+    "sending": {
+      "failures": {
+        "title": "送信失敗が増えています",
+        "detail": "過去 1 時間でアカウントのメッセージの {rate}% が失敗またはバウンスしました。"
+      }
+    },
+    "platform": {
+      "node": {
+        "title": "ノード {node} が見つかりません",
+        "detail": "ドレインせずにノードの報告が止まりました。"
+      },
+      "migrations": {
+        "title": "データベースのマイグレーションが保留中です",
+        "detail": "アップグレードを完了するには保留中のマイグレーションを実行してください。"
+      }
+    },
+    "security": {
+      "apikey": {
+        "title": "API キー {name} がまもなく期限切れです",
+        "detail": "連携を継続するため、期限前にキーをローテーションしてください。"
+      }
+    },
+    "integrations": {
+      "failing": {
+        "title": "連携 {name} が失敗しています",
+        "detail": "直近の {connector} 操作が失敗しました。連携を開いてエラーを確認してください。"
+      }
+    },
+    "internal": {
+      "title": "{component} の内部エラー",
+      "detail": "EmailBridge が {component} で予期しないエラー（{code}）に遭遇しました。ここにまとめられ報告されています。"
+    }
+  }
+}

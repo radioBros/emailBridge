@@ -1,0 +1,89 @@
+# golangci-lint v2 configuration. The depguard rules enforce the module import boundaries.
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+  # Lint the tagged test suites too; without the tags, helpers used only by them look unused.
+  build-tags: [integration, e2e, chaos, live]
+
+linters:
+  default: standard # errcheck, govet, ineffassign, staticcheck, unused
+  enable:
+    - bodyclose
+    - copyloopvar
+    - depguard
+    - errorlint
+    - forbidigo
+    - gosec
+    - misspell
+    - nolintlint
+    - unconvert
+    - usestdlibvars
+  settings:
+    misspell:
+      # Italian PEC terms from the regulations (daticert.xml element and attribute values, S17).
+      ignore-rules: [certificato, identificativo, simulato]
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+    forbidigo:
+      forbid:
+        - pattern: ^fmt\.Print(f|ln)?$
+          msg: log through slog (logging.For) — S12; fmt.Print is allowed only in cmd/
+        - pattern: ^log\.(Print|Fatal|Panic)(f|ln)?$
+          msg: use log/slog through the internal log system
+    depguard:
+      rules:
+        imap:
+          # simulator is the provider fake and needs go-imap's server packages.
+          files: ["$all", "!**/internal/mailproto/imapc/**", "!**/simulator/**"]
+          deny:
+            - pkg: github.com/emersion/go-imap
+              desc: only internal/mailproto/imapc and simulator may import go-imap
+        smtp:
+          files: ["$all", "!**/internal/mailproto/smtpc/**", "!**/internal/msa/**", "!**/simulator/**"]
+          deny:
+            - pkg: github.com/emersion/go-smtp
+              desc: only internal/mailproto/smtpc, internal/msa and simulator may import go-smtp
+        limen:
+          files: ["$all", "!**/internal/auth/**", "!**/internal/apikeys/**", "!**/pkg/limenmongo/**"]
+          deny:
+            - pkg: github.com/thecodearcher/limen
+              desc: only internal/auth, internal/apikeys and pkg/limenmongo may import Limen
+        nats:
+          # *_test.go may embed NATS for delivery-engine E2E (webhook sinks); production code stays bus/sinks only.
+          files: ["$all", "!**/internal/bus/**", "!**/internal/sinks/**", "!**/*_test.go"]
+          deny:
+            - pkg: github.com/nats-io/nats.go
+              desc: only internal/bus and internal/sinks may import nats.go
+            - pkg: github.com/nats-io/nats-server
+              desc: only internal/bus and internal/sinks may embed nats-server
+        cel:
+          files: ["$all", "!**/internal/rules/**"]
+          deny:
+            - pkg: cel.dev/cel-go
+              desc: only internal/rules may import cel-go
+            - pkg: github.com/google/cel-go
+              desc: use cel.dev/cel-go, and only in internal/rules
+  exclusions:
+    rules:
+      - path: ^(cmd|tools)/
+        linters: [forbidigo]
+      - path: _test\.go$
+        linters: [gosec, forbidigo]
+      # Vendored Handlebars engine (mailgun/raymond v2.0.48, MIT, see internal/templates/hbs/VENDORED.md):
+      # upstream code kept close to the original so updates stay diffable; our changes are reviewed there.
+      - path: ^internal/templates/hbs/
+        linters: [errcheck, errorlint, forbidigo, gosec, govet, misspell, staticcheck, unused, unconvert, depguard, bodyclose, copyloopvar, usestdlibvars, nolintlint]
+
+formatters:
+  exclusions:
+    paths:
+      - ^internal/templates/hbs/
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes: [github.com/radiobros/emailbridge]

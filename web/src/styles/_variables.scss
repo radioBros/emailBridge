@@ -1,0 +1,32 @@
+// Project SCSS variables.
+//
+// These exist for values SCSS needs at COMPILE time (a `map.get`, a calculation). Anything a
+// component or a utility class reads at RUNTIME is a CSS custom property in `imports/_tokens.scss`
+// instead, because those are what the light/dark theme switch re-binds.
+
+@use "sass:map";
+
+/// Radius scale — mirrors the `$rounded` map in `settings.scss`.
+/// Only for the rare case where SCSS must compute against a radius; prefer the Vuetify
+/// `rounded-*` utility class or the plugin default.
+$radius: (
+  "sm": 6px,
+  "default": 8px,
+  "lg": 12px,
+  "chip": 14px,
+  "xl": 16px,
+);
+
+/// Breakpoint maxima, for the few places a `max-width` query is unavoidable.
+/// Prefer Vuetify's `*-md-*` utilities and `v-col` sizing — CLAUDE.md §3.5.
+$grid-breakpoints-max: (
+  "xs": 599.98px,
+  "sm": 767.98px,
+  "md": 1024.98px,
+  "lg": 1279.98px,
+);
+
+/// Reads a radius from the scale above.
+@function radius($key) {
+  @return map.get($radius, $key);
+}

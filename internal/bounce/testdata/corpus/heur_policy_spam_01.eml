@@ -1,0 +1,8 @@
+From: Mailer-Daemon <mailer-daemon@mx.example.com>
+To: sender@example.com
+Subject: Returned mail: see transcript for details
+Message-ID: <heur-policy-01@example.com>
+
+This is the mail system at host mx.example.com.
+Recipient: <spam-target@example.com>
+554 5.7.1 Message rejected as spam / blocked by policy

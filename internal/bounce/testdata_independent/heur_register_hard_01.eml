@@ -1,0 +1,12 @@
+From: MAILER-DAEMON@register.example.it
+To: sender@example.com
+Subject: Undeliverable message
+Message-ID: <heur-heur_register_hard_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Register.it mail system:
+Permanent failure delivering to nope@register.example.it
+550 No such user here
+

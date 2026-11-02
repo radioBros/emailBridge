@@ -1,0 +1,10 @@
+From: Microsoft Exchange <MicrosoftOutlookA1B2C3D4@contoso.example.com>
+To: sender@example.com
+Subject: Undeliverable: Hello
+Message-ID: <heur-exch-o365-02@example.com>
+
+Delivery has failed to these recipients or groups:
+
+missing@example.com
+
+Remote Server returned '550 5.1.1 RESOLVER.ADR.RecipNotFound'

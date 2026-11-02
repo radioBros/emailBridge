@@ -1,0 +1,8 @@
+From: Sistema di posta <posta@provider.example.it>
+To: sender@example.com
+Subject: Messaggio non consegnato
+Message-ID: <heur-norp-it-01@example.com>
+X-Failed-Recipients: fail-norp08@example.it
+
+Impossibile consegnare il messaggio a fail-norp08@example.it
+Errore di consegna permanente: 550 5.1.1 destinatario sconosciuto

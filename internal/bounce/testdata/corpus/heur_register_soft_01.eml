@@ -1,0 +1,11 @@
+From: Postmaster <postmaster@register.it>
+To: sender@example.com
+Subject: Errore di consegna: non recapitabile (deferred)
+Message-ID: <heur-067@example.com>
+In-Reply-To: <orig-heur-067@example.com>
+X-Failed-Recipients: bounce-hint067@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Il messaggio non e' recapitabile a full17@example.it
+451 temporary failure — riprovare

@@ -1,0 +1,394 @@
+{
+  "switches": {
+    "sandbox": {
+      "enabled": {
+        "label": "Modo sandbox",
+        "description": "Captura o correio de saída em vez de enviá-lo."
+      },
+      "recipientPolicy": {
+        "label": "Política de destinatários sandbox",
+        "description": "Como o sandbox trata destinatários: allow, rewrite, drop ou capture."
+      }
+    },
+    "inbound": {
+      "authResults": {
+        "label": "Resultados auth de entrada",
+        "description": "Inclui resultados SPF, DKIM, DMARC e ARC nas mensagens recebidas."
+      },
+      "archiveRaw": {
+        "label": "Arquivar entrada bruta",
+        "description": "Armazena a fonte bruta de cada nova mensagem no S3."
+      },
+      "replyText": {
+        "label": "Extração de texto de resposta",
+        "description": "Permite extrair o texto de resposta quando o endpoint ativar."
+      },
+      "bounceDetection": {
+        "label": "Detecção de bounce",
+        "description": "Classifica bounces, relatórios ARF e respostas automáticas."
+      }
+    },
+    "sync": {
+      "qresync": {
+        "label": "Sincronização QRESYNC",
+        "description": "Usa a detecção de alterações QRESYNC quando o servidor de e-mail oferecer."
+      }
+    },
+    "protocolLogs": {
+      "enabled": {
+        "label": "Logs de protocolo",
+        "description": "Mantém transcrições IMAP e SMTP por conta."
+      },
+      "rawDebug": {
+        "label": "Depuração bruta do protocolo",
+        "description": "Registra os bytes completos do protocolo (desliga automaticamente após um TTL)."
+      }
+    },
+    "webhook": {
+      "signature": {
+        "mode": {
+          "label": "Modo de assinatura webhook",
+          "description": "Escolhe assinaturas webhook padrão ou só do corpo."
+        }
+      },
+      "secret": {
+        "perEndpoint": {
+          "label": "Segredos webhook por endpoint",
+          "description": "Usa um segredo de assinatura separado para cada endpoint webhook."
+        },
+        "rotationOverlap": {
+          "label": "Sobreposição de rotação do segredo webhook",
+          "description": "Assina em dobro os webhooks enquanto um segredo está em rotação."
+        }
+      },
+      "mtls": {
+        "label": "mTLS de webhook",
+        "description": "Exige um certificado de cliente ao entregar webhooks."
+      },
+      "egress": {
+        "blockPrivate": {
+          "label": "Bloquear egress privado de webhook",
+          "description": "Bloqueia a entrega a endereços privados, ULA ou loopback."
+        }
+      }
+    },
+    "events": {
+      "store": {
+        "label": "Armazenamento de eventos",
+        "description": "Mantém eventos disponíveis para replay."
+      },
+      "sse": {
+        "label": "Stream SSE de eventos",
+        "description": "Expõe o endpoint ao vivo /v1/events/stream."
+      }
+    },
+    "rules": {
+      "enabled": {
+        "label": "Regras de roteamento",
+        "description": "Avalia as regras de roteamento."
+      }
+    },
+    "auth": {
+      "password": {
+        "label": "Entrada com senha",
+        "description": "Permite autenticação por senha."
+      },
+      "passkeys": {
+        "label": "Entrada com passkey",
+        "description": "Permite autenticação por passkey."
+      },
+      "totp": {
+        "label": "MFA TOTP",
+        "description": "Permite senhas de uso único baseadas em tempo para MFA."
+      },
+      "emailOtp": {
+        "label": "MFA OTP por e-mail",
+        "description": "Permite senhas de uso único por e-mail para MFA (precisa do correio do sistema)."
+      },
+      "oidc": {
+        "label": "SSO OIDC",
+        "description": "Permite single sign-on OIDC para a organização."
+      }
+    },
+    "apikeys": {
+      "accountBound": {
+        "label": "Chaves de API ligadas à conta",
+        "description": "Permite chaves de API ligadas a uma única conta."
+      }
+    },
+    "configAsCode": {
+      "enabled": {
+        "label": "Config as code",
+        "description": "Ativa plan e apply YAML via CLI e API."
+      }
+    },
+    "mailbox": {
+      "webSafeHtml": {
+        "label": "HTML seguro em payloads",
+        "description": "Permite HTML sanitizado nos payloads de mensagem quando o endpoint ativar."
+      },
+      "calendarEvents": {
+        "label": "Eventos de calendário em payloads",
+        "description": "Permite dados iCalendar analisados nos payloads quando o endpoint ativar."
+      }
+    },
+    "attachments": {
+      "s3": {
+        "label": "Anexos no S3",
+        "description": "Armazena anexos no S3 e serve URLs assinadas."
+      },
+      "antivirus": {
+        "label": "Antivírus de anexos",
+        "description": "Analisa anexos com ClamAV antes da entrega."
+      }
+    },
+    "sending": {
+      "templates": {
+        "label": "Modelos de envio",
+        "description": "Ativa os modelos de envio."
+      },
+      "listUnsubscribe": {
+        "label": "List-Unsubscribe",
+        "description": "Adiciona cabeçalhos List-Unsubscribe RFC 8058."
+      },
+      "suppression": {
+        "label": "Listas de exclusão",
+        "description": "Consulta as listas de exclusão antes de enviar."
+      },
+      "throttle": {
+        "label": "Limitação de envio",
+        "description": "Limita o envio por provedor e por domínio."
+      },
+      "sendWindows": {
+        "label": "Janelas de envio",
+        "description": "Restringe o envio a janelas conforme o fuso horário."
+      },
+      "preSendHook": {
+        "label": "Hook de política pré-envio",
+        "description": "Executa um hook de política antes de cada envio."
+      }
+    },
+    "tracking": {
+      "opens": {
+        "label": "Rastreamento de abertura",
+        "description": "Rastreia quando os destinatários abrem as mensagens."
+      },
+      "clicks": {
+        "label": "Rastreamento de cliques",
+        "description": "Rastreia quando os destinatários clicam em links."
+      }
+    },
+    "oauth": {
+      "tokenExport": {
+        "label": "Exportação de token OAuth",
+        "description": "Permite exportar o token OAuth da conta pela API."
+      }
+    },
+    "accounts": {
+      "authServer": {
+        "label": "Servidor externo de credenciais",
+        "description": "Obtém credenciais de um servidor de autenticação externo."
+      },
+      "ignoreCertErrors": {
+        "label": "Ignorar erros de certificado",
+        "description": "Aceita certificados inválidos do servidor de e-mail."
+      }
+    },
+    "connect": {
+      "hostedPage": {
+        "label": "Página connect hospedada",
+        "description": "Ativa a página hospedada de conexão da caixa de correio."
+      }
+    },
+    "protocol": {
+      "msa": {
+        "label": "Servidor de submission SMTP",
+        "description": "Executa o agente de submission SMTP."
+      },
+      "imapProxy": {
+        "label": "Proxy IMAP",
+        "description": "Executa o proxy IMAP."
+      }
+    },
+    "export": {
+      "enabled": {
+        "label": "Exportação em massa",
+        "description": "Permite exportações em massa da caixa de correio."
+      }
+    },
+    "ai": {
+      "enabled": {
+        "label": "Plugin de IA",
+        "description": "Ativa o plugin de IA."
+      },
+      "embeddings": {
+        "label": "Pesquisa semântica",
+        "description": "Encontre e-mails por significado e faça perguntas sobre uma caixa de correio, com o endpoint de embeddings das configurações de IA. Precisa da pesquisa de texto completo. Cada conta pode ficar de fora."
+      }
+    },
+    "mcp": {
+      "enabled": {
+        "label": "Endpoint MCP",
+        "description": "Ativa o endpoint MCP."
+      }
+    },
+    "integrations": {
+      "<connector>": {
+        "label": "Integração de conector",
+        "description": "Ativa a integração de um conector de terceiros."
+      },
+      "slack": {
+        "label": "Integração Slack",
+        "description": "Ativa o conector webhook de entrada do Slack."
+      },
+      "zapier": {
+        "label": "Integração Zapier",
+        "description": "Ativa o conector webhook Zapier/Make."
+      },
+      "rspamd": {
+        "label": "Integração Rspamd",
+        "description": "Ativa o conector pontuação de spam Rspamd."
+      },
+      "teams": {
+        "label": "Integração Microsoft Teams",
+        "description": "Ativa o conector webhook do Microsoft Teams."
+      },
+      "discord": {
+        "label": "Integração Discord",
+        "description": "Ativa o conector webhook do Discord."
+      },
+      "telegram": {
+        "label": "Integração Telegram",
+        "description": "Ativa o conector Bot API do Telegram."
+      },
+      "mattermost": {
+        "label": "Integração Mattermost",
+        "description": "Ativa o conector webhook do Mattermost."
+      },
+      "featherdesk": {
+        "label": "Integração FeatherDesk",
+        "description": "Ativa o conector helpdesk FeatherDesk."
+      },
+      "helpdesk": {
+        "label": "Integração helpdesk",
+        "description": "Ativa o conector webhook helpdesk genérico."
+      },
+      "ses": {
+        "label": "Integração Amazon SES",
+        "description": "Ativa o conector envio Amazon SES."
+      },
+      "postmark": {
+        "label": "Integração Postmark",
+        "description": "Ativa o conector envio Postmark."
+      },
+      "mailgun": {
+        "label": "Integração Mailgun",
+        "description": "Ativa o conector envio Mailgun."
+      },
+      "sendgrid": {
+        "label": "Integração SendGrid",
+        "description": "Ativa o conector envio SendGrid."
+      },
+      "brevo": {
+        "label": "Integração Brevo",
+        "description": "Ativa o conector envio Brevo."
+      },
+      "gdrive": {
+        "label": "Integração Google Drive",
+        "description": "Ativa o conector armazenamento Google Drive."
+      },
+      "onedrive": {
+        "label": "Integração OneDrive",
+        "description": "Ativa o conector armazenamento OneDrive/SharePoint."
+      },
+      "hubspot": {
+        "label": "Integração HubSpot",
+        "description": "Ativa o conector CRM HubSpot."
+      },
+      "pipedrive": {
+        "label": "Integração Pipedrive",
+        "description": "Ativa o conector CRM Pipedrive."
+      },
+      "sso-authentik": {
+        "label": "Authentik SSO",
+        "description": "Ativa a predefinição SSO Authentik."
+      },
+      "sso-keycloak": {
+        "label": "Keycloak SSO",
+        "description": "Ativa a predefinição SSO Keycloak."
+      },
+      "sso-entra": {
+        "label": "Microsoft Entra ID SSO",
+        "description": "Ativa a predefinição SSO Microsoft Entra ID."
+      },
+      "sso-google": {
+        "label": "Google Workspace SSO",
+        "description": "Ativa a predefinição SSO Google Workspace."
+      },
+      "sso-okta": {
+        "label": "Okta SSO",
+        "description": "Ativa a predefinição SSO Okta."
+      },
+      "sentry": {
+        "label": "Integração Sentry",
+        "description": "Ativa a predefinição de observabilidade Sentry/GlitchTip."
+      },
+      "grafana": {
+        "label": "Integração Grafana",
+        "description": "Ativa a predefinição de dashboard Grafana."
+      },
+      "loki": {
+        "label": "Integração Loki",
+        "description": "Ativa a predefinição de rótulos Loki."
+      },
+      "otel": {
+        "label": "Integração OpenTelemetry",
+        "description": "Ativa a predefinição de collector OpenTelemetry."
+      }
+    },
+    "pec": {
+      "enabled": {
+        "label": "PEC",
+        "description": "Ativa o módulo PEC para a conta."
+      },
+      "evidenceArchive": {
+        "label": "Arquivo de evidências PEC",
+        "description": "Arquiva recibos e envelopes PEC com Object Lock."
+      }
+    },
+    "notifications": {
+      "email": {
+        "label": "Notificações por e-mail",
+        "description": "Envia notificações do sistema por e-mail."
+      }
+    },
+    "sinks": {
+      "nats": {
+        "label": "Sink NATS",
+        "description": "Disponibiliza o sink de eventos NATS."
+      },
+      "kafka": {
+        "label": "Sink Kafka",
+        "description": "Disponibiliza o sink de eventos Kafka."
+      },
+      "sqs": {
+        "label": "Sink Amazon SQS",
+        "description": "Disponibiliza o sink de eventos Amazon SQS."
+      },
+      "sns": {
+        "label": "Sink Amazon SNS",
+        "description": "Disponibiliza o sink de eventos Amazon SNS."
+      },
+      "pubsub": {
+        "label": "Sink Pub/Sub",
+        "description": "Disponibiliza o sink de eventos Google Pub/Sub."
+      }
+    },
+    "search": {
+      "fullText": {
+        "label": "Pesquisa de texto completo",
+        "description": "Indexa o texto de cada mensagem para que a página Pesquisa encontre e-mails em todas as contas. Cada conta pode ficar de fora."
+      }
+    }
+  }
+}

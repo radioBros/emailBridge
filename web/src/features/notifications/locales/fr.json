@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "notifications": "Notifications"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Problèmes détectés par EmailBridge dans votre organisation, les plus récents en premier. Les éléments résolus restent ici 90 jours.",
+    "bell_label": "Notifications",
+    "bell_label_unread": "Notifications, {count} non lues",
+    "toast_critical": "Problème critique : {title}",
+    "mark_all_read": "Tout marquer comme lu",
+    "mark_all_read_short": "Tout lu",
+    "mark_read": "Marquer comme lu",
+    "open_centre": "Ouvrir le centre de notifications",
+    "open_link": "Aller au problème",
+    "retry": "Réessayer",
+    "empty_title": "Tout est normal",
+    "empty_body": "Aucun problème ouvert. Les nouveaux apparaissent ici dès qu’ils sont détectés.",
+    "unread": "Non lues",
+    "row_unread": "{title}, non lu",
+    "occurrences": "×{count}",
+    "filters": "Filtres",
+    "clear_filters": "Effacer les filtres",
+    "no_results": "Aucune notification ne correspond à ces filtres.",
+    "selected": "{count} sélectionnée(s)",
+    "clear_selection": "Effacer",
+    "select_page": "Tout sélectionner sur cette page",
+    "select_row": "Sélectionner {title}",
+    "resolve": "Résoudre",
+    "resolve_info": "Résoudre les infos ({count})",
+    "bulk_resolve_hint": "Seuls les éléments info peuvent être résolus en masse. Résolvez les avertissements et critiques depuis leur détail.",
+    "resolve_done": "Notification résolue.",
+    "bulk_read_done": "{count} marquées comme lues.",
+    "bulk_resolve_done": "{count} résolues.",
+    "bulk_resolve_failed": "{count} n’ont pas pu être résolues. {reason}",
+    "group": {
+      "critical": "Critique",
+      "warning": "Avertissement",
+      "info": "Info",
+      "resolved": "Résolu"
+    },
+    "state": {
+      "open": "Ouvert",
+      "resolved": "Résolu"
+    },
+    "severity": {
+      "critical": "Critique",
+      "warning": "Avertissement",
+      "info": "Info"
+    },
+    "category": {
+      "webhooks": "Webhooks",
+      "queues": "Files",
+      "accounts": "Comptes",
+      "sending": "Envoi",
+      "oauth": "OAuth",
+      "integrations": "Intégrations",
+      "pec": "PEC",
+      "storage": "Stockage",
+      "platform": "Plateforme",
+      "security": "Sécurité",
+      "limits": "Limites",
+      "internal": "Erreurs internes"
+    },
+    "scope": {
+      "organization": "Cette organisation",
+      "instance": "Toute l’instance"
+    },
+    "col": {
+      "select": "Sélection",
+      "severity": "Sévérité",
+      "problem": "Problème",
+      "category": "Catégorie",
+      "occurrences": "Occurrences",
+      "last_seen": "Dernière vue",
+      "first_seen": "Première vue"
+    },
+    "field": {
+      "first_seen": "Première vue",
+      "last_seen": "Dernière vue",
+      "opened_at": "Rouvert",
+      "resolved_at": "Résolu",
+      "scope": "Portée",
+      "data": "Détails"
+    },
+    "filter": {
+      "state": "Statut",
+      "category": "Catégorie",
+      "severity": "Sévérité",
+      "unread": "Non lues seulement"
+    },
+    "prefs": {
+      "title": "Notifications",
+      "unsaved": "Non enregistré",
+      "org_disabled": "Les e-mails d’alerte sont désactivés pour cette organisation. Un propriétaire ou administrateur peut les activer dans Paramètres, Interrupteurs. La cloche continue de fonctionner.",
+      "email_label": "M’envoyer un e-mail pour les problèmes",
+      "email_hint": "Les problèmes critiques arrivent immédiatement ; le reste suit votre digest.",
+      "email_role_hint": "Désactivé par défaut pour les lecteurs et opérateurs. Activez pour recevoir les e-mails d’alerte.",
+      "digest": "Digest",
+      "digest_immediate": "Chaque problème immédiatement",
+      "digest_hourly": "Digest horaire",
+      "digest_daily": "Digest quotidien",
+      "min_severity": "E-mail à partir de",
+      "min_info": "Info et plus",
+      "min_warning": "Avertissements et plus",
+      "min_critical": "Critique uniquement",
+      "categories": "Catégories",
+      "col_bell": "Cloche",
+      "col_email": "E-mail",
+      "bell_for": "Afficher {category} dans la cloche",
+      "email_for": "E-mail {category}",
+      "quiet": "Heures calmes",
+      "quiet_hint": "Les e-mails non critiques attendent le prochain digest pendant ces heures.",
+      "quiet_start": "De",
+      "quiet_end": "À",
+      "quiet_tz": "Fuseau horaire",
+      "time_invalid": "Utilisez HH:MM",
+      "discard": "Abandonner",
+      "save": "Enregistrer",
+      "saved": "Préférences de notification enregistrées."
+    }
+  },
+  "notify": {
+    "webhook": {
+      "failing": {
+        "title": "Le webhook {name} échoue",
+        "detail": "{failures} livraisons d’affilée ont échoué. Vérifiez l’endpoint et ses livraisons récentes."
+      },
+      "deadletter": {
+        "title": "Le webhook {name} met des événements en dead letter",
+        "detail": "{count} livraisons ont été mises en dead letter dans la dernière heure."
+      }
+    },
+    "account": {
+      "auth": {
+        "title": "La boîte {name} ne peut pas se connecter",
+        "detail": "Le serveur mail a rejeté les identifiants. Mettez-les à jour pour reprendre la sync."
+      },
+      "connect": {
+        "title": "La boîte {name} ne peut pas se connecter",
+        "detail": "Le serveur mail est injoignable ou a refusé la connexion."
+      },
+      "disabled": {
+        "title": "La boîte {name} est désactivée",
+        "detail": "La sync est en pause jusqu’à la réactivation du compte."
+      },
+      "syncStall": {
+        "title": "La boîte {name} a arrêté de synchroniser",
+        "detail": "Aucune sync réussie depuis plus longtemps que la limite configurée."
+      },
+      "cert": {
+        "title": "Le certificat de {name} expire bientôt",
+        "detail": "Renouvelez le certificat client avant expiration pour garder la boîte connectée."
+      }
+    },
+    "queue": {
+      "pending": {
+        "title": "La file {queue} s’accumule",
+        "detail": "{pending} messages attendent et rien n’a été acquitté récemment."
+      },
+      "oldest": {
+        "title": "La file {queue} a des messages périmés",
+        "detail": "Le plus ancien message attend depuis plus longtemps que la limite configurée."
+      },
+      "paused": {
+        "title": "La file {queue} est en pause depuis un moment",
+        "detail": "Le travail s’accumule tant que la file reste en pause."
+      }
+    },
+    "sending": {
+      "failures": {
+        "title": "Les échecs d’envoi augmentent",
+        "detail": "{rate} % des messages d’un compte ont échoué ou rebondi dans la dernière heure."
+      }
+    },
+    "platform": {
+      "node": {
+        "title": "Le nœud {node} est manquant",
+        "detail": "Le nœud a cessé de signaler sans vidange préalable."
+      },
+      "migrations": {
+        "title": "Des migrations de base de données sont en attente",
+        "detail": "Exécutez les migrations en attente pour terminer la mise à niveau."
+      }
+    },
+    "security": {
+      "apikey": {
+        "title": "La clé API {name} expire bientôt",
+        "detail": "Faites tourner la clé avant expiration pour que les intégrations continuent de fonctionner."
+      }
+    },
+    "integrations": {
+      "failing": {
+        "title": "L’intégration {name} échoue",
+        "detail": "La dernière action {connector} a échoué. Ouvrez l’intégration pour voir l’erreur."
+      }
+    },
+    "internal": {
+      "title": "Erreur interne dans {component}",
+      "detail": "EmailBridge a rencontré une erreur inattendue dans {component} ({code}). Elle est regroupée ici et signalée."
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/account.added/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "email": "reception@example.com",
+        "externalId": "crm-48213",
+        "name": "Reception"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/account.added/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5c8kym0qwk6dxz1bjzecsf9",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "time": "2026-10-20T10:02:11.482Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "account.added"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "email": "reception@example.com",
+      "externalId": "crm-48213",
+      "name": "Reception"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "email": {
+      "description": "Mailbox address of the new account",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "name": {
+      "description": "Display name of the account; omitted when not set",
+      "type": "string"
+    }
+  },
+  "required": [
+    "email",
+    "accountId",
+    "externalId"
+  ],
+  "title": "account.added data (v1)",
+  "type": "object"
+}

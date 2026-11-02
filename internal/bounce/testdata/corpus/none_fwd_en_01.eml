@@ -1,0 +1,12 @@
+From: alice@example.com
+To: bob@example.com
+Subject: FW: Undelivered Mail Returned to Sender
+Message-ID: <none-fwd-en-01@example.com>
+
+Look at this:
+
+---------- Forwarded message ---------
+From: Mail Delivery System <mailer-daemon@mx.example.com>
+
+This is the mail system at host mx.example.com.
+<gone@example.com>: host mx said: 550 5.1.1 User unknown

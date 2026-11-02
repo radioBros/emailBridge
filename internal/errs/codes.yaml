@@ -1,0 +1,731 @@
+# EmailBridge problem-code catalogue.
+# Codes are append-only: never rename, remove, or reuse a code once released.
+# Generates internal/errs/codes_gen.go and docs/api/problems.md (go run ./tools/errgen).
+codes:
+  - code: malformed_request
+    kind: validation
+    status: 400
+    phase: P0
+    title: Malformed request
+  - code: validation_failed
+    kind: validation
+    status: 422
+    phase: P0
+    title: Validation failed
+  - code: sort_not_allowed
+    kind: validation
+    status: 422
+    phase: P0
+    title: Sort field not allowed
+  - code: payload_too_large
+    kind: validation
+    status: 413
+    phase: P0
+    title: Payload too large
+  - code: unsupported_media_type
+    kind: validation
+    status: 415
+    phase: P0
+    title: Unsupported media type
+  - code: unauthenticated
+    kind: auth
+    status: 401
+    phase: P0
+    title: Unauthenticated
+  - code: invalid_credentials
+    kind: auth
+    status: 401
+    phase: P0
+    title: Invalid credentials
+  - code: mfa_required
+    kind: auth
+    status: 401
+    phase: P0
+    title: MFA required
+  - code: mfa_invalid
+    kind: auth
+    status: 401
+    phase: P0
+    title: MFA invalid
+  - code: passkey_failed
+    kind: auth
+    status: 401
+    phase: P0
+    title: Passkey failed
+  - code: oidc_failed
+    kind: auth
+    status: 401
+    phase: P3
+    title: OIDC sign-in failed
+  - code: session_expired
+    kind: auth
+    status: 401
+    phase: P0
+    title: Session expired
+  - code: account_locked
+    kind: rate_limited
+    status: 423
+    phase: P0
+    title: Account locked
+  - code: api_key_invalid
+    kind: auth
+    status: 401
+    phase: P0
+    title: API key invalid
+  - code: api_key_revoked
+    kind: auth
+    status: 401
+    phase: P0
+    title: API key revoked
+  - code: api_key_expired
+    kind: auth
+    status: 401
+    phase: P0
+    title: API key expired
+  - code: forbidden
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: Forbidden
+  - code: scope_missing
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: Scope missing
+  - code: organization_mismatch
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: Organization mismatch
+  - code: api_key_ip_denied
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: API key IP denied
+  - code: api_key_referrer_denied
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: API key referrer denied
+  - code: csrf_failed
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: CSRF failed
+  - code: origin_rejected
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: Origin rejected
+  - code: feature_disabled
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: Feature disabled
+  - code: setting_locked
+    kind: forbidden
+    status: 403
+    phase: P0
+    title: Setting locked
+  - code: setting_not_runtime
+    kind: validation
+    status: 422
+    phase: P0
+    title: Setting not runtime
+  - code: switch_unknown
+    kind: validation
+    status: 422
+    phase: P0
+    title: Unknown feature switch
+  - code: not_found
+    kind: not_found
+    status: 404
+    phase: P0
+    title: Not found
+  - code: conflict
+    kind: conflict
+    status: 409
+    phase: P0
+    title: Conflict
+  - code: version_mismatch
+    kind: conflict
+    status: 412
+    phase: P0
+    title: Version mismatch
+  - code: idempotency_key_reused
+    kind: conflict
+    status: 409
+    phase: P0
+    title: Idempotency key reused
+  - code: idempotency_in_progress
+    kind: conflict
+    status: 409
+    phase: P0
+    title: Idempotency in progress
+  - code: last_owner
+    kind: conflict
+    status: 409
+    phase: P0
+    title: Last owner
+  - code: rate_limited
+    kind: rate_limited
+    status: 429
+    phase: P0
+    title: Rate limited
+  - code: log_range_too_large
+    kind: validation
+    status: 422
+    phase: P0
+    title: Log range too large
+  - code: internal_error
+    kind: internal
+    status: 500
+    phase: P0
+    title: Internal error
+  - code: service_unavailable
+    kind: temporary
+    status: 503
+    phase: P0
+    title: Service unavailable
+  - code: migrations_pending
+    kind: temporary
+    status: 503
+    phase: P0
+    title: Migrations pending
+  - code: timeout
+    kind: temporary
+    status: 504
+    phase: P0
+    title: Timeout
+  - code: external_id_taken
+    kind: conflict
+    status: 409
+    phase: P1
+    title: External ID taken
+  - code: account_not_disabled
+    kind: conflict
+    status: 409
+    phase: P1
+    title: Account not disabled
+  - code: account_disabled
+    kind: conflict
+    status: 409
+    phase: P1
+    title: Account disabled
+  - code: account_deleting
+    kind: conflict
+    status: 409
+    phase: P1
+    title: Account deleting
+  - code: quota_accounts_exceeded
+    kind: rate_limited
+    status: 429
+    phase: P1
+    title: Account quota exceeded
+  - code: quota_sends_exceeded
+    kind: rate_limited
+    status: 429
+    phase: P1
+    title: Send quota exceeded
+  - code: mail_connect_failed
+    kind: temporary
+    status: 502
+    phase: P1
+    title: Mail connect failed
+  - code: mail_tls_failed
+    kind: config
+    status: 502
+    phase: P1
+    title: Mail TLS failed
+  - code: mail_auth_failed
+    kind: auth
+    status: 502
+    phase: P1
+    title: Mail authentication failed
+  - code: mail_timeout
+    kind: temporary
+    status: 504
+    phase: P1
+    title: Mail timeout
+  - code: mail_protocol_error
+    kind: permanent
+    status: 502
+    phase: P1
+    title: Mail protocol error
+  - code: mail_capability_missing
+    kind: config
+    status: 422
+    phase: P1
+    title: Mail capability missing
+  - code: message_not_found
+    kind: not_found
+    status: 404
+    phase: P1
+    title: Message not found
+  - code: archive_not_found
+    kind: not_found
+    status: 404
+    phase: P1
+    title: Archive not found
+  - code: message_too_large
+    kind: validation
+    status: 413
+    phase: P1
+    title: Message too large
+  - code: no_recipients
+    kind: validation
+    status: 422
+    phase: P1
+    title: No recipients
+  - code: invalid_address
+    kind: validation
+    status: 422
+    phase: P1
+    title: Invalid address
+  - code: raw_and_fields
+    kind: validation
+    status: 422
+    phase: P1
+    title: Raw and fields both set
+  - code: outbound_not_cancellable
+    kind: conflict
+    status: 409
+    phase: P1
+    title: Outbound not cancellable
+  - code: smtp_temporary
+    kind: temporary
+    status: null
+    phase: P1
+    title: SMTP temporary failure
+  - code: smtp_permanent
+    kind: permanent
+    status: null
+    phase: P1
+    title: SMTP permanent failure
+  - code: smtp_outcome_unknown
+    kind: outcome_unknown
+    status: null
+    phase: P1
+    title: SMTP outcome unknown
+  - code: smtp_auth_failed
+    kind: auth
+    status: null
+    phase: P1
+    title: SMTP authentication failed
+  - code: smtp_rate_limited
+    kind: rate_limited
+    status: null
+    phase: P1
+    title: SMTP rate limited
+  - code: endpoint_url_blocked
+    kind: forbidden
+    status: 422
+    phase: P1
+    title: Endpoint URL blocked
+  - code: endpoint_name_taken
+    kind: conflict
+    status: 409
+    phase: P1
+    title: Endpoint name taken
+  - code: webhook_timeout
+    kind: temporary
+    status: null
+    phase: P1
+    title: Webhook timeout
+  - code: webhook_http_error
+    # Classified temporary or permanent by HTTP status at the delivery site.
+    kind: temporary
+    status: null
+    phase: P1
+    title: Webhook HTTP error
+  - code: webhook_tls_failed
+    kind: temporary
+    status: null
+    phase: P1
+    title: Webhook TLS failed
+  - code: webhook_breaker_open
+    kind: temporary
+    status: null
+    phase: P1
+    title: Webhook breaker open
+  - code: route_compile_error
+    kind: validation
+    status: 422
+    phase: P1
+    title: Route compile error
+  - code: route_eval_error
+    kind: permanent
+    status: null
+    phase: P1
+    title: Route evaluation error
+  - code: route_cost_exceeded
+    kind: permanent
+    status: null
+    phase: P1
+    title: Route cost exceeded
+  - code: route_timeout
+    kind: permanent
+    status: null
+    phase: P1
+    title: Route timeout
+  - code: route_name_taken
+    kind: conflict
+    status: 409
+    phase: P1
+    title: Route name taken
+  - code: replay_window_exceeded
+    kind: validation
+    status: 422
+    phase: P3
+    title: Replay window exceeded
+  - code: config_drift
+    kind: conflict
+    status: 409
+    phase: P3
+    title: Config drift
+  # P4.1-messages
+  - code: mailbox_not_found
+    kind: not_found
+    status: 404
+    phase: P4
+    title: Mailbox not found
+  - code: draft_not_found
+    kind: not_found
+    status: 404
+    phase: P4
+    title: Draft not found
+  - code: uid_validity_mismatch
+    kind: conflict
+    status: 409
+    phase: P4
+    title: UIDVALIDITY mismatch
+  - code: connection_busy
+    kind: rate_limited
+    status: 429
+    phase: P4
+    title: On-demand connection busy
+  - code: batch_too_large
+    kind: validation
+    status: 422
+    phase: P4
+    title: Batch too large
+  # P4.3-attachments
+  - code: attachment_not_found
+    kind: not_found
+    status: 404
+    phase: P4
+    title: Attachment not found
+  - code: attachment_infected
+    kind: forbidden
+    status: 403
+    phase: P4
+    title: Attachment infected
+  - code: signed_url_invalid
+    kind: forbidden
+    status: 403
+    phase: P4
+    title: Signed URL invalid
+  - code: signed_url_expired
+    kind: forbidden
+    status: 403
+    phase: P4
+    title: Signed URL expired
+  - code: template_not_found
+    kind: not_found
+    status: 404
+    phase: P5
+    title: Template not found
+  - code: template_name_taken
+    kind: conflict
+    status: 409
+    phase: P5
+    title: Template name taken
+  - code: template_render_failed
+    kind: validation
+    status: 422
+    phase: P5
+    title: Template render failed
+  - code: template_variable_missing
+    kind: validation
+    status: 422
+    phase: P5
+    title: Template variable missing
+  - code: mail_merge_too_large
+    kind: validation
+    status: 422
+    phase: P5
+    title: Mail merge too large
+  - code: reference_invalid
+    kind: validation
+    status: 422
+    phase: P5
+    title: Reference invalid
+  # P5.3-gateways
+  - code: gateway_name_taken
+    kind: conflict
+    status: 409
+    phase: P5
+    title: Gateway name taken
+  - code: gateway_unavailable
+    kind: permanent
+    status: 422
+    phase: P5
+    title: Gateway unavailable
+  - code: outbound_not_retryable
+    kind: conflict
+    status: 409
+    phase: P5
+    title: Outbound not retryable
+  - code: outbound_not_sendable
+    kind: conflict
+    status: 409
+    phase: P5
+    title: Outbound not sendable now
+  - code: delivery_test_timeout
+    kind: temporary
+    status: 504
+    phase: P5
+    title: Delivery test timed out
+  # P6.1-oauth
+  - code: oauth_app_name_taken
+    kind: conflict
+    status: 409
+    phase: P6
+    title: OAuth app name taken
+  - code: oauth_app_disabled
+    kind: permanent
+    status: 422
+    phase: P6
+    title: OAuth app disabled
+  - code: oauth_state_invalid
+    kind: validation
+    status: 400
+    phase: P6
+    title: OAuth state invalid
+  - code: oauth_exchange_failed
+    kind: temporary
+    status: 502
+    phase: P6
+    title: OAuth token exchange failed
+  - code: oauth_revoked
+    kind: auth
+    status: 401
+    phase: P6
+    title: OAuth grant revoked
+  - code: connect_link_invalid
+    kind: not_found
+    status: 404
+    phase: P6
+    title: Connect link invalid
+  - code: oauth_not_connected
+    kind: conflict
+    status: 409
+    phase: P6
+    title: OAuth not connected
+  - code: oauth_app_link_invalid
+    kind: validation
+    status: 422
+    phase: P6
+    title: OAuth app link invalid
+  - code: oauth_provider_mismatch
+    kind: conflict
+    status: 409
+    phase: P6
+    title: OAuth provider mismatch
+  - code: auth_server_failed
+    kind: temporary
+    status: 502
+    phase: P6
+    title: Auth server failed
+  - code: auth_server_unavailable
+    kind: temporary
+    status: 503
+    phase: P6
+    title: Auth server unavailable
+  - code: auth_server_misconfigured
+    kind: config
+    status: 422
+    phase: P6
+    title: Auth server misconfigured
+  - code: delegated_in_use
+    kind: conflict
+    status: 409
+    phase: P6
+    title: Delegated account in use
+  - code: delegated_invalid
+    kind: validation
+    status: 422
+    phase: P6
+    title: Delegated mailbox invalid
+  # P5.2-tracking
+  - code: recipient_suppressed
+    kind: validation
+    status: 422
+    phase: P5
+    title: Recipient suppressed
+  - code: suppression_list_name_taken
+    kind: conflict
+    status: 409
+    phase: P5
+    title: Suppression list name taken
+  - code: suppression_list_kind_taken
+    kind: conflict
+    status: 409
+    phase: P5
+    title: Suppression list kind taken
+  # P5.5-throttle
+  - code: presend_rejected
+    kind: permanent
+    status: 422
+    phase: P5
+    title: Pre-send policy rejected
+  - code: presend_held
+    kind: conflict
+    status: 409
+    phase: P5
+    title: Pre-send policy hold
+  # P7.2-exports
+  - code: export_not_found
+    kind: not_found
+    status: 404
+    phase: P7
+    title: Export not found
+  - code: export_not_ready
+    kind: conflict
+    status: 409
+    phase: P7
+    title: Export not ready
+  - code: export_expired
+    kind: not_found
+    status: 410
+    phase: P7
+    title: Export expired
+  # P6.4-connect
+  - code: identity_mismatch
+    kind: conflict
+    status: 409
+    phase: P6
+    title: Identity mismatch
+  - code: connect_csrf_invalid
+    kind: forbidden
+    status: 403
+    phase: P6
+    title: Connect CSRF invalid
+  - code: autoconfig_failed
+    kind: temporary
+    status: 502
+    phase: P6
+    title: Autoconfig failed
+  # W36-api-gateways
+  - code: gateway_kind_immutable
+    kind: conflict
+    status: 409
+    phase: P8
+    title: Gateway kind immutable
+  # P9.2-evidence
+  - code: evidence_hash_conflict
+    kind: conflict
+    status: 409
+    phase: P9
+    title: Evidence hash conflict
+  - code: evidence_lock_unavailable
+    kind: config
+    status: 503
+    phase: P9
+    title: Evidence Object Lock unavailable
+  - code: evidence_tsa_failed
+    kind: temporary
+    status: 502
+    phase: P9
+    title: Evidence TSA stamp failed
+  # W50-providers
+  - code: unsupported_for_provider
+    kind: validation
+    status: 400
+    phase: P6
+    title: Unsupported for provider
+  # W68-branding-assets
+  - code: branding_asset_type
+    kind: validation
+    status: 415
+    phase: P6
+    title: Branding asset type not allowed
+  - code: branding_asset_dimensions
+    kind: validation
+    status: 422
+    phase: P6
+    title: Branding asset dimensions too large
+  - code: branding_asset_quota
+    kind: validation
+    status: 422
+    phase: P6
+    title: Branding asset quota exceeded
+  - code: branding_asset_kind
+    kind: validation
+    status: 422
+    phase: P6
+    title: Branding asset kind mismatch
+  - code: branding_asset_in_use
+    kind: conflict
+    status: 409
+    phase: P6
+    title: Branding asset still referenced
+  - code: branding_palette_contrast
+    kind: validation
+    status: 422
+    phase: P6
+    title: Branding palette fails WCAG AA
+  # W73-rules
+  - code: rule_list_name_taken
+    kind: conflict
+    status: 409
+    phase: P3
+    title: Rule list name taken
+  - code: rule_list_not_found
+    kind: not_found
+    status: 404
+    phase: P3
+    title: Rule list not found
+  # Backend fix batch 2026-10-27
+  - code: organization_quota_exceeded
+    kind: rate_limited
+    status: 429
+    phase: P1
+    title: Organisation quota exceeded
+  - code: invitation_expired
+    kind: not_found
+    status: 410
+    phase: P0
+    title: Invitation expired
+  # W72-queues
+  - code: queue_item_not_cancellable
+    kind: conflict
+    status: 409
+    phase: P7
+    title: Queue item not cancellable
+  - code: queue_read_only
+    kind: conflict
+    status: 409
+    phase: P7
+    title: Queue is read-only
+  - code: queue_confirmation_required
+    kind: validation
+    status: 422
+    phase: P7
+    title: Queue confirmation required
+  # W76 correctness
+  - code: oauth_app_in_use
+    kind: conflict
+    status: 409
+    phase: P6
+    title: OAuth app still referenced by accounts
+  - code: smtp_gateway_in_use
+    kind: conflict
+    status: 409
+    phase: P5
+    title: SMTP gateway still referenced by accounts
+  - code: quota_endpoints_exceeded
+    kind: rate_limited
+    status: 429
+    phase: P1
+    title: Webhook endpoint quota exceeded

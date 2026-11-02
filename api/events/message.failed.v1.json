@@ -1,0 +1,190 @@
+{
+  "$defs": {
+    "Envelope": {
+      "properties": {
+        "from": {
+          "description": "SMTP MAIL FROM address",
+          "type": "string"
+        },
+        "to": {
+          "description": "SMTP RCPT TO addresses",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "type": "object"
+    },
+    "SendError": {
+      "properties": {
+        "code": {
+          "description": "Problem code, e.g. smtp_permanent, smtp_temporary or mail_connect_failed",
+          "type": "string"
+        },
+        "enhanced": {
+          "description": "Enhanced status code (RFC 3463)",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Error kind (S0 error model): temporary, permanent, rate_limited or outcome_unknown",
+          "type": "string"
+        },
+        "response": {
+          "description": "Redacted server reply",
+          "type": "string"
+        },
+        "smtpCode": {
+          "description": "SMTP reply code, when the server answered",
+          "format": "int64",
+          "type": "integer"
+        },
+        "stage": {
+          "description": "SMTP stage that failed",
+          "enum": [
+            "connect",
+            "ehlo",
+            "auth",
+            "mailFrom",
+            "rcptTo",
+            "data",
+            "dataEnd"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "kind",
+        "stage"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/message.failed/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "attempts": 10,
+        "envelope": {
+          "from": "reception@example.com",
+          "to": [
+            "giulia.bianchi@example.org"
+          ]
+        },
+        "error": {
+          "code": "smtp_permanent",
+          "enhanced": "5.1.1",
+          "kind": "permanent",
+          "response": "5.1.1 \u003cgiulia.bianchi@example.org\u003e: Recipient address rejected: User unknown",
+          "smtpCode": 550,
+          "stage": "rcptTo"
+        },
+        "externalId": "crm-48213",
+        "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+        "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+        "outcomeUnknown": false,
+        "subject": "Your appointment on 4 November"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/message.failed/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5dckp30mdexhj4qp140dym4",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "time": "2026-10-28T08:30:05.402Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "message.failed"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "attempts": 10,
+      "envelope": {
+        "from": "reception@example.com",
+        "to": [
+          "giulia.bianchi@example.org"
+        ]
+      },
+      "error": {
+        "code": "smtp_permanent",
+        "enhanced": "5.1.1",
+        "kind": "permanent",
+        "response": "5.1.1 \u003cgiulia.bianchi@example.org\u003e: Recipient address rejected: User unknown",
+        "smtpCode": 550,
+        "stage": "rcptTo"
+      },
+      "externalId": "crm-48213",
+      "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+      "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "outcomeUnknown": false,
+      "subject": "Your appointment on 4 November"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "attempts": {
+      "description": "Attempts made",
+      "format": "int64",
+      "type": "integer"
+    },
+    "envelope": {
+      "$ref": "#/$defs/Envelope",
+      "description": "SMTP envelope"
+    },
+    "error": {
+      "$ref": "#/$defs/SendError",
+      "description": "Error of the last attempt"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "messageIdHeader": {
+      "description": "Message-ID header of the sent message",
+      "type": "string"
+    },
+    "outboundId": {
+      "description": "Outbound ID (out_…)",
+      "type": "string"
+    },
+    "outcomeUnknown": {
+      "description": "No final reply after DATA under atMostOnce",
+      "type": "boolean"
+    },
+    "subject": {
+      "description": "Subject of the message",
+      "type": "string"
+    }
+  },
+  "required": [
+    "attempts",
+    "outcomeUnknown",
+    "error",
+    "outboundId",
+    "messageIdHeader",
+    "envelope",
+    "subject",
+    "accountId",
+    "externalId"
+  ],
+  "title": "message.failed data (v1)",
+  "type": "object"
+}

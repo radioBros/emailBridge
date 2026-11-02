@@ -1,0 +1,10 @@
+From: writer@example.com
+To: reader@example.com
+Subject: Hello with html
+Message-ID: <none-none_multipart_alt_01@example.com>
+Date: Mon, 26 Oct 2026 15:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Plain alternative body saying hello, nothing about failures.
+

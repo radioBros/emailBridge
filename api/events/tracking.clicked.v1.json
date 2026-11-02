@@ -1,0 +1,87 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/tracking.clicked/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "bot": false,
+        "externalId": "crm-48213",
+        "ip": "198.51.100.0",
+        "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+        "recipient": "giulia.bianchi@example.org",
+        "url": "https://www.example.com/appointments/confirm?ref=48213",
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/tracking.clicked/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5dq6dy0bpw4pexpdp4cjcn0",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "time": "2026-10-27T09:03:17.902Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "tracking.clicked"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "bot": false,
+      "externalId": "crm-48213",
+      "ip": "198.51.100.0",
+      "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "recipient": "giulia.bianchi@example.org",
+      "url": "https://www.example.com/appointments/confirm?ref=48213",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "bot": {
+      "description": "True when prefetch/bot heuristics matched",
+      "type": "boolean"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ip": {
+      "description": "Truncated client IP",
+      "type": "string"
+    },
+    "outboundId": {
+      "description": "Outbound ID (out_…)",
+      "type": "string"
+    },
+    "recipient": {
+      "description": "Recipient who clicked",
+      "type": "string"
+    },
+    "url": {
+      "description": "Original destination URL",
+      "type": "string"
+    },
+    "userAgent": {
+      "description": "Client User-Agent",
+      "type": "string"
+    }
+  },
+  "required": [
+    "outboundId",
+    "recipient",
+    "url",
+    "bot",
+    "accountId",
+    "externalId"
+  ],
+  "title": "tracking.clicked data (v1)",
+  "type": "object"
+}

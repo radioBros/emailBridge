@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="pt">
+<body style="font-family:system-ui,sans-serif;line-height:1.5;color:#111;max-width:32rem;margin:1.5rem auto;padding:0 1rem">
+<p style="font-size:1.25rem;font-weight:600;margin:0 0 1rem">EmailBridge</p>
+<p>Você recebeu um convite{{if .OrgName}} para <strong>{{.OrgName}}</strong>{{end}}{{if .InviterName}} de {{.InviterName}}{{end}}.</p>
+<p><a href="{{.InviteURL}}">Aceitar o convite</a></p>
+<p style="color:#555">Se você não esperava isso, pode ignorar esta mensagem.</p>
+</body>
+</html>

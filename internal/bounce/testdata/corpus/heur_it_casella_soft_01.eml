@@ -1,0 +1,9 @@
+From: Postmaster <postmaster@provider.example.it>
+To: sender@example.com
+Subject: Errore di consegna — casella piena
+X-Failed-Recipients: full-it@example.it
+Message-ID: <heur-it-quota-01@example.com>
+
+Messaggio non consegnato a full-it@example.it
+casella piena — riprovare più tardi
+452 4.2.2 mailbox full

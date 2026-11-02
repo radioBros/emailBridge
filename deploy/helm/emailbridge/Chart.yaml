@@ -1,0 +1,18 @@
+apiVersion: v2
+name: emailbridge
+description: EmailBridge mail gateway — role-split Deployments (api, sync, webhook, worker)
+type: application
+version: 1.0.0
+appVersion: "v1.0.0"
+home: https://github.com/radioBros/emailBridge
+sources:
+  - https://github.com/radioBros/emailBridge
+keywords:
+  - email
+  - imap
+  - smtp
+  - webhooks
+maintainers:
+  - name: radioBros
+# Optional MongoDB / NATS / MinIO subcharts are not vendored. Enable external endpoints via
+# values (default) or add Bitnami/nats-io charts as dependencies locally — see README.

@@ -1,0 +1,7 @@
+{
+  "title": "Cancelar inscrição",
+  "confirm": "Cancelar a inscrição de {email}?",
+  "button": "Cancelar inscrição",
+  "done_title": "Inscrição cancelada",
+  "done_body": "A inscrição de {email} foi cancelada."
+}

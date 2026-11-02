@@ -1,0 +1,36 @@
+From: Mail Delivery System <mailer-daemon@mx.example.com>
+To: sender@example.com
+Subject: Delivery Status Notification (Failure)
+Message-ID: <dsn-ebbound113@example.com>
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+ boundary="ebbound113"
+
+--ebbound113
+Content-Type: text/plain; charset=utf-8
+
+Your message could not be delivered to temp13@example.it.
+
+--ebbound113
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; mx.example.com
+
+Final-Recipient: rfc822; temp13@example.it
+Action: delayed
+Status: 4.4.1
+Diagnostic-Code: smtp; 451 Try again later
+
+--ebbound113
+Content-Type: message/rfc822
+
+From: sender@example.com
+To: temp13@example.it
+Subject: Hello
+Message-ID: <orig-dsn-soft-013@example.com>
+Content-Type: text/plain
+
+Hello world.
+
+--ebbound113--

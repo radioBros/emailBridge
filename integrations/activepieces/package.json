@@ -1,0 +1,17 @@
+{
+  "name": "@emailbridge/piece-emailbridge",
+  "version": "0.1.0",
+  "description": "Activepieces piece for EmailBridge",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run --maxWorkers=2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7",
+    "@types/node": "^22.20.5"
+  }
+}

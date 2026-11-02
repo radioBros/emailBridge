@@ -1,0 +1,18 @@
+aws_region         = "eu-south-1"
+name               = "emailbridge"
+environment        = "production"
+vpc_id             = "vpc-xxxxxxxx"
+private_subnet_ids = ["subnet-aaa", "subnet-bbb"]
+public_subnet_ids  = ["subnet-ccc", "subnet-ddd"]
+public_url         = "https://mail-gw.example.com"
+domain_name        = "mail-gw.example.com"
+hosted_zone_id     = "Zxxxxxxxxxxxx"
+image              = "ghcr.io/radiobros/emailbridge:v1.0.0"
+mongo_uri_secret_arn = "arn:aws:secretsmanager:eu-south-1:123456789012:secret:emailbridge/mongo_uri"
+
+# Self-run NATS on ECS (ephemeral). For HA set create_nats=false and nats_url.
+create_nats = true
+# nats_url  = "nats://nats-0.example.local:4222,nats://nats-1.example.local:4222"
+
+s3_object_lock_enabled = false # true only if you need Object Lock for PEC evidence archiving
+cloudfront_admin       = false

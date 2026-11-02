@@ -1,0 +1,42 @@
+// Vuetify 4 typography helpers — kit gap filled (S13 §1.2).
+// Prefer Vuetify utility classes (text-h*, text-body-*, text-title-*) over custom rules.
+
+.v-application,
+.v-application .text-h1,
+.v-application .text-h2,
+.v-application .text-h3,
+.v-application .text-h4,
+.v-application .text-h5,
+.v-application .text-h6,
+.v-application .text-title-large,
+.v-application .text-title-medium,
+.v-application .text-title-small,
+.v-application .text-body-large,
+.v-application .text-body-medium,
+.v-application .text-body-small,
+.v-application .text-label-large,
+.v-application .text-label-medium,
+.v-application .text-label-small {
+  font-family: var(--font-sans);
+}
+
+.text-numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0;
+  line-height: 1.2;
+  & + p {
+    margin-top: 0;
+  }
+}
+
+.select-search-menu .position-sticky.top-0 {
+  top: -8px;
+  .v-divider {
+    border-color: var(--border);
+  }
+}

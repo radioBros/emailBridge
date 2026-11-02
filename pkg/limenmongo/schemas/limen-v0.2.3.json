@@ -1,0 +1,968 @@
+{
+  "schemas": {
+    "accounts": {
+      "TableName": "accounts",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "id"
+          }
+        },
+        {
+          "Name": "user_id",
+          "LogicalField": "user_id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "user_id"
+          }
+        },
+        {
+          "Name": "provider",
+          "LogicalField": "provider",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "provider"
+          }
+        },
+        {
+          "Name": "provider_account_id",
+          "LogicalField": "provider_account_id",
+          "Type": "string",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "provider_account_id"
+          }
+        },
+        {
+          "Name": "access_token",
+          "LogicalField": "access_token",
+          "Type": "text",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "access_token"
+          }
+        },
+        {
+          "Name": "refresh_token",
+          "LogicalField": "refresh_token",
+          "Type": "text",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "refresh_token"
+          }
+        },
+        {
+          "Name": "access_token_expires_at",
+          "LogicalField": "access_token_expires_at",
+          "Type": "time.Time",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "access_token_expires_at"
+          }
+        },
+        {
+          "Name": "scope",
+          "LogicalField": "scope",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "scope"
+          }
+        },
+        {
+          "Name": "id_token",
+          "LogicalField": "id_token",
+          "Type": "text",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "id_token"
+          }
+        },
+        {
+          "Name": "created_at",
+          "LogicalField": "created_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": {
+            "json": "created_at"
+          }
+        },
+        {
+          "Name": "updated_at",
+          "LogicalField": "updated_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "updated_at"
+          }
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_accounts_user_id_provider",
+          "Columns": [
+            "user_id"
+          ],
+          "Unique": false
+        },
+        {
+          "Name": "idx_accounts_provider_provider_account_id",
+          "Columns": [
+            "provider",
+            "provider_account_id"
+          ],
+          "Unique": true
+        }
+      ],
+      "ForeignKeys": [
+        {
+          "Name": "fk_accounts_users_user_id",
+          "Column": "user_id",
+          "ReferencedSchema": "users",
+          "ReferencedField": "id",
+          "OnDelete": "RESTRICT",
+          "OnUpdate": "CASCADE"
+        }
+      ],
+      "SchemaName": "accounts",
+      "Extends": "",
+      "PluginName": "",
+      "DisablePublicID": false
+    },
+    "api_keys": {
+      "TableName": "api_keys",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": null
+        },
+        {
+          "Name": "name",
+          "LogicalField": "name",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "profile",
+          "LogicalField": "profile",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "created_by_user_id",
+          "LogicalField": "created_by_user_id",
+          "Type": "uuid",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "principal_type",
+          "LogicalField": "principal_type",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "principal_id",
+          "LogicalField": "principal_id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "key_hash",
+          "LogicalField": "key_hash",
+          "Type": "text",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "prefix",
+          "LogicalField": "prefix",
+          "Type": "string",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "last4",
+          "LogicalField": "last4",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "enabled",
+          "LogicalField": "enabled",
+          "Type": "bool",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "permissions",
+          "LogicalField": "permissions",
+          "Type": "map[string]any",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "expires_at",
+          "LogicalField": "expires_at",
+          "Type": "time.Time",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "rate_limit_max",
+          "LogicalField": "rate_limit_max",
+          "Type": "int",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "rate_limit_window_ms",
+          "LogicalField": "rate_limit_window_ms",
+          "Type": "int64",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "rate_limit_request_count",
+          "LogicalField": "rate_limit_request_count",
+          "Type": "int",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "last_used_at",
+          "LogicalField": "last_used_at",
+          "Type": "time.Time",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "metadata",
+          "LogicalField": "metadata",
+          "Type": "map[string]any",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "created_at",
+          "LogicalField": "created_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": null
+        },
+        {
+          "Name": "updated_at",
+          "LogicalField": "updated_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": null
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_api_keys_key_hash",
+          "Columns": [
+            "key_hash"
+          ],
+          "Unique": true
+        },
+        {
+          "Name": "idx_api_keys_principal",
+          "Columns": [
+            "principal_type",
+            "principal_id"
+          ],
+          "Unique": false
+        }
+      ],
+      "ForeignKeys": [
+        {
+          "Name": "fk_api_keys_created_by",
+          "Column": "created_by_user_id",
+          "ReferencedSchema": "users",
+          "ReferencedField": "id",
+          "OnDelete": "SET NULL",
+          "OnUpdate": "CASCADE"
+        }
+      ],
+      "SchemaName": "api_keys",
+      "Extends": "",
+      "PluginName": "api-key",
+      "DisablePublicID": false
+    },
+    "passkeys": {
+      "TableName": "passkeys",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": null
+        },
+        {
+          "Name": "user_id",
+          "LogicalField": "user_id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "name",
+          "LogicalField": "name",
+          "Type": "string",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "credential_id",
+          "LogicalField": "credential_id",
+          "Type": "text",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "public_key",
+          "LogicalField": "public_key",
+          "Type": "text",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "sign_count",
+          "LogicalField": "sign_count",
+          "Type": "int64",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "0",
+          "Tags": {}
+        },
+        {
+          "Name": "transports",
+          "LogicalField": "transports",
+          "Type": "text",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "aaguid",
+          "LogicalField": "aaguid",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "backup_eligible",
+          "LogicalField": "backup_eligible",
+          "Type": "bool",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "false",
+          "Tags": {}
+        },
+        {
+          "Name": "backup_state",
+          "LogicalField": "backup_state",
+          "Type": "bool",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "false",
+          "Tags": {}
+        },
+        {
+          "Name": "last_used_at",
+          "LogicalField": "last_used_at",
+          "Type": "time.Time",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "created_at",
+          "LogicalField": "created_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": null
+        },
+        {
+          "Name": "updated_at",
+          "LogicalField": "updated_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": null
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_passkeys_credential_id",
+          "Columns": [
+            "credential_id"
+          ],
+          "Unique": true
+        },
+        {
+          "Name": "idx_passkeys_user_id",
+          "Columns": [
+            "user_id"
+          ],
+          "Unique": false
+        }
+      ],
+      "ForeignKeys": [
+        {
+          "Name": "fk_passkeys_user",
+          "Column": "user_id",
+          "ReferencedSchema": "users",
+          "ReferencedField": "id",
+          "OnDelete": "CASCADE",
+          "OnUpdate": "CASCADE"
+        }
+      ],
+      "SchemaName": "passkeys",
+      "Extends": "",
+      "PluginName": "passkey",
+      "DisablePublicID": false
+    },
+    "rate_limits": {
+      "TableName": "rate_limits",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "id"
+          }
+        },
+        {
+          "Name": "key",
+          "LogicalField": "key",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "key"
+          }
+        },
+        {
+          "Name": "count",
+          "LogicalField": "count",
+          "Type": "int",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "count"
+          }
+        },
+        {
+          "Name": "last_request_at",
+          "LogicalField": "last_request_at",
+          "Type": "int64",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "last_request_at"
+          }
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_rate_limits_key",
+          "Columns": [
+            "key"
+          ],
+          "Unique": true
+        }
+      ],
+      "ForeignKeys": null,
+      "SchemaName": "rate_limits",
+      "Extends": "",
+      "PluginName": "",
+      "DisablePublicID": false
+    },
+    "sessions": {
+      "TableName": "sessions",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "id"
+          }
+        },
+        {
+          "Name": "token",
+          "LogicalField": "token",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "token"
+          }
+        },
+        {
+          "Name": "user_id",
+          "LogicalField": "user_id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "user_id"
+          }
+        },
+        {
+          "Name": "created_at",
+          "LogicalField": "created_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": {
+            "json": "created_at"
+          }
+        },
+        {
+          "Name": "expires_at",
+          "LogicalField": "expires_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "expires_at"
+          }
+        },
+        {
+          "Name": "last_access",
+          "LogicalField": "last_access",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "last_access"
+          }
+        },
+        {
+          "Name": "metadata",
+          "LogicalField": "metadata",
+          "Type": "map[string]any",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "metadata"
+          }
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_sessions_token",
+          "Columns": [
+            "token"
+          ],
+          "Unique": true
+        },
+        {
+          "Name": "idx_sessions_user_id",
+          "Columns": [
+            "user_id"
+          ],
+          "Unique": false
+        }
+      ],
+      "ForeignKeys": [
+        {
+          "Name": "fk_sessions_user_id",
+          "Column": "user_id",
+          "ReferencedSchema": "users",
+          "ReferencedField": "id",
+          "OnDelete": "RESTRICT",
+          "OnUpdate": "CASCADE"
+        }
+      ],
+      "SchemaName": "sessions",
+      "Extends": "",
+      "PluginName": "",
+      "DisablePublicID": false
+    },
+    "two_factors": {
+      "TableName": "two_factors",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": null
+        },
+        {
+          "Name": "user_id",
+          "LogicalField": "user_id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "secret",
+          "LogicalField": "secret",
+          "Type": "string",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        },
+        {
+          "Name": "backup_codes",
+          "LogicalField": "backup_codes",
+          "Type": "text",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {}
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_two_factors_user_id",
+          "Columns": [
+            "user_id"
+          ],
+          "Unique": true
+        }
+      ],
+      "ForeignKeys": [
+        {
+          "Name": "fk_two_factors_users_user_id",
+          "Column": "user_id",
+          "ReferencedSchema": "users",
+          "ReferencedField": "id",
+          "OnDelete": "RESTRICT",
+          "OnUpdate": "CASCADE"
+        }
+      ],
+      "SchemaName": "two_factors",
+      "Extends": "",
+      "PluginName": "two-factor",
+      "DisablePublicID": false
+    },
+    "users": {
+      "TableName": "users",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "id"
+          }
+        },
+        {
+          "Name": "email",
+          "LogicalField": "email",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "email"
+          }
+        },
+        {
+          "Name": "password",
+          "LogicalField": "password",
+          "Type": "string",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "-"
+          }
+        },
+        {
+          "Name": "email_verified_at",
+          "LogicalField": "email_verified_at",
+          "Type": "time.Time",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "email_verified_at"
+          }
+        },
+        {
+          "Name": "first_name",
+          "LogicalField": "first_name",
+          "Type": "string",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "first_name"
+          }
+        },
+        {
+          "Name": "last_name",
+          "LogicalField": "last_name",
+          "Type": "string",
+          "IsNullable": true,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "last_name"
+          }
+        },
+        {
+          "Name": "created_at",
+          "LogicalField": "created_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": {
+            "json": "created_at"
+          }
+        },
+        {
+          "Name": "updated_at",
+          "LogicalField": "updated_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "updated_at"
+          }
+        },
+        {
+          "Name": "two_factor_enabled",
+          "LogicalField": "two_factor_enabled",
+          "Type": "bool",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "false",
+          "Tags": {}
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_users_email",
+          "Columns": [
+            "email"
+          ],
+          "Unique": true
+        }
+      ],
+      "ForeignKeys": [],
+      "SchemaName": "users",
+      "Extends": "",
+      "PluginName": "",
+      "DisablePublicID": false
+    },
+    "verifications": {
+      "TableName": "verifications",
+      "Columns": [
+        {
+          "Name": "id",
+          "LogicalField": "id",
+          "Type": "uuid",
+          "IsNullable": false,
+          "IsPrimaryKey": true,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "id"
+          }
+        },
+        {
+          "Name": "subject",
+          "LogicalField": "subject",
+          "Type": "string",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "subject"
+          }
+        },
+        {
+          "Name": "value",
+          "LogicalField": "value",
+          "Type": "text",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "value"
+          }
+        },
+        {
+          "Name": "expires_at",
+          "LogicalField": "expires_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "expires_at"
+          }
+        },
+        {
+          "Name": "created_at",
+          "LogicalField": "created_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "@now()",
+          "Tags": {
+            "json": "created_at"
+          }
+        },
+        {
+          "Name": "updated_at",
+          "LogicalField": "updated_at",
+          "Type": "time.Time",
+          "IsNullable": false,
+          "IsPrimaryKey": false,
+          "DefaultValue": "",
+          "Tags": {
+            "json": "updated_at"
+          }
+        }
+      ],
+      "Indexes": [
+        {
+          "Name": "idx_verifications_value",
+          "Columns": [
+            "value"
+          ],
+          "Unique": true
+        },
+        {
+          "Name": "idx_verifications_subject",
+          "Columns": [
+            "subject"
+          ],
+          "Unique": false
+        }
+      ],
+      "ForeignKeys": null,
+      "SchemaName": "verifications",
+      "Extends": "",
+      "PluginName": "",
+      "DisablePublicID": false
+    }
+  },
+  "useAutoIncrementID": false
+}

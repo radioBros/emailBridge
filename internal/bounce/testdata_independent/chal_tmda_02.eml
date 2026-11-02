@@ -1,0 +1,10 @@
+From: confirm@mail.example.com
+To: sender@example.com
+Subject: Confirmation required for delivery
+Message-ID: <chal-chal_tmda_02@example.com>
+Date: Mon, 26 Oct 2026 14:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Your message is being held. Confirm you are human by visiting https://confirm.example.com/x
+

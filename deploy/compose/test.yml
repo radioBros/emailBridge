@@ -1,0 +1,45 @@
+# EmailBridge e2e overlay — project name `emailbridge-test` via -p.
+#
+# From the repository root:
+#   export STACK_DATA=$(mktemp -d)   # ephemeral per-run data (or set SECRETS_DIR)
+#   podman compose -p emailbridge-test --project-directory . \
+#     -f deploy/compose/small.yml -f deploy/compose/test.yml up -d --build
+#   docker  compose -p emailbridge-test --project-directory . \
+#     -f deploy/compose/small.yml -f deploy/compose/test.yml up -d --build
+#
+# Fixed image tags come from small.yml. EmailBridge is built from the
+# Containerfile for the e2e run.
+
+services:
+  emailbridge:
+    image: emailbridge:test
+    build:
+      context: . # resolved against --project-directory . (the repository root)
+      dockerfile: deploy/container/Containerfile
+      args:
+        VERSION: test
+        COMMIT: local
+        DATE: unknown
+    environment:
+      EB_ENV: development
+      EB_AUTH_COOKIE_SECURE: "false"
+
+  # Provider simulator — IMAP/SMTP + control API for tests.
+  simulator:
+    image: emailbridge-simulator:test
+    build:
+      context: . # resolved against --project-directory . (the repository root)
+      dockerfile: deploy/container/Containerfile.simulator
+    command:
+      - -imap=0.0.0.0:1143
+      - -imap-tls=0.0.0.0:1993
+      - -smtp=0.0.0.0:1025
+      - -smtp-tls=0.0.0.0:1465
+      - -control=0.0.0.0:18080
+    ports:
+      - "127.0.0.1:1143:1143"
+      - "127.0.0.1:1993:1993"
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:1465:1465"
+      - "127.0.0.1:18080:18080"
+    restart: unless-stopped

@@ -1,0 +1,12 @@
+{
+  "name": "emailbridge-make",
+  "version": "0.1.0",
+  "description": "Make.com custom app definition for EmailBridge",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "test": "vitest run --maxWorkers=2"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.7"
+  }
+}

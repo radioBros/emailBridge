@@ -1,0 +1,25 @@
+[Unit]
+Description=EmailBridge S3 (SeaweedFS)
+After=network-online.target
+
+[Container]
+Image=docker.io/chrislusf/seaweedfs:4.50
+# Render S3 identities from Podman secrets, then start a single-node server + S3 gateway.
+Entrypoint=["sh","-ec","AK=$(cat /run/secrets/s3_access_key); SK=$(cat /run/secrets/s3_secret_key); printf '%s' \"{\\\"identities\\\":[{\\\"name\\\":\\\"emailbridge\\\",\\\"credentials\\\":[{\\\"accessKey\\\":\\\"$AK\\\",\\\"secretKey\\\":\\\"$SK\\\"}],\\\"actions\\\":[\\\"Admin\\\",\\\"Read\\\",\\\"Write\\\",\\\"List\\\",\\\"Tagging\\\"]}]}\" > /tmp/s3.json; exec weed server -dir=/data -ip.bind=0.0.0.0 -volume.max=0 -master.volumeSizeLimitMB=1024 -s3 -s3.port=8333 -s3.config=/tmp/s3.json"]
+Volume=%h/.local/share/emailbridge/s3:/data:Z
+Secret=s3_access_key,type=mount,target=s3_access_key
+Secret=s3_secret_key,type=mount,target=s3_secret_key
+Network=emailbridge.network
+PublishPort=127.0.0.1:8333:8333
+HealthCmd=sh -c 'code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8333/) && echo "$code" | grep -Eq "^[0-9]{3}$"'
+HealthInterval=5s
+HealthTimeout=5s
+HealthRetries=30
+HealthStartPeriod=20s
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

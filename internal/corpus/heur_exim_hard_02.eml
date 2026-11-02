@@ -1,0 +1,17 @@
+From: Mail Delivery System <mailer-daemon@exim.example.com>
+To: sender@example.com
+Subject: Mail delivery failed: returning message to sender
+Message-ID: <heur-004@example.com>
+In-Reply-To: <orig-heur-004@example.com>
+X-Failed-Recipients: bounce-hint004@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+This message was created automatically by mail delivery software.
+
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error.
+
+fail04@example.com
+  SMTP error from remote mail server after RCPT TO:
+  host mx.example.com: 550 5.1.1 unknown user

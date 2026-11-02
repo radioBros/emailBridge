@@ -1,0 +1,12 @@
+From: postmaster@zimbra.example.com
+To: sender@example.com
+Subject: Returned mail: Delivery Status Notification (Failure)
+Message-ID: <heur-heur_zimbra_text_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Zimbra Collaboration Suite
+The message could not be delivered to: absent@zimbra.example.com
+Reason: 550 5.1.1 User unknown
+

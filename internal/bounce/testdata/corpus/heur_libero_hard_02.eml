@@ -1,0 +1,11 @@
+From: Mailer-Daemon <mailer-daemon@libero.it>
+To: sender@example.com
+Subject: Non recapitabile: utente sconosciuto
+Message-ID: <heur-020@example.com>
+In-Reply-To: <orig-heur-020@example.com>
+X-Failed-Recipients: bounce-hint020@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Delivery error from mail.libero.it
+fail20@example.it rejected: 550 5.1.1 unknown user

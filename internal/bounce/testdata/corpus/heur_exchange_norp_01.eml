@@ -1,0 +1,10 @@
+From: Microsoft Outlook <postmaster@office365.example.com>
+To: sender@example.com
+Subject: Undeliverable: Hello
+Message-ID: <heur-norp-exch-01@example.com>
+Auto-Submitted: auto-generated
+
+Delivery has failed to these recipients or groups:
+
+fail-norp05@example.com
+Remote server returned '550 5.1.1 RESOLVER.ADR.RecipNotFound'

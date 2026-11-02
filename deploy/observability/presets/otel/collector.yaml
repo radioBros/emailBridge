@@ -1,0 +1,41 @@
+# EmailBridge OpenTelemetry collector preset
+# Scrapes Prometheus metrics from EB_METRICS_ADDR and optionally tails stdout JSON logs.
+
+receivers:
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: emailbridge
+          metrics_path: /metrics
+          static_configs:
+            - targets: ["emailbridge:9090"]
+  filelog:
+    include: [/var/log/emailbridge/*.log]
+    operators:
+      - type: json_parser
+        parse_from: body
+
+processors:
+  batch: {}
+  resource:
+    attributes:
+      - key: service.name
+        value: emailbridge
+        action: upsert
+
+exporters:
+  otlp:
+    endpoint: otel-backend:4317
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    metrics:
+      receivers: [prometheus]
+      processors: [batch, resource]
+      exporters: [otlp]
+    logs:
+      receivers: [filelog]
+      processors: [batch, resource]
+      exporters: [otlp]

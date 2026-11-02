@@ -1,0 +1,15 @@
+# Keep LF everywhere (Go, containers, Linux CI); Windows checkouts too
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary test fixtures
+*.eml -text
+*.png binary
+*.jpg binary
+*.pdf binary
+*.p7m binary
+*.p7s binary

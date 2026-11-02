@@ -1,0 +1,14 @@
+From: Mailer-Daemon <mailer-daemon@qmail.example.com>
+To: sender@example.com
+Subject: failure notice
+Message-ID: <heur-014@example.com>
+In-Reply-To: <orig-heur-014@example.com>
+X-Failed-Recipients: bounce-hint014@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Hi. This is the qmail-send program at mx.example.com.
+I'm afraid I wasn't able to deliver your message to the following addresses.
+
+<fail14@example.com>:
+550 sorry, no mailbox here by that name (#5.1.1)

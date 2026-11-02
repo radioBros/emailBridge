@@ -1,0 +1,7 @@
+{
+  "title": "Se désabonner",
+  "confirm": "Se désabonner pour {email} ?",
+  "button": "Se désabonner",
+  "done_title": "Désabonnement effectué",
+  "done_body": "{email} a été désabonné."
+}

@@ -1,0 +1,7 @@
+EmailBridge
+
+Sie wurden{{if .OrgName}} zu {{.OrgName}}{{end}} eingeladen{{if .InviterName}} von {{.InviterName}}{{end}}.
+
+Einladung annehmen: {{.InviteURL}}
+
+Wenn Sie diese Nachricht nicht erwartet haben, können Sie sie ignorieren.

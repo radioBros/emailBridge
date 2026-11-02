@@ -1,0 +1,18 @@
+{
+  "tables": {
+    "search_placeholder": "Rechercher",
+    "no_results": "Aucun résultat",
+    "configure_columns": "Configurer les colonnes",
+    "reset_widths": "Réinitialiser les largeurs",
+    "resize_column": "Redimensionner la colonne {column}",
+    "show": "Afficher",
+    "entries": "lignes",
+    "items_per_page": "Lignes par page",
+    "showing_items": "{from}–{to} sur {total}",
+    "sort_by": "Trier par",
+    "sort_ascending": "Croissant, passer en décroissant",
+    "sort_descending": "Décroissant, passer en croissant",
+    "load_more_failed": "Impossible de charger plus d’éléments",
+    "retry": "Réessayer"
+  }
+}

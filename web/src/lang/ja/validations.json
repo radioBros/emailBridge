@@ -1,0 +1,19 @@
+{
+  "validations": {
+    "requiredField": "必須項目です",
+    "invalidValue": "値が無効です",
+    "invalidEmail": "有効なメールアドレスを入力してください",
+    "passwordFormat": "パスワードは 12 文字以上にしてください",
+    "onlyNumbers": "数字のみ入力してください",
+    "positiveInteger": "正の整数を入力してください",
+    "invalidDate": "有効な日付を入力してください",
+    "dateNotFuture": "未来の日付は指定できません",
+    "invalidCodiceFiscale": "有効な税番号を入力してください",
+    "invalidPhone": "有効な電話番号を入力してください",
+    "invalidUrl": "有効な URL を入力してください",
+    "maxLength": "最大 {max} 文字",
+    "minLength": "最小 {min} 文字",
+    "maxFileSize": "ファイルは {max} MB 以下にしてください",
+    "onlyPdf": "PDF ファイルのみ許可されています"
+  }
+}

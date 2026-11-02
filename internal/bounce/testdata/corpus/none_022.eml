@@ -1,0 +1,6 @@
+From: Alice Support <support-mailer-daemon@shop.example.com>
+To: customer@example.com
+Subject: Returned mail question about your order
+Message-ID: <none-022@example.com>
+
+We saw a failure notice in your ticket notes. Your order shipped fine.

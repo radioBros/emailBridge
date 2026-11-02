@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "emailbridge.fullname" . }}
+  labels:
+    {{- include "emailbridge.labels" . | nindent 4 }}
+data:
+  EB_ENV: {{ .Values.config.EB_ENV | quote }}
+  EB_PUBLIC_URL: {{ .Values.config.EB_PUBLIC_URL | quote }}
+  EB_NATS_MODE: {{ .Values.config.EB_NATS_MODE | quote }}
+  EB_NATS_URL: {{ .Values.config.EB_NATS_URL | quote }}
+  EB_NATS_REPLICAS: {{ .Values.config.EB_NATS_REPLICAS | quote }}
+  EB_MONGO_DATABASE: {{ .Values.config.EB_MONGO_DATABASE | quote }}
+  EB_S3_ENDPOINT: {{ .Values.config.EB_S3_ENDPOINT | quote }}
+  EB_S3_REGION: {{ .Values.config.EB_S3_REGION | quote }}
+  EB_S3_BUCKET: {{ .Values.config.EB_S3_BUCKET | quote }}
+  EB_S3_PATH_STYLE: {{ .Values.config.EB_S3_PATH_STYLE | quote }}
+  EB_DATA_DIR: {{ .Values.config.EB_DATA_DIR | quote }}
+  EB_METRICS_ADDR: {{ .Values.config.EB_METRICS_ADDR | quote }}
+  EB_HTTP_TRUSTED_PROXIES: {{ .Values.config.EB_HTTP_TRUSTED_PROXIES | quote }}
+  EB_SHUTDOWN_GRACE: {{ .Values.config.EB_SHUTDOWN_GRACE | quote }}
+  {{- range $k, $v := .Values.config.extra }}
+  {{ $k }}: {{ $v | quote }}
+  {{- end }}

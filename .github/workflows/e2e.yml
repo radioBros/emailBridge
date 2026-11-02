@@ -1,0 +1,59 @@
+# End-to-end — push to main and PRs labelled `e2e`.
+name: e2e
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compose-config:
+    if: >
+      github.event_name == 'push' ||
+      contains(github.event.pull_request.labels.*.name, 'e2e')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: placeholder secrets for config validation
+        run: |
+          mkdir -p secrets
+          for f in mongo_keyfile mongo_root_password mongo_uri s3_access_key s3_secret_key keys auth_secret; do
+            echo "placeholder-$f" > "secrets/$f"
+          done
+      - name: compose config (emailbridge-test)
+        run: |
+          docker compose -p emailbridge-test --project-directory . \
+            -f deploy/compose/small.yml -f deploy/compose/test.yml config > /dev/null
+      - name: compose config (emailbridge medium)
+        run: |
+          docker compose -p emailbridge --project-directory . \
+            -f deploy/compose/medium.yml config > /dev/null
+
+  scenarios:
+    if: >
+      github.event_name == 'push' ||
+      contains(github.event.pull_request.labels.*.name, 'e2e')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Go e2e scenarios
+        run: go test -count=1 -tags e2e -timeout 30m ./test/e2e/...
+      - name: OpenAPI drift check (document served by a booted node)
+        run: |
+          set -euo pipefail
+          EB_E2E_DUMP_OPENAPI="$RUNNER_TEMP/openapi.yaml" go test -count=1 -tags e2e -run TestDumpOpenAPI ./test/e2e/p1/
+          diff -u api/openapi/openapi.yaml "$RUNNER_TEMP/openapi.yaml" || { echo "api/openapi/openapi.yaml is out of date: run task openapi"; exit 1; }
+      - name: OpenAPI docs lint (operations + events)
+        run: go test ./tools/openapi/lint/

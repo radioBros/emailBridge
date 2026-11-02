@@ -1,0 +1,12 @@
+From: MicrosoftOutlook@example.com
+To: sender@example.com
+Subject: Undeliverable: Contract
+Message-ID: <heur-heur_o365_text_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Your message to dead@example.com couldn't be delivered.
+Office 365
+Remote Server returned '550 5.1.1 RESOLVER.ADR.RecipNotFound; Recipient not found'
+

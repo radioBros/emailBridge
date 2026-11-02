@@ -1,0 +1,65 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/system.alert.resolved/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "category": "webhooks",
+        "key": "webhook.failing:whe_01m5cshyc0d23xkhrbz7e490pm",
+        "notificationId": "ntf_01m5d44p70hy8qdwczk2dxyq84",
+        "resolvedAt": "2026-10-27T07:52:31.77Z",
+        "scope": "org_01m5caqpk0kast63yc13wpy2d9"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/system.alert.resolved/v1.json",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5e60nq0z6yeyzv196qgfrt4",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9",
+      "specversion": "1.0",
+      "subject": "ntf_01m5d44p70hy8qdwczk2dxyq84",
+      "time": "2026-10-27T07:52:31.775Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "system.alert.resolved"
+    },
+    {
+      "category": "webhooks",
+      "key": "webhook.failing:whe_01m5cshyc0d23xkhrbz7e490pm",
+      "notificationId": "ntf_01m5d44p70hy8qdwczk2dxyq84",
+      "resolvedAt": "2026-10-27T07:52:31.77Z",
+      "scope": "org_01m5caqpk0kast63yc13wpy2d9"
+    }
+  ],
+  "properties": {
+    "category": {
+      "description": "Alert category",
+      "type": "string"
+    },
+    "key": {
+      "description": "Dedup key of the alert",
+      "type": "string"
+    },
+    "notificationId": {
+      "description": "Notification ID (ntf_…)",
+      "type": "string"
+    },
+    "resolvedAt": {
+      "description": "When the condition cleared",
+      "format": "date-time",
+      "type": "string"
+    },
+    "scope": {
+      "description": "org_… or instance",
+      "type": "string"
+    }
+  },
+  "required": [
+    "notificationId",
+    "key",
+    "category",
+    "scope",
+    "resolvedAt"
+  ],
+  "title": "system.alert.resolved data (v1)",
+  "type": "object"
+}

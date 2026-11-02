@@ -1,0 +1,7 @@
+From: ops-alerts@monitor.example.com
+To: sender@example.com
+Subject: Delivery notice
+Message-ID: <heur-triple-01@example.com>
+
+This is the mail system at host mx.example.com.
+<gone-triple@example.com>: host mx said: 550 5.1.1 User unknown

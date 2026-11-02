@@ -1,0 +1,43 @@
+// The one tooltip look of the admin (`v-tippy`, theme "eb").
+//
+// Tippy appends its poppers to <body>, outside `.v-application`, so the `.v-theme--dark` scope and the
+// project tokens that switch under it (`--surface`, `--text-1`, …) never reach a tooltip. Vuetify writes
+// the CURRENT theme's variables onto `:root` instead, so this file reads only `--v-*` variables and the
+// tooltip follows the light/dark switch with no selector of its own.
+//
+// Inverse surface, as in Material 3 plain tooltips: ink plate with white text on the light theme, light
+// plate with dark text on the dark theme. `on-surface` on `surface` is the app's main text pair, so the
+// contrast is the body-text contrast in both themes (≈ 15:1 light, ≈ 14:1 dark).
+@use "@/styles/variables" as vars;
+
+.tippy-box[data-theme~="eb"] {
+  --eb-tip-bg: rgb(var(--v-theme-on-surface));
+  --eb-tip-fg: rgb(var(--v-theme-surface));
+
+  background-color: var(--eb-tip-bg);
+  color: var(--eb-tip-fg);
+  border-radius: vars.radius("lg");
+  box-shadow: var(--v-overlay-shadow);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+
+  > .tippy-content {
+    padding: 6px 10px;
+  }
+
+  // The stock arrow paints with `currentColor` of `.tippy-arrow`.
+  > .tippy-arrow {
+    color: var(--eb-tip-bg);
+  }
+}
+
+// Motion is a nicety, not information: no slide for users who asked for less motion.
+@media (prefers-reduced-motion: reduce) {
+  .tippy-box[data-theme~="eb"] {
+    transition-duration: 0ms !important;
+  }
+}

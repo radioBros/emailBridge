@@ -1,0 +1,66 @@
+{
+  "name": "emailbridge",
+  "label": "EmailBridge",
+  "description": "Mail gateway events and actions (send, list, search)",
+  "version": 1,
+  "baseUrl": "{{parameters.baseUrl}}",
+  "auth": {
+    "type": "apiKey",
+    "header": "Authorization",
+    "prefix": "Bearer ",
+    "fields": [
+      { "name": "baseUrl", "type": "text", "label": "Base URL", "required": true },
+      { "name": "apiKey", "type": "text", "label": "API key", "required": true }
+    ]
+  },
+  "modules": [
+    {
+      "id": "watchEvents",
+      "name": "Watch Events",
+      "type": "trigger",
+      "subtype": "webhooks",
+      "description": "REST-hook: creates an EmailBridge webhook endpoint pointing at Make",
+      "webhook": {
+        "subscribe": {
+          "method": "POST",
+          "url": "/v1/webhook-endpoints",
+          "body": {
+            "name": "Make EmailBridge",
+            "url": "{{webhook.url}}",
+            "events": ["*"]
+          }
+        },
+        "unsubscribe": {
+          "method": "DELETE",
+          "url": "/v1/webhook-endpoints/{{webhook.id}}"
+        }
+      }
+    },
+    {
+      "id": "sendMessage",
+      "name": "Send Message",
+      "type": "action",
+      "method": "POST",
+      "url": "/v1/accounts/{{parameters.accountId}}/messages",
+      "body": {
+        "to": ["{{parameters.to}}"],
+        "subject": "{{parameters.subject}}",
+        "text": "{{parameters.text}}"
+      }
+    },
+    {
+      "id": "listMessages",
+      "name": "List Messages",
+      "type": "action",
+      "method": "GET",
+      "url": "/v1/accounts/{{parameters.accountId}}/messages"
+    },
+    {
+      "id": "searchMessages",
+      "name": "Search Messages",
+      "type": "action",
+      "method": "GET",
+      "url": "/v1/accounts/{{parameters.accountId}}/messages?q={{parameters.q}}"
+    }
+  ]
+}

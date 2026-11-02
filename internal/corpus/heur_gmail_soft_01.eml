@@ -1,0 +1,15 @@
+From: Mail Delivery Subsystem <mailer-daemon@google.com>
+To: sender@example.com
+Subject: Delivery Status Notification (Failure) (deferred)
+Message-ID: <heur-059@example.com>
+In-Reply-To: <orig-heur-059@example.com>
+X-Failed-Recipients: bounce-hint059@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Delivery to the following recipient was delayed:
+
+full09@example.com
+
+Technical details of temporary failure:
+451 4.3.0 Mail server temporarily rejected message.

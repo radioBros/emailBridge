@@ -1,0 +1,88 @@
+// Design tokens — must stay in sync with `core/config/VuetifyThemes.ts` (S13 §2.1 + W61).
+//
+// Knobs that Vuetify config cannot express alone:
+// - `--overlay-shadow` — soft menu/dialog/sheet shadow (also OVERLAY_SHADOW_CLASS)
+// - `--radius` — 12 px corner radius (mirrors settings.scss)
+// - `--skeleton-bone` / `--skeleton-sheen` — loader bones
+// - `--table-fill-min` / `--table-chrome` — fill-height tables (UiLayout.ts)
+
+:root {
+  --primary: #4338ca;
+  --secondary: #0b6a80;
+  --accent: #a21caf;
+  --success: #166534;
+  --info: #0369a1;
+  --warning: #9a3412;
+  --error: #b91c1c;
+  --bg-app: #f5f6fb;
+  --surface: #fff;
+  --text-1: #1e2433;
+  --text-2: #3f475a;
+  --text-3: #5b6478;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "Cascadia Mono", menlo, monospace;
+  --border-strong: #c5cad8;
+  --border: #d8dce8;
+  --border-subtle: #e8eaf6;
+  --card-header: #e8eaf6;
+  --overlay-scrim: rgb(245 246 251 / 62%);
+  --skeleton-bone: #e4e7f0;
+  --skeleton-sheen: #f3f4f9;
+  --radius: 12px;
+  --table-fill-min: 360px;
+  --table-chrome: 220px;
+
+  // Soft glow — large blur, negative spread, low opacity (not a tight outline).
+  --overlay-shadow:
+    0 24px 48px -12px rgb(15 23 42 / 12%),
+    0 6px 16px -6px rgb(15 23 42 / 6%);
+
+  // Dialogs: even softer / wider — the scrim already separates; no hard edge.
+  --dialog-shadow:
+    0 40px 80px -24px rgb(15 23 42 / 8%),
+    0 12px 32px -12px rgb(15 23 42 / 4%);
+  --elevated-shadow:
+    0 16px 36px -10px rgb(15 23 42 / 10%),
+    0 4px 12px -4px rgb(15 23 42 / 5%);
+}
+
+.v-theme--dark {
+  --primary: #a5b4fc;
+  --secondary: #67e8f9;
+  --accent: #f0abfc;
+  --success: #86efac;
+  --info: #7dd3fc;
+  --warning: #fcd34d;
+  --error: #fca5a5;
+  --bg-app: #0b1020;
+  --surface: #121933;
+  --text-1: #e8ecf8;
+  --text-2: #c5cce0;
+  --text-3: #a8b0c8;
+  --border-strong: #3a4570;
+  --border: #2a3358;
+  --border-subtle: #1a2344;
+  --card-header: #1a2344;
+  --overlay-scrim: rgb(11 16 32 / 62%);
+  --skeleton-bone: #1a2344;
+  --skeleton-sheen: #222b4e;
+  --overlay-shadow:
+    0 24px 48px -12px rgb(0 0 0 / 42%),
+    0 6px 16px -6px rgb(0 0 0 / 22%);
+  --dialog-shadow:
+    0 40px 80px -24px rgb(0 0 0 / 28%),
+    0 12px 32px -12px rgb(0 0 0 / 12%);
+  --elevated-shadow:
+    0 16px 36px -10px rgb(0 0 0 / 38%),
+    0 4px 12px -4px rgb(0 0 0 / 18%);
+}
+
+// Soft overlay shadow used via VuetifyDefaults contentClass (menus, tooltips).
+.eb-overlay-shadow {
+  box-shadow: var(--overlay-shadow) !important;
+}
+
+// Softer dialog/sheet shadow (scrim + wide low-opacity glow).
+.eb-dialog-shadow {
+  box-shadow: var(--dialog-shadow) !important;
+}

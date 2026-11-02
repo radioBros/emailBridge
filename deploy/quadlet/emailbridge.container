@@ -1,0 +1,43 @@
+[Unit]
+Description=EmailBridge
+Requires=emailbridge-nats.container emailbridge-mongo.container emailbridge-s3.container
+After=emailbridge-nats.container emailbridge-mongo.container emailbridge-s3.container
+
+[Container]
+# > EB_SHUTDOWN_GRACE (60s): podman waits this long after SIGTERM before killing.
+StopTimeout=75
+Image=ghcr.io/radiobros/emailbridge:v1.0.0
+Environment=EB_PUBLIC_URL=http://127.0.0.1:8080
+Environment=EB_NATS_MODE=external
+Environment=EB_NATS_URL=nats://emailbridge-nats:4222
+Environment=EB_MONGO_URI_FILE=/run/secrets/mongo_uri
+Environment=EB_MONGO_DATABASE=emailbridge
+Environment=EB_S3_ENDPOINT=http://emailbridge-s3:8333
+Environment=EB_S3_PATH_STYLE=true
+Environment=EB_S3_ACCESS_KEY_FILE=/run/secrets/s3_access_key
+Environment=EB_S3_SECRET_KEY_FILE=/run/secrets/s3_secret_key
+Environment=EB_KEYS_LOCAL_FILE=/run/secrets/keys
+Environment=EB_AUTH_SECRET_FILE=/run/secrets/auth_secret
+Environment=EB_DATA_DIR=/data
+Volume=%h/.local/share/emailbridge/data:/data:Z
+Secret=mongo_uri,type=mount,target=mongo_uri
+Secret=s3_access_key,type=mount,target=s3_access_key
+Secret=s3_secret_key,type=mount,target=s3_secret_key
+Secret=keys,type=mount,target=keys
+Secret=auth_secret,type=mount,target=auth_secret
+Network=emailbridge.network
+PublishPort=127.0.0.1:8080:8080
+HealthCmd=/emailbridge healthcheck
+HealthInterval=10s
+HealthTimeout=5s
+HealthRetries=12
+HealthStartPeriod=30s
+AutoUpdate=registry
+
+[Service]
+# systemd must outwait the container stop timeout.
+TimeoutStopSec=90
+Restart=always
+
+[Install]
+WantedBy=default.target

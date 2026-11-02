@@ -1,0 +1,394 @@
+{
+  "switches": {
+    "sandbox": {
+      "enabled": {
+        "label": "Режим песочницы",
+        "description": "Перехватывает исходящую почту вместо отправки."
+      },
+      "recipientPolicy": {
+        "label": "Политика получателей песочницы",
+        "description": "Как песочница обрабатывает получателей: allow, rewrite, drop или capture."
+      }
+    },
+    "inbound": {
+      "authResults": {
+        "label": "Входящие результаты auth",
+        "description": "Включает результаты SPF, DKIM, DMARC и ARC во входящие сообщения."
+      },
+      "archiveRaw": {
+        "label": "Архивировать входящий raw",
+        "description": "Сохраняет исходный raw каждого нового сообщения в S3."
+      },
+      "replyText": {
+        "label": "Извлечение текста ответа",
+        "description": "Разрешает извлечение текста ответа, когда конечная точка включает это."
+      },
+      "bounceDetection": {
+        "label": "Обнаружение bounce",
+        "description": "Классифицирует bounce, отчёты ARF и автоответы."
+      }
+    },
+    "sync": {
+      "qresync": {
+        "label": "Синхронизация QRESYNC",
+        "description": "Использует обнаружение изменений QRESYNC, если почтовый сервер его предлагает."
+      }
+    },
+    "protocolLogs": {
+      "enabled": {
+        "label": "Протокол-логи",
+        "description": "Хранит транскрипты IMAP и SMTP по аккаунту."
+      },
+      "rawDebug": {
+        "label": "Протокол raw debug",
+        "description": "Логирует полные байты протокола (автоматически отключается после TTL)."
+      }
+    },
+    "webhook": {
+      "signature": {
+        "mode": {
+          "label": "Режим подписи вебхука",
+          "description": "Выбирает стандартные подписи вебхука или только тело."
+        }
+      },
+      "secret": {
+        "perEndpoint": {
+          "label": "Секреты вебхука на конечную точку",
+          "description": "Использует отдельный секрет подписи для каждой конечной точки вебхука."
+        },
+        "rotationOverlap": {
+          "label": "Перекрытие ротации секрета вебхука",
+          "description": "Двойная подпись вебхуков во время ротации секрета."
+        }
+      },
+      "mtls": {
+        "label": "mTLS вебхука",
+        "description": "Требует клиентский сертификат при доставке вебхуков."
+      },
+      "egress": {
+        "blockPrivate": {
+          "label": "Блокировать частный egress вебхука",
+          "description": "Блокирует доставку на частные, ULA или loopback-адреса."
+        }
+      }
+    },
+    "events": {
+      "store": {
+        "label": "Хранилище событий",
+        "description": "Хранит события доступными для воспроизведения."
+      },
+      "sse": {
+        "label": "SSE-поток событий",
+        "description": "Открывает живую конечную точку /v1/events/stream."
+      }
+    },
+    "rules": {
+      "enabled": {
+        "label": "Правила маршрутизации",
+        "description": "Вычисляет правила маршрутизации."
+      }
+    },
+    "auth": {
+      "password": {
+        "label": "Вход по паролю",
+        "description": "Разрешает аутентификацию по паролю."
+      },
+      "passkeys": {
+        "label": "Вход по ключу доступа",
+        "description": "Разрешает аутентификацию по passkey."
+      },
+      "totp": {
+        "label": "MFA TOTP",
+        "description": "Разрешает одноразовые пароли по времени для MFA."
+      },
+      "emailOtp": {
+        "label": "MFA OTP по email",
+        "description": "Разрешает одноразовые пароли по email для MFA (нужна системная почта)."
+      },
+      "oidc": {
+        "label": "SSO OIDC",
+        "description": "Разрешает single sign-on OIDC для организации."
+      }
+    },
+    "apikeys": {
+      "accountBound": {
+        "label": "Ключи API, привязанные к аккаунту",
+        "description": "Разрешает ключи API, привязанные к одному аккаунту."
+      }
+    },
+    "configAsCode": {
+      "enabled": {
+        "label": "Config as code",
+        "description": "Включает plan и apply YAML через CLI и API."
+      }
+    },
+    "mailbox": {
+      "webSafeHtml": {
+        "label": "Безопасный HTML в payload",
+        "description": "Разрешает очищенный HTML в payload сообщений, когда конечная точка включает это."
+      },
+      "calendarEvents": {
+        "label": "События календаря в payload",
+        "description": "Разрешает разобранные данные iCalendar в payload, когда конечная точка включает это."
+      }
+    },
+    "attachments": {
+      "s3": {
+        "label": "Вложения в S3",
+        "description": "Хранит вложения в S3 и отдаёт подписанные URL."
+      },
+      "antivirus": {
+        "label": "Антивирус вложений",
+        "description": "Сканирует вложения с помощью ClamAV перед доставкой."
+      }
+    },
+    "sending": {
+      "templates": {
+        "label": "Шаблоны отправки",
+        "description": "Включает шаблоны отправки."
+      },
+      "listUnsubscribe": {
+        "label": "List-Unsubscribe",
+        "description": "Добавляет заголовки List-Unsubscribe RFC 8058."
+      },
+      "suppression": {
+        "label": "Списки подавления",
+        "description": "Проверяет списки подавления перед отправкой."
+      },
+      "throttle": {
+        "label": "Ограничение отправки",
+        "description": "Ограничивает отправку по провайдеру и домену."
+      },
+      "sendWindows": {
+        "label": "Окна отправки",
+        "description": "Ограничивает отправку окнами по часовому поясу."
+      },
+      "preSendHook": {
+        "label": "Хук политики перед отправкой",
+        "description": "Запускает хук политики перед каждой отправкой."
+      }
+    },
+    "tracking": {
+      "opens": {
+        "label": "Отслеживание открытий",
+        "description": "Отслеживает, когда получатели открывают сообщения."
+      },
+      "clicks": {
+        "label": "Отслеживание кликов",
+        "description": "Отслеживает, когда получатели нажимают ссылки."
+      }
+    },
+    "oauth": {
+      "tokenExport": {
+        "label": "Экспорт токена OAuth",
+        "description": "Разрешает экспорт токена OAuth аккаунта через API."
+      }
+    },
+    "accounts": {
+      "authServer": {
+        "label": "Внешний сервер учётных данных",
+        "description": "Получает учётные данные с внешнего сервера аутентификации."
+      },
+      "ignoreCertErrors": {
+        "label": "Игнорировать ошибки сертификата",
+        "description": "Принимает недействительные сертификаты почтового сервера."
+      }
+    },
+    "connect": {
+      "hostedPage": {
+        "label": "Хостинг-страница connect",
+        "description": "Включает размещённую страницу подключения почтового ящика."
+      }
+    },
+    "protocol": {
+      "msa": {
+        "label": "Сервер submission SMTP",
+        "description": "Запускает агент submission SMTP."
+      },
+      "imapProxy": {
+        "label": "Прокси IMAP",
+        "description": "Запускает прокси IMAP."
+      }
+    },
+    "export": {
+      "enabled": {
+        "label": "Массовый экспорт",
+        "description": "Разрешает массовый экспорт почтовых ящиков."
+      }
+    },
+    "ai": {
+      "enabled": {
+        "label": "Плагин ИИ",
+        "description": "Включает плагин ИИ."
+      },
+      "embeddings": {
+        "label": "Семантический поиск",
+        "description": "Поиск почты по смыслу и вопросы о почтовом ящике через эндпоинт эмбеддингов из настроек ИИ. Требует полнотекстового поиска. Отдельные аккаунты можно исключить."
+      }
+    },
+    "mcp": {
+      "enabled": {
+        "label": "Конечная точка MCP",
+        "description": "Включает конечную точку MCP."
+      }
+    },
+    "integrations": {
+      "<connector>": {
+        "label": "Интеграция коннектора",
+        "description": "Включает интеграцию стороннего коннектора."
+      },
+      "slack": {
+        "label": "Интеграция Slack",
+        "description": "Включает коннектор входящего webhook Slack."
+      },
+      "zapier": {
+        "label": "Интеграция Zapier",
+        "description": "Включает коннектор webhook Zapier/Make."
+      },
+      "rspamd": {
+        "label": "Интеграция Rspamd",
+        "description": "Включает коннектор оценки спама Rspamd."
+      },
+      "teams": {
+        "label": "Интеграция Microsoft Teams",
+        "description": "Включает коннектор webhook Microsoft Teams."
+      },
+      "discord": {
+        "label": "Интеграция Discord",
+        "description": "Включает коннектор webhook Discord."
+      },
+      "telegram": {
+        "label": "Интеграция Telegram",
+        "description": "Включает коннектор Bot API Telegram."
+      },
+      "mattermost": {
+        "label": "Интеграция Mattermost",
+        "description": "Включает коннектор webhook Mattermost."
+      },
+      "featherdesk": {
+        "label": "Интеграция FeatherDesk",
+        "description": "Включает коннектор helpdesk FeatherDesk."
+      },
+      "helpdesk": {
+        "label": "Интеграция helpdesk",
+        "description": "Включает коннектор универсального webhook helpdesk."
+      },
+      "ses": {
+        "label": "Интеграция Amazon SES",
+        "description": "Включает коннектор отправки Amazon SES."
+      },
+      "postmark": {
+        "label": "Интеграция Postmark",
+        "description": "Включает коннектор отправки Postmark."
+      },
+      "mailgun": {
+        "label": "Интеграция Mailgun",
+        "description": "Включает коннектор отправки Mailgun."
+      },
+      "sendgrid": {
+        "label": "Интеграция SendGrid",
+        "description": "Включает коннектор отправки SendGrid."
+      },
+      "brevo": {
+        "label": "Интеграция Brevo",
+        "description": "Включает коннектор отправки Brevo."
+      },
+      "gdrive": {
+        "label": "Интеграция Google Drive",
+        "description": "Включает коннектор хранилища Google Drive."
+      },
+      "onedrive": {
+        "label": "Интеграция OneDrive",
+        "description": "Включает коннектор хранилища OneDrive/SharePoint."
+      },
+      "hubspot": {
+        "label": "Интеграция HubSpot",
+        "description": "Включает коннектор CRM HubSpot."
+      },
+      "pipedrive": {
+        "label": "Интеграция Pipedrive",
+        "description": "Включает коннектор CRM Pipedrive."
+      },
+      "sso-authentik": {
+        "label": "Authentik SSO",
+        "description": "Включает пресет SSO Authentik."
+      },
+      "sso-keycloak": {
+        "label": "Keycloak SSO",
+        "description": "Включает пресет SSO Keycloak."
+      },
+      "sso-entra": {
+        "label": "Microsoft Entra ID SSO",
+        "description": "Включает пресет SSO Microsoft Entra ID."
+      },
+      "sso-google": {
+        "label": "Google Workspace SSO",
+        "description": "Включает пресет SSO Google Workspace."
+      },
+      "sso-okta": {
+        "label": "Okta SSO",
+        "description": "Включает пресет SSO Okta."
+      },
+      "sentry": {
+        "label": "Интеграция Sentry",
+        "description": "Включает пресет наблюдаемости Sentry/GlitchTip."
+      },
+      "grafana": {
+        "label": "Интеграция Grafana",
+        "description": "Включает пресет дашборда Grafana."
+      },
+      "loki": {
+        "label": "Интеграция Loki",
+        "description": "Включает пресет меток Loki."
+      },
+      "otel": {
+        "label": "Интеграция OpenTelemetry",
+        "description": "Включает пресет collector OpenTelemetry."
+      }
+    },
+    "pec": {
+      "enabled": {
+        "label": "PEC",
+        "description": "Включает модуль PEC для аккаунта."
+      },
+      "evidenceArchive": {
+        "label": "Архив доказательств PEC",
+        "description": "Архивирует квитанции и конверты PEC с Object Lock."
+      }
+    },
+    "notifications": {
+      "email": {
+        "label": "Уведомления по email",
+        "description": "Отправляет системные уведомления по email."
+      }
+    },
+    "sinks": {
+      "nats": {
+        "label": "Sink NATS",
+        "description": "Делает доступным sink событий NATS."
+      },
+      "kafka": {
+        "label": "Sink Kafka",
+        "description": "Делает доступным sink событий Kafka."
+      },
+      "sqs": {
+        "label": "Sink Amazon SQS",
+        "description": "Делает доступным sink событий Amazon SQS."
+      },
+      "sns": {
+        "label": "Sink Amazon SNS",
+        "description": "Делает доступным sink событий Amazon SNS."
+      },
+      "pubsub": {
+        "label": "Sink Pub/Sub",
+        "description": "Делает доступным sink событий Google Pub/Sub."
+      }
+    },
+    "search": {
+      "fullText": {
+        "label": "Полнотекстовый поиск",
+        "description": "Индексирует текст каждого сообщения, чтобы страница Поиск находила почту во всех аккаунтах. Отдельные аккаунты можно исключить."
+      }
+    }
+  }
+}

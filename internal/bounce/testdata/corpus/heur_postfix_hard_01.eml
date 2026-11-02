@@ -1,0 +1,14 @@
+From: Mail Delivery System <mailer-daemon@mx.example.com>
+To: sender@example.com
+Subject: Undelivered Mail Returned to Sender
+Message-ID: <heur-001@example.com>
+In-Reply-To: <orig-heur-001@example.com>
+X-Failed-Recipients: bounce-hint001@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients.
+
+<fail01@example.com>: host mx.example.com said:
+550 5.1.1 User unknown (in reply to RCPT TO command)

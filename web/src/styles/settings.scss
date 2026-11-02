@@ -1,0 +1,25 @@
+// Vuetify SASS settings — the VALUES half of the shape rule.
+//
+// Knobs (change here → applies app-wide via VuetifyDefaults `rounded`):
+// - `$border-radius-root` — spacer root for radius maths
+// - `$rounded` map — `lg` / default = 12 px (W61); `chip` matches; `pill` / `circle` kept for opt-in
+//
+// Loaded by `vite-plugin-vuetify` via `styles: { configFile }` in `vite.config.ts`.
+
+@use "vuetify/settings" with (
+  // The 4px spacer root, so Vuetify's `ga-3` = 12px maps 1:1 onto the design tokens' 4px scale.
+  $border-radius-root: 4px,
+
+  // Default / lg / chip = 12 px (W61). `md` = 8 px for compact squares (pagination).
+  // `pill` / `circle` survive for intentional opt-in only.
+  $rounded: (
+    "sm": 4px,
+    null: 12px,
+    "md": 8px,
+    "lg": 12px,
+    "chip": 12px,
+    "xl": 16px,
+    "pill": 9999px,
+    "circle": 50%
+  )
+);

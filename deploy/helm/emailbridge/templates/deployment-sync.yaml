@@ -1,0 +1,3 @@
+{{- if .Values.roles.sync.enabled }}
+{{- include "emailbridge.deployment" (dict "root" . "component" "sync" "role" .Values.roles.sync) }}
+{{- end }}

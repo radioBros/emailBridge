@@ -1,0 +1,9 @@
+From: Sistema di posta <postmaster@aruba.it>
+To: sender@example.com
+Subject: Notifica di mancato recapito
+X-Failed-Recipients: gone-aruba@example.it
+Message-ID: <heur-it-aruba-01@example.com>
+
+Messaggio non recapitato.
+Impossibile recapitare il messaggio a gone-aruba@example.it
+Errore di consegna: 550 5.1.1 destinatario inesistente

@@ -1,0 +1,86 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/account.auth_failed/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "code": "mail_auth_failed",
+        "disableAt": "2026-10-31T08:14:03Z",
+        "externalId": "crm-48213",
+        "failingSince": "2026-10-26T08:14:03Z",
+        "protocol": "imap",
+        "response": "NO [AUTHENTICATIONFAILED] Invalid credentials (Failure)"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/account.auth_failed/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5ck6pf0bf4meam7jp1fbskf",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "time": "2026-10-26T08:14:03.551Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "account.auth_failed"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "code": "mail_auth_failed",
+      "disableAt": "2026-10-31T08:14:03Z",
+      "externalId": "crm-48213",
+      "failingSince": "2026-10-26T08:14:03Z",
+      "protocol": "imap",
+      "response": "NO [AUTHENTICATIONFAILED] Invalid credentials (Failure)"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "code": {
+      "description": "Problem code of the failure, e.g. mail_auth_failed or oauth_revoked",
+      "type": "string"
+    },
+    "disableAt": {
+      "description": "When the account will be disabled if failures continue",
+      "format": "date-time",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "failingSince": {
+      "description": "When the current run of failed logins started",
+      "format": "date-time",
+      "type": "string"
+    },
+    "protocol": {
+      "description": "Protocol whose login failed",
+      "enum": [
+        "imap",
+        "smtp"
+      ],
+      "type": "string"
+    },
+    "response": {
+      "description": "Redacted server text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "protocol",
+    "code",
+    "failingSince",
+    "accountId",
+    "externalId"
+  ],
+  "title": "account.auth_failed data (v1)",
+  "type": "object"
+}

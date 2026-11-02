@@ -1,0 +1,34 @@
+From: <abusedesk@isp.example.com>
+To: <complaint@example.com>
+Subject: FW: Abuse report
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=feedback-report;
+ boundary="ebbound201"
+
+--ebbound201
+Content-Type: text/plain; charset=utf-8
+
+This is an email abuse report.
+
+--ebbound201
+Content-Type: message/feedback-report
+
+Feedback-Type: abuse
+User-Agent: FakeARF/1.0
+Version: 1
+Original-Mail-From: <sender@example.com>
+Original-Message-ID: <orig-arf-001@example.com>
+Final-Recipient: rfc822; victim01@example.com
+
+--ebbound201
+Content-Type: message/rfc822
+
+From: sender@example.com
+To: victim01@example.com
+Subject: Offer
+Message-ID: <orig-arf-001@example.com>
+X-EmailBridge-Outbound-Id: out_01jbf3k8v4w7q2m9x5c6t1r01
+
+Buy now.
+
+--ebbound201--

@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "notifications": "通知"
+  },
+  "notifications": {
+    "title": "通知",
+    "subtitle": "EmailBridge 在您组织中检测到的问题，最新优先。已解决项保留 90 天。",
+    "bell_label": "通知",
+    "bell_label_unread": "通知，{count} 条未读",
+    "toast_critical": "严重问题：{title}",
+    "mark_all_read": "全部标为已读",
+    "mark_all_read_short": "全部已读",
+    "mark_read": "标为已读",
+    "open_centre": "打开通知中心",
+    "open_link": "前往问题",
+    "retry": "重试",
+    "empty_title": "一切正常",
+    "empty_body": "没有未解决问题。新问题一经检测即显示在此处。",
+    "unread": "未读",
+    "row_unread": "{title}，未读",
+    "occurrences": "×{count}",
+    "filters": "筛选",
+    "clear_filters": "清除筛选",
+    "no_results": "没有符合这些筛选条件的通知。",
+    "selected": "已选 {count} 项",
+    "clear_selection": "清除",
+    "select_page": "全选本页",
+    "select_row": "选择 {title}",
+    "resolve": "解决",
+    "resolve_info": "解决信息（{count}）",
+    "bulk_resolve_hint": "仅信息级项目可批量解决。警告和严重问题请在详情中解决。",
+    "resolve_done": "通知已解决。",
+    "bulk_read_done": "已将 {count} 项标为已读。",
+    "bulk_resolve_done": "已解决 {count} 项。",
+    "bulk_resolve_failed": "{count} 项无法解决。{reason}",
+    "group": {
+      "critical": "严重",
+      "warning": "警告",
+      "info": "信息",
+      "resolved": "已解决"
+    },
+    "state": {
+      "open": "未解决",
+      "resolved": "已解决"
+    },
+    "severity": {
+      "critical": "严重",
+      "warning": "警告",
+      "info": "信息"
+    },
+    "category": {
+      "webhooks": "Webhook",
+      "queues": "队列",
+      "accounts": "账户",
+      "sending": "发送",
+      "oauth": "OAuth",
+      "integrations": "集成",
+      "pec": "PEC",
+      "storage": "存储",
+      "platform": "平台",
+      "security": "安全",
+      "limits": "限额",
+      "internal": "内部错误"
+    },
+    "scope": {
+      "organization": "此组织",
+      "instance": "整个实例"
+    },
+    "col": {
+      "select": "选择",
+      "severity": "严重程度",
+      "problem": "问题",
+      "category": "类别",
+      "occurrences": "出现次数",
+      "last_seen": "上次出现",
+      "first_seen": "首次出现"
+    },
+    "field": {
+      "first_seen": "首次出现",
+      "last_seen": "上次出现",
+      "opened_at": "重新打开",
+      "resolved_at": "已解决",
+      "scope": "范围",
+      "data": "详情"
+    },
+    "filter": {
+      "state": "状态",
+      "category": "类别",
+      "severity": "严重程度",
+      "unread": "仅未读"
+    },
+    "prefs": {
+      "title": "通知",
+      "unsaved": "未保存",
+      "org_disabled": "此组织已关闭提醒邮件。所有者或管理员可在设置 → 开关中开启。铃铛通知仍可用。",
+      "email_label": "通过邮件接收问题通知",
+      "email_hint": "严重问题立即送达；其余按您的摘要设置。",
+      "email_role_hint": "查看者和操作员默认关闭。开启后可接收提醒邮件。",
+      "digest": "摘要",
+      "digest_immediate": "每个问题立即发送",
+      "digest_hourly": "每小时摘要",
+      "digest_daily": "每日摘要",
+      "min_severity": "邮件起始级别",
+      "min_info": "信息及以上",
+      "min_warning": "警告及以上",
+      "min_critical": "仅严重",
+      "categories": "类别",
+      "col_bell": "铃铛",
+      "col_email": "电子邮件",
+      "bell_for": "在铃铛中显示 {category}",
+      "email_for": "邮件通知 {category}",
+      "quiet": "免打扰时段",
+      "quiet_hint": "在这些时段内，非严重邮件会等到下次摘要。",
+      "quiet_start": "开始",
+      "quiet_end": "结束",
+      "quiet_tz": "时区",
+      "time_invalid": "使用 HH:MM",
+      "discard": "放弃",
+      "save": "保存",
+      "saved": "通知偏好已保存。"
+    }
+  },
+  "notify": {
+    "webhook": {
+      "failing": {
+        "title": "Webhook {name} 连续失败",
+        "detail": "连续 {failures} 次投递失败。请检查端点及其最近投递。"
+      },
+      "deadletter": {
+        "title": "Webhook {name} 正在将事件转入死信",
+        "detail": "过去一小时内有 {count} 次投递被转入死信。"
+      }
+    },
+    "account": {
+      "auth": {
+        "title": "邮箱 {name} 无法登录",
+        "detail": "邮件服务器拒绝了凭据。请更新凭据以恢复同步。"
+      },
+      "connect": {
+        "title": "邮箱 {name} 无法连接",
+        "detail": "邮件服务器不可达或拒绝了连接。"
+      },
+      "disabled": {
+        "title": "邮箱 {name} 已禁用",
+        "detail": "在重新启用账户之前，同步已暂停。"
+      },
+      "syncStall": {
+        "title": "邮箱 {name} 停止同步",
+        "detail": "成功同步已超过配置的时限。"
+      },
+      "cert": {
+        "title": "{name} 的证书即将过期",
+        "detail": "请在过期前续订客户端证书，以保持邮箱连接。"
+      }
+    },
+    "queue": {
+      "pending": {
+        "title": "队列 {queue} 正在积压",
+        "detail": "有 {pending} 条消息在等待，且近期没有确认。"
+      },
+      "oldest": {
+        "title": "队列 {queue} 有过期消息",
+        "detail": "最旧消息的等待时间已超过配置上限。"
+      },
+      "paused": {
+        "title": "队列 {queue} 已暂停一段时间",
+        "detail": "队列保持暂停时，工作正在堆积。"
+      }
+    },
+    "sending": {
+      "failures": {
+        "title": "发送失败正在上升",
+        "detail": "过去一小时内，某账户 {rate}% 的邮件失败或退回。"
+      }
+    },
+    "platform": {
+      "node": {
+        "title": "节点 {node} 缺失",
+        "detail": "该节点在未先排空的情况下停止报告。"
+      },
+      "migrations": {
+        "title": "数据库迁移待处理",
+        "detail": "请运行待处理的迁移以完成升级。"
+      }
+    },
+    "security": {
+      "apikey": {
+        "title": "API 密钥 {name} 即将过期",
+        "detail": "请在过期前轮换密钥，以便集成继续工作。"
+      }
+    },
+    "integrations": {
+      "failing": {
+        "title": "集成 {name} 失败",
+        "detail": "最近一次 {connector} 操作失败。打开集成以查看错误。"
+      }
+    },
+    "internal": {
+      "title": "{component} 中的内部错误",
+      "detail": "EmailBridge 在 {component} 中遇到意外错误（{code}）。已在此归类并报告。"
+    }
+  }
+}

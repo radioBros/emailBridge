@@ -1,0 +1,145 @@
+# EmailBridge development stack — ONE stack, `emailbridge-dev`.
+#
+# Entry point: the `emailbridge` service (API + embedded admin) on http://localhost:8080, built from the
+# production Containerfile. `pnpm dev` in web/ (http://localhost:5173) proxies /v1 to it.
+# Dependencies, also used directly by the Go test suites:
+#   - MongoDB 8 single-node replica set `rs0` on 127.0.0.1:27017, no auth (tests connect with
+#     mongodb://127.0.0.1:27017/?replicaSet=rs0&directConnection=true; the app uses database emailbridge_dev)
+#   - Dovecot IMAP/SMTP test mailbox on 127.0.0.1:10143 / 10993 / 10025 / 10465
+#   - SeaweedFS S3 on 127.0.0.1:18333 (dev-only credentials below; tests pick it up automatically when it runs,
+#     otherwise they start a short-lived container)
+# The product stacks are small.yml / medium.yml (project `emailbridge`); test containers started by
+# testcontainers (Ryuk-managed, short-lived) are separate by design.
+#
+# From the repository root:
+#   task dev:deps        first run writes .data/dev/secrets, then builds and starts everything
+#   task dev:deps:down   stop (data stays in .data/dev)
+# or by hand, after `go run ./cmd/emailbridge secrets init --dir .data/dev/secrets` once:
+#   docker compose -f deploy/compose/devdeps.yml up -d --build --wait     (or: podman compose …)
+name: emailbridge-dev
+
+services:
+  mongo:
+    image: mongo:8.0.15
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - ${DEV_DATA:-../../.data/dev}/mongo:/data/db
+    # The replica set is initiated by the healthcheck itself (no init container): the first successful check
+    # runs rs.initiate, later ones only report the status.
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          mongosh --quiet --eval
+          "try { rs.status().ok } catch (e) {
+          rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}]}).ok }"
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+
+  dovecot:
+    image: dovecot/dovecot:2.4.5
+    environment:
+      USER_PASSWORD: ${USER_PASSWORD:-devpass}
+    ports:
+      # Image listens on 31143 (IMAP/STARTTLS) and 31993 (IMAPS), not the IANA ports.
+      - "127.0.0.1:10143:31143"
+      - "127.0.0.1:10993:31993"
+      - "127.0.0.1:10025:25"
+      - "127.0.0.1:10465:465"
+    restart: unless-stopped
+
+  s3:
+    image: chrislusf/seaweedfs:4.50
+    # Dev-only credentials (no secrets: the service listens on localhost only). Same values as the test helpers'
+    # defaults in test/containers.
+    entrypoint:
+      - sh
+      - -ec
+      - |
+        cat > /tmp/s3.json <<EOF
+        {"identities":[{"name":"emailbridge","credentials":[{"accessKey":"${DEV_S3_ACCESS_KEY:-ebdevaccess}","secretKey":"${DEV_S3_SECRET_KEY:-ebdevsecret0123456789}"}],"actions":["Admin","Read","Write","List","Tagging"]}]}
+        EOF
+        exec weed server -dir=/data -ip.bind=0.0.0.0 -volume.max=0 -master.volumeSizeLimitMB=64 -s3 -s3.port=8333 -s3.config=/tmp/s3.json
+    ports:
+      - "127.0.0.1:18333:8333"
+    volumes:
+      - ${DEV_DATA:-../../.data/dev}/s3:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8333/ 2>/dev/null; [ $$? -le 8 ]"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+
+  # The stack's entry point: EmailBridge itself, built from the same Containerfile as production, all roles in
+  # one process. API + embedded admin on http://localhost:8080; `pnpm dev` in web/ proxies /v1 here, so the
+  # Vite dev server on http://localhost:5173 is an allowed origin.
+  # Secrets come from .data/dev/secrets (gitignored), written once by `task dev:deps` via `emailbridge secrets init`.
+  emailbridge:
+    build:
+      context: ../..
+      dockerfile: deploy/container/Containerfile
+    image: emailbridge:dev
+    # Room for a clean shutdown: the bus stops last and releases the embedded NATS lock, so a
+    # rebuilt container does not have to wait for that lock to expire.
+    stop_grace_period: 30s
+    depends_on:
+      mongo:
+        condition: service_healthy
+      s3:
+        condition: service_healthy
+      dovecot:
+        condition: service_started
+    environment:
+      EB_ENV: development
+      EB_ROLES: all
+      EB_NATS_MODE: embedded
+      EB_PUBLIC_URL: http://localhost:8080 # a host name: passkeys refuse an IP
+      EB_HTTP_CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+      EB_AUTH_WEBAUTHN_RP_ID: localhost
+      EB_AUTH_COOKIE_SECURE: "false"
+      EB_AUTH_MFA_REQUIRED: "false"
+      EB_MONGO_URI: mongodb://mongo:27017/?replicaSet=rs0&directConnection=true
+      EB_MONGO_DATABASE: emailbridge_dev
+      EB_S3_ENDPOINT: http://s3:8333
+      EB_S3_PATH_STYLE: "true"
+      EB_S3_ACCESS_KEY: ${DEV_S3_ACCESS_KEY:-ebdevaccess}
+      EB_S3_SECRET_KEY: ${DEV_S3_SECRET_KEY:-ebdevsecret0123456789}
+      EB_KEYS_LOCAL_FILE: /run/secrets/keys
+      EB_AUTH_SECRET_FILE: /run/secrets/auth_secret
+      EB_DATA_DIR: /data
+      # First start only (no users yet): the owner you log in with. Override in your shell or a .env file.
+      EB_BOOTSTRAP_ORG_NAME: ${DEV_ORG_NAME:-Dev}
+      EB_BOOTSTRAP_OWNER_EMAIL: ${DEV_OWNER_EMAIL:-owner@emailbridge.localhost}
+      EB_BOOTSTRAP_OWNER_PASSWORD: ${DEV_OWNER_PASSWORD:-emailbridge dev owner 2026}
+      EB_SYSMAIL_MODE: "off"
+      # Dovecot and the other services sit on the stack's private network.
+      EB_EGRESS_BLOCK_PRIVATE: "false"
+      EB_RATE_LOGIN: 1000/min
+      EB_SHUTDOWN_GRACE: 5s
+    secrets:
+      - keys
+      - auth_secret
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ${DEV_DATA:-../../.data/dev}/app:/data
+    healthcheck:
+      test: ["CMD", "/emailbridge", "healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    restart: unless-stopped
+
+secrets:
+  keys:
+    file: ${DEV_DATA:-../../.data/dev}/secrets/keys
+  auth_secret:
+    file: ${DEV_DATA:-../../.data/dev}/secrets/auth_secret

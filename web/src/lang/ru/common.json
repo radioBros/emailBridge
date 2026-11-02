@@ -1,0 +1,10 @@
+{
+  "common": {
+    "search": "Поиск",
+    "close": "Закрыть",
+    "states": {
+      "loading": "Загрузка",
+      "refreshing": "Обновление"
+    }
+  }
+}

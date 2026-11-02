@@ -1,0 +1,11 @@
+From: Mailer-Daemon@mail.example.it
+To: sender@example.com
+Subject: Avviso di ritardo nella consegna
+Message-ID: <heur-heur_italian_soft_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+La casella del destinatario piena@example.it e' temporaneamente piena (452).
+Riprovare piu' tardi.
+

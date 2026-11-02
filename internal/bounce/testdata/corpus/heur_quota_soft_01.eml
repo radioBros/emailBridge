@@ -1,0 +1,10 @@
+From: Postmaster <postmaster@mx.example.com>
+To: sender@example.com
+Subject: Mailbox full
+X-Failed-Recipients: full@example.com
+Message-ID: <heur-quota-01@example.com>
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients.
+
+<full@example.com>: host mx said: 452 4.2.2 mailbox full / over quota

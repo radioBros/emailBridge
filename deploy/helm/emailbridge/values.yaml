@@ -1,0 +1,165 @@
+# EmailBridge Helm values. External MongoDB / NATS / S3 by default.
+
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: ghcr.io/radiobros/emailbridge
+  tag: "" # defaults to Chart.appVersion
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+# Shared non-secret config. Secrets come from existingSecret.
+config:
+  EB_ENV: production
+  EB_PUBLIC_URL: https://mail-gw.example.com
+  EB_NATS_MODE: external
+  EB_NATS_URL: nats://nats:4222
+  EB_NATS_REPLICAS: "3"
+  EB_MONGO_DATABASE: emailbridge
+  EB_S3_ENDPOINT: https://s3.amazonaws.com
+  EB_S3_REGION: eu-south-1
+  EB_S3_BUCKET: emailbridge
+  EB_S3_PATH_STYLE: "false"
+  EB_DATA_DIR: /data
+  EB_METRICS_ADDR: ":9090"
+  EB_HTTP_TRUSTED_PROXIES: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+  EB_SHUTDOWN_GRACE: 60s
+  # Extra keys merged into the ConfigMap (string values only).
+  extra: {}
+
+# Kubernetes Secret with file keys mounted at /run/secrets.
+# Required keys: mongo_uri, auth_secret, keys
+# Optional: s3_access_key, s3_secret_key, nats_creds
+existingSecret: emailbridge-secrets
+
+# Map secret keys → EB_*_FILE env (override if your Secret uses different key names).
+secretFiles:
+  mongo_uri: mongo_uri
+  auth_secret: auth_secret
+  keys: keys
+  s3_access_key: s3_access_key
+  s3_secret_key: s3_secret_key
+  nats_creds: "" # empty = omit
+
+# Drain must finish before SIGKILL (S15 / EB_SHUTDOWN_GRACE 60s).
+terminationGracePeriodSeconds: 75
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65532
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  readOnlyRootFilesystem: true
+
+# No init containers — entrypoint runs migrations under the lock.
+# Do not add initContainers here.
+
+resources:
+  api:
+    requests: { cpu: 250m, memory: 256Mi }
+    limits: { cpu: "1", memory: 1Gi }
+  sync:
+    requests: { cpu: 500m, memory: 512Mi }
+    limits: { cpu: "2", memory: 2Gi }
+  webhook:
+    requests: { cpu: 250m, memory: 256Mi }
+    limits: { cpu: "1", memory: 1Gi }
+  worker:
+    requests: { cpu: 250m, memory: 256Mi }
+    limits: { cpu: "1", memory: 1Gi }
+
+roles:
+  api:
+    enabled: true
+    replicas: 2
+    roles: "api"
+  sync:
+    enabled: true
+    replicas: 2
+    roles: "sync"
+  webhook:
+    enabled: true
+    replicas: 2
+    roles: "webhook"
+  worker:
+    enabled: true
+    replicas: 2
+    roles: "submit,scheduler"
+
+autoscaling:
+  api:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+  webhook:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+
+pdb:
+  enabled: true
+  minAvailable: 1
+
+service:
+  type: ClusterIP
+  port: 8080
+  metricsPort: 9090
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: mail-gw.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  # - secretName: emailbridge-tls
+  #   hosts: [mail-gw.example.com]
+
+serviceMonitor:
+  enabled: false
+  interval: 30s
+  scrapeTimeout: 10s
+  labels: {}
+  # Scrape metrics port only (never expose 9090 via Ingress).
+
+persistence:
+  # Optional emptyDir is default; set enabled + size for PVC on /data (logs).
+  enabled: false
+  size: 5Gi
+  storageClass: ""
+  accessModes: ["ReadWriteOnce"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Optional in-cluster backing services (off by default — prefer managed / external).
+mongodb:
+  enabled: false
+nats:
+  enabled: false
+minio:
+  enabled: false
+
+extraEnv: []
+extraVolumeMounts: []
+extraVolumes: []

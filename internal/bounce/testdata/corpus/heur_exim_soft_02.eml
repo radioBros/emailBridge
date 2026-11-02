@@ -1,0 +1,13 @@
+From: Mail Delivery System <mailer-daemon@exim.example.com>
+To: sender@example.com
+Subject: Mail delivery failed: returning message to sender (deferred)
+Message-ID: <heur-054@example.com>
+In-Reply-To: <orig-heur-054@example.com>
+X-Failed-Recipients: bounce-hint054@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+This message was created automatically by mail delivery software.
+Temporary failure while talking to remote host.
+full04@example.it
+  451 4.3.2 Try again later

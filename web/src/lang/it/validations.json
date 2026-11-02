@@ -1,0 +1,19 @@
+{
+  "validations": {
+    "requiredField": "Campo obbligatorio",
+    "invalidValue": "Valore non valido",
+    "invalidEmail": "Inserisci un indirizzo email valido",
+    "passwordFormat": "La password deve avere almeno 12 caratteri",
+    "onlyNumbers": "Inserisci solo numeri",
+    "positiveInteger": "Inserisci un numero intero positivo",
+    "invalidDate": "Inserisci una data valida",
+    "dateNotFuture": "La data non può essere futura",
+    "invalidCodiceFiscale": "Inserisci un codice fiscale valido",
+    "invalidPhone": "Inserisci un numero di telefono valido",
+    "invalidUrl": "Inserisci un indirizzo web valido",
+    "maxLength": "Massimo {max} caratteri",
+    "minLength": "Minimo {min} caratteri",
+    "maxFileSize": "Il file non può superare {max} MB",
+    "onlyPdf": "Sono ammessi solo file PDF"
+  }
+}

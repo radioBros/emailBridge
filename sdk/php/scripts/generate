@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -e
+cd "$(dirname "$0")/.."
+OPENAPI="../../api/openapi/openapi.yaml"
+if [ ! -f "$OPENAPI" ]; then
+  echo "missing OpenAPI at $OPENAPI" >&2
+  exit 1
+fi
+echo "OpenAPI source: $OPENAPI"
+echo "PHP SDK uses hand-written client + Problem/Webhook/SSE; no generated classes yet."
+echo "ok"

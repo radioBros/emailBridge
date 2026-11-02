@@ -1,0 +1,31 @@
+{
+  "name": "emailbridge/sdk",
+  "description": "EmailBridge PHP SDK — HTTP client, webhook verifier, SSE helper",
+  "type": "library",
+  "license": "AGPL-3.0-only",
+  "require": {
+    "php": ">=8.2",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.0",
+    "psr/http-message": "^1.0|^2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.0",
+    "nyholm/psr7": "^1.8",
+    "guzzlehttp/guzzle": "^7.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "EmailBridge\\Sdk\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "EmailBridge\\Sdk\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "generate": "sh scripts/generate"
+  }
+}

@@ -1,0 +1,394 @@
+{
+  "switches": {
+    "sandbox": {
+      "enabled": {
+        "label": "Sandbox mode",
+        "description": "Capture outgoing mail instead of sending it."
+      },
+      "recipientPolicy": {
+        "label": "Sandbox recipient policy",
+        "description": "How sandbox handles recipients: allow, rewrite, drop, or capture."
+      }
+    },
+    "inbound": {
+      "authResults": {
+        "label": "Inbound auth results",
+        "description": "Include SPF, DKIM, DMARC and ARC results on received messages."
+      },
+      "archiveRaw": {
+        "label": "Archive raw inbound mail",
+        "description": "Store the raw source of every new message in S3."
+      },
+      "replyText": {
+        "label": "Reply text extraction",
+        "description": "Allow reply-text extraction when the endpoint opts in."
+      },
+      "bounceDetection": {
+        "label": "Bounce detection",
+        "description": "Classify bounces, ARF reports and auto-replies."
+      }
+    },
+    "sync": {
+      "qresync": {
+        "label": "QRESYNC sync",
+        "description": "Use QRESYNC change detection when the mail server offers it."
+      }
+    },
+    "protocolLogs": {
+      "enabled": {
+        "label": "Protocol logs",
+        "description": "Keep per-account IMAP and SMTP transcripts."
+      },
+      "rawDebug": {
+        "label": "Protocol raw debug",
+        "description": "Log full protocol bytes (turns off automatically after a TTL)."
+      }
+    },
+    "webhook": {
+      "signature": {
+        "mode": {
+          "label": "Webhook signature mode",
+          "description": "Choose standard or body-only webhook signatures."
+        }
+      },
+      "secret": {
+        "perEndpoint": {
+          "label": "Per-endpoint webhook secrets",
+          "description": "Use a separate signing secret for each webhook endpoint."
+        },
+        "rotationOverlap": {
+          "label": "Webhook secret rotation overlap",
+          "description": "Dual-sign webhooks while a secret is rotating."
+        }
+      },
+      "mtls": {
+        "label": "Webhook mTLS",
+        "description": "Require a client certificate when delivering webhooks."
+      },
+      "egress": {
+        "blockPrivate": {
+          "label": "Block private webhook egress",
+          "description": "Block delivery to private, ULA, or loopback addresses."
+        }
+      }
+    },
+    "events": {
+      "store": {
+        "label": "Event store",
+        "description": "Keep events available for replay."
+      },
+      "sse": {
+        "label": "Event SSE stream",
+        "description": "Expose the live /v1/events/stream endpoint."
+      }
+    },
+    "rules": {
+      "enabled": {
+        "label": "Routing rules",
+        "description": "Evaluate routing rules."
+      }
+    },
+    "auth": {
+      "password": {
+        "label": "Password sign-in",
+        "description": "Allow password authentication."
+      },
+      "passkeys": {
+        "label": "Passkey sign-in",
+        "description": "Allow passkey authentication."
+      },
+      "totp": {
+        "label": "TOTP MFA",
+        "description": "Allow time-based one-time passwords for MFA."
+      },
+      "emailOtp": {
+        "label": "Email OTP MFA",
+        "description": "Allow email one-time passwords for MFA (needs system mail)."
+      },
+      "oidc": {
+        "label": "OIDC SSO",
+        "description": "Allow OIDC single sign-on for the organisation."
+      }
+    },
+    "apikeys": {
+      "accountBound": {
+        "label": "Account-bound API keys",
+        "description": "Allow API keys bound to a single account."
+      }
+    },
+    "configAsCode": {
+      "enabled": {
+        "label": "Config as code",
+        "description": "Enable YAML plan and apply via CLI and API."
+      }
+    },
+    "mailbox": {
+      "webSafeHtml": {
+        "label": "Safe HTML in payloads",
+        "description": "Allow sanitised HTML in message payloads when the endpoint opts in."
+      },
+      "calendarEvents": {
+        "label": "Calendar events in payloads",
+        "description": "Allow parsed iCalendar data in payloads when the endpoint opts in."
+      }
+    },
+    "attachments": {
+      "s3": {
+        "label": "Attachments in S3",
+        "description": "Store attachments in S3 and serve signed URLs."
+      },
+      "antivirus": {
+        "label": "Attachment antivirus",
+        "description": "Scan attachments with ClamAV before delivery."
+      }
+    },
+    "sending": {
+      "templates": {
+        "label": "Send templates",
+        "description": "Enable send templates."
+      },
+      "listUnsubscribe": {
+        "label": "List-Unsubscribe",
+        "description": "Add RFC 8058 List-Unsubscribe headers."
+      },
+      "suppression": {
+        "label": "Suppression lists",
+        "description": "Check suppression lists before sending."
+      },
+      "throttle": {
+        "label": "Send throttling",
+        "description": "Throttle sending per provider and per domain."
+      },
+      "sendWindows": {
+        "label": "Send windows",
+        "description": "Restrict sending to time-zone windows."
+      },
+      "preSendHook": {
+        "label": "Pre-send policy hook",
+        "description": "Run a policy hook before each send."
+      }
+    },
+    "tracking": {
+      "opens": {
+        "label": "Open tracking",
+        "description": "Track when recipients open messages."
+      },
+      "clicks": {
+        "label": "Click tracking",
+        "description": "Track when recipients click links."
+      }
+    },
+    "oauth": {
+      "tokenExport": {
+        "label": "OAuth token export",
+        "description": "Allow exporting the account OAuth token via the API."
+      }
+    },
+    "accounts": {
+      "authServer": {
+        "label": "External credential server",
+        "description": "Fetch credentials from an external auth server."
+      },
+      "ignoreCertErrors": {
+        "label": "Ignore certificate errors",
+        "description": "Accept invalid mail-server certificates."
+      }
+    },
+    "connect": {
+      "hostedPage": {
+        "label": "Hosted connect page",
+        "description": "Enable the hosted mailbox connect page."
+      }
+    },
+    "protocol": {
+      "msa": {
+        "label": "SMTP submission server",
+        "description": "Run the SMTP mail submission agent."
+      },
+      "imapProxy": {
+        "label": "IMAP proxy",
+        "description": "Run the IMAP proxy."
+      }
+    },
+    "export": {
+      "enabled": {
+        "label": "Bulk export",
+        "description": "Allow bulk mailbox exports."
+      }
+    },
+    "ai": {
+      "enabled": {
+        "label": "AI plugin",
+        "description": "Enable the AI plugin."
+      },
+      "embeddings": {
+        "label": "Semantic search",
+        "description": "Find mail by meaning and ask questions about a mailbox, with the embeddings endpoint of the AI settings. Needs full-text search. Accounts can opt out."
+      }
+    },
+    "mcp": {
+      "enabled": {
+        "label": "MCP endpoint",
+        "description": "Enable the MCP endpoint."
+      }
+    },
+    "integrations": {
+      "<connector>": {
+        "label": "Connector integration",
+        "description": "Enable a third-party connector integration."
+      },
+      "slack": {
+        "label": "Slack integration",
+        "description": "Enable the Slack incoming webhook connector."
+      },
+      "zapier": {
+        "label": "Zapier integration",
+        "description": "Enable the Zapier/Make webhook connector."
+      },
+      "rspamd": {
+        "label": "Rspamd integration",
+        "description": "Enable the Rspamd spam scoring connector."
+      },
+      "teams": {
+        "label": "Microsoft Teams integration",
+        "description": "Enable the Microsoft Teams webhook connector."
+      },
+      "discord": {
+        "label": "Discord integration",
+        "description": "Enable the Discord webhook connector."
+      },
+      "telegram": {
+        "label": "Telegram integration",
+        "description": "Enable the Telegram Bot API connector."
+      },
+      "mattermost": {
+        "label": "Mattermost integration",
+        "description": "Enable the Mattermost webhook connector."
+      },
+      "featherdesk": {
+        "label": "FeatherDesk integration",
+        "description": "Enable the FeatherDesk helpdesk connector."
+      },
+      "helpdesk": {
+        "label": "Helpdesk integration",
+        "description": "Enable the generic helpdesk webhook connector."
+      },
+      "ses": {
+        "label": "Amazon SES integration",
+        "description": "Enable the Amazon SES sending connector."
+      },
+      "postmark": {
+        "label": "Postmark integration",
+        "description": "Enable the Postmark sending connector."
+      },
+      "mailgun": {
+        "label": "Mailgun integration",
+        "description": "Enable the Mailgun sending connector."
+      },
+      "sendgrid": {
+        "label": "SendGrid integration",
+        "description": "Enable the SendGrid sending connector."
+      },
+      "brevo": {
+        "label": "Brevo integration",
+        "description": "Enable the Brevo sending connector."
+      },
+      "gdrive": {
+        "label": "Google Drive integration",
+        "description": "Enable the Google Drive storage connector."
+      },
+      "onedrive": {
+        "label": "OneDrive integration",
+        "description": "Enable the OneDrive/SharePoint storage connector."
+      },
+      "hubspot": {
+        "label": "HubSpot integration",
+        "description": "Enable the HubSpot CRM connector."
+      },
+      "pipedrive": {
+        "label": "Pipedrive integration",
+        "description": "Enable the Pipedrive CRM connector."
+      },
+      "sso-authentik": {
+        "label": "Authentik SSO",
+        "description": "Enable the Authentik SSO preset."
+      },
+      "sso-keycloak": {
+        "label": "Keycloak SSO",
+        "description": "Enable the Keycloak SSO preset."
+      },
+      "sso-entra": {
+        "label": "Microsoft Entra ID SSO",
+        "description": "Enable the Microsoft Entra ID SSO preset."
+      },
+      "sso-google": {
+        "label": "Google Workspace SSO",
+        "description": "Enable the Google Workspace SSO preset."
+      },
+      "sso-okta": {
+        "label": "Okta SSO",
+        "description": "Enable the Okta SSO preset."
+      },
+      "sentry": {
+        "label": "Sentry integration",
+        "description": "Enable the Sentry/GlitchTip observability preset."
+      },
+      "grafana": {
+        "label": "Grafana integration",
+        "description": "Enable the Grafana dashboard preset."
+      },
+      "loki": {
+        "label": "Loki integration",
+        "description": "Enable the Loki labels preset."
+      },
+      "otel": {
+        "label": "OpenTelemetry integration",
+        "description": "Enable the OpenTelemetry collector preset."
+      }
+    },
+    "pec": {
+      "enabled": {
+        "label": "PEC",
+        "description": "Enable the PEC module for the account."
+      },
+      "evidenceArchive": {
+        "label": "PEC evidence archive",
+        "description": "Archive PEC receipts and envelopes with Object Lock."
+      }
+    },
+    "notifications": {
+      "email": {
+        "label": "Email notifications",
+        "description": "Send system notifications by email."
+      }
+    },
+    "sinks": {
+      "nats": {
+        "label": "NATS sink",
+        "description": "Make the NATS event sink available."
+      },
+      "kafka": {
+        "label": "Kafka sink",
+        "description": "Make the Kafka event sink available."
+      },
+      "sqs": {
+        "label": "Amazon SQS sink",
+        "description": "Make the Amazon SQS event sink available."
+      },
+      "sns": {
+        "label": "Amazon SNS sink",
+        "description": "Make the Amazon SNS event sink available."
+      },
+      "pubsub": {
+        "label": "Pub/Sub sink",
+        "description": "Make the Google Pub/Sub event sink available."
+      }
+    },
+    "search": {
+      "fullText": {
+        "label": "Full-text search",
+        "description": "Index the text of every message so the Search page finds mail across all accounts. Accounts can opt out."
+      }
+    }
+  }
+}

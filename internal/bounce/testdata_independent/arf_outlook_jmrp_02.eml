@@ -1,0 +1,36 @@
+From: complaint@outlook.example.com
+To: abuse@example.com
+Subject: FW: Abuse report
+Message-ID: <arf_outlook_jmrp_02@complaint.example.com>
+Date: Mon, 26 Oct 2026 12:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=feedback-report; boundary="arf_arf_outlook_jmrp_02"
+
+--arf_arf_outlook_jmrp_02
+Content-Type: text/plain; charset=utf-8
+
+This is an email abuse report about a message received from IP 192.0.2.50.
+Microsoft JMRP feedback.
+
+--arf_arf_outlook_jmrp_02
+Content-Type: message/feedback-report
+
+Feedback-Type: abuse
+User-Agent: Independent-Corpus/1.0
+Version: 1
+Original-Mail-From: sender@example.com
+Arrival-Date: Mon, 26 Oct 2026 11:55:00 +0000
+Source-IP: 192.0.2.50
+Reported-Domain: example.com
+
+--arf_arf_outlook_jmrp_02
+Content-Type: message/rfc822
+
+From: sender@example.com
+To: victim@example.com
+Subject: Special offer
+Message-ID: <camp-ol-02@example.com>
+Date: Mon, 26 Oct 2026 11:50:00 +0000
+
+Click here...
+--arf_arf_outlook_jmrp_02--

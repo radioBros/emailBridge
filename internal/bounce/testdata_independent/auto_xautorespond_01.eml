@@ -1,0 +1,11 @@
+From: helpdesk@example.com
+To: sender@example.com
+Subject: Ticket received
+Message-ID: <auto-auto_xautorespond_01@example.com>
+Date: Mon, 26 Oct 2026 13:00:00 +0000
+X-Autorespond: yes
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Your ticket has been received. Do not reply.

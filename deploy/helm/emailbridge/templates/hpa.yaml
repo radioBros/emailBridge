@@ -1,0 +1,27 @@
+{{- range $component := list "api" "webhook" }}
+{{- $hpa := index $.Values.autoscaling $component }}
+{{- $role := index $.Values.roles $component }}
+{{- if and $role.enabled $hpa.enabled }}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "emailbridge.fullname" $ }}-{{ $component }}
+  labels:
+    {{- include "emailbridge.componentLabels" (dict "root" $ "component" $component) | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "emailbridge.fullname" $ }}-{{ $component }}
+  minReplicas: {{ $hpa.minReplicas }}
+  maxReplicas: {{ $hpa.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ $hpa.targetCPUUtilizationPercentage }}
+{{- end }}
+{{- end }}

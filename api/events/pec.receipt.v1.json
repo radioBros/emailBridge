@@ -1,0 +1,214 @@
+{
+  "$defs": {
+    "PECRecipient": {
+      "properties": {
+        "address": {
+          "description": "Recipient address",
+          "type": "string"
+        },
+        "kind": {
+          "description": "certificato: a PEC mailbox; esterno: a normal mailbox",
+          "enum": [
+            "certificato",
+            "esterno"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "address",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "PECSignature": {
+      "properties": {
+        "trusted": {
+          "description": "Signer chains to a configured trust anchor; null when no anchors are configured",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "valid": {
+          "description": "The S/MIME signature verifies",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "valid",
+        "trusted"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/pec.receipt/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "at": "2026-10-27T08:30:07Z",
+        "deliveredTo": "studio.rossi@pec.example.it",
+        "error": "nessuno",
+        "externalId": "crm-48213",
+        "messageId": "msg_01m5cnaee070z834j1neyr6a58",
+        "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+        "pecState": "delivered",
+        "provider": "pec.example.it",
+        "receiptId": "rcp_01m5d20y80n4ps0apz3e6baqq3",
+        "receiptKind": "completa",
+        "recipients": [
+          {
+            "address": "studio.rossi@pec.example.it",
+            "kind": "certificato"
+          }
+        ],
+        "refMessageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+        "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+        "signature": {
+          "trusted": true,
+          "valid": true
+        },
+        "transportId": "opec210312.20261027093006.123456.789.1.53@pec.example.it",
+        "type": "avvenuta-consegna"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/pec.receipt/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5dzndt02er7qagrrs531p8g",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "rcp_01m5d20y80n4ps0apz3e6baqq3",
+      "time": "2026-10-27T08:30:09.226Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "pec.receipt"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "at": "2026-10-27T08:30:07Z",
+      "deliveredTo": "studio.rossi@pec.example.it",
+      "error": "nessuno",
+      "externalId": "crm-48213",
+      "messageId": "msg_01m5cnaee070z834j1neyr6a58",
+      "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "pecState": "delivered",
+      "provider": "pec.example.it",
+      "receiptId": "rcp_01m5d20y80n4ps0apz3e6baqq3",
+      "receiptKind": "completa",
+      "recipients": [
+        {
+          "address": "studio.rossi@pec.example.it",
+          "kind": "certificato"
+        }
+      ],
+      "refMessageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+      "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "signature": {
+        "trusted": true,
+        "valid": true
+      },
+      "transportId": "opec210312.20261027093006.123456.789.1.53@pec.example.it",
+      "type": "avvenuta-consegna"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "at": {
+      "description": "Date and time in the receipt",
+      "format": "date-time",
+      "type": "string"
+    },
+    "deliveredTo": {
+      "description": "Recipient the receipt confirms",
+      "type": "string"
+    },
+    "error": {
+      "description": "daticert errore value (nessuno = none)",
+      "type": "string"
+    },
+    "errorDetail": {
+      "description": "daticert errore-esteso text",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "messageId": {
+      "description": "The receipt in the index (msg_…)",
+      "type": "string"
+    },
+    "outboundId": {
+      "description": "Linked outbound message, when EmailBridge sent the original",
+      "type": "string"
+    },
+    "pecState": {
+      "description": "Outbound PEC state after this receipt (S17 §5.2)",
+      "type": "string"
+    },
+    "provider": {
+      "description": "PEC provider that issued the receipt",
+      "type": "string"
+    },
+    "receiptId": {
+      "description": "rcp_…",
+      "type": "string"
+    },
+    "receiptKind": {
+      "description": "completa, breve or sintetica",
+      "type": "string"
+    },
+    "recipients": {
+      "description": "Addressees listed in daticert.xml",
+      "items": {
+        "$ref": "#/$defs/PECRecipient"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "refMessageIdHeader": {
+      "description": "X-Riferimento-Message-ID: the original's Message-ID",
+      "type": "string"
+    },
+    "sha256": {
+      "description": "SHA-256 of the raw receipt (hex)",
+      "type": "string"
+    },
+    "signature": {
+      "$ref": "#/$defs/PECSignature",
+      "description": "S/MIME check of the receipt"
+    },
+    "transportId": {
+      "description": "PEC transport identifier (identificativo)",
+      "type": "string"
+    },
+    "type": {
+      "description": "accettazione, non-accettazione, presa-in-carico, avvenuta-consegna, errore-consegna, preavviso-errore-consegna, rilevazione-virus",
+      "type": "string"
+    }
+  },
+  "required": [
+    "receiptId",
+    "messageId",
+    "type",
+    "transportId",
+    "at",
+    "signature",
+    "sha256",
+    "accountId",
+    "externalId"
+  ],
+  "title": "pec.receipt data (v1)",
+  "type": "object"
+}

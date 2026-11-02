@@ -1,0 +1,15 @@
+From: Microsoft Exchange <MicrosoftExchange329e71ec88ae4615bbc36ab6ce41109e@example.com>
+To: sender@example.com
+Subject: Undeliverable: Hello
+Message-ID: <heur-heur_exchange_hard_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Delivery has failed to these recipients or groups:
+
+missing@example.com
+Your message wasn't delivered. Despite repeated attempts to deliver your message, the recipient's email system refused to accept it.
+
+Remote Server returned '550 5.1.1 RESOLVER.ADR.RecipNotFound'
+

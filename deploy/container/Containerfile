@@ -1,0 +1,49 @@
+# EmailBridge multi-stage image.
+# Podman: podman build -f deploy/container/Containerfile -t emailbridge:dev .
+# Docker: docker build -f deploy/container/Containerfile -t emailbridge:dev .
+
+# Admin SPA build; embedded into the binary with -tags embedweb. The SPA is the same on every platform,
+# so it builds on the build host's own CPU (no emulation for multi-arch images).
+FROM --platform=$BUILDPLATFORM node:22-alpine AS web
+WORKDIR /src/web
+RUN corepack enable
+# pnpm-workspace.yaml carries the allow-list of packages whose install scripts may run (pnpm 10 refuses others).
+COPY web/package.json web/pnpm-lock.yaml web/pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY web/ ./
+RUN pnpm build
+
+# Cross-compiles for the target platform on the build host's CPU (CGO is off).
+FROM --platform=$BUILDPLATFORM golang:1.27 AS build
+WORKDIR /src
+ARG TARGETOS
+ARG TARGETARCH
+
+ARG VERSION=dev
+ARG COMMIT=none
+ARG DATE=unknown
+
+COPY go.mod go.sum ./
+# Local replace targets (patched go-imap, limen-passkey) must exist before go mod download.
+COPY third_party/ ./third_party/
+RUN --mount=type=cache,target=/go/pkg/mod \
+	go mod download
+
+COPY . .
+COPY --from=web /src/web/dist ./internal/webui/dist
+RUN --mount=type=cache,target=/go/pkg/mod \
+	--mount=type=cache,target=/root/.cache/go-build \
+	CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -tags embedweb \
+	-ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" \
+	-o /out/emailbridge ./cmd/emailbridge
+
+FROM gcr.io/distroless/static-debian12:nonroot
+COPY --from=build /out/emailbridge /emailbridge
+USER 65532:65532
+EXPOSE 8080 9090
+VOLUME /data
+ENTRYPOINT ["/emailbridge"]
+CMD ["serve"]
+# Docker honours HEALTHCHECK; Podman ignores it in OCI format — compose/quadlet also declare it.
+HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 \
+	CMD ["/emailbridge", "healthcheck"]

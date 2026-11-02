@@ -1,0 +1,11 @@
+From: Microsoft Outlook <postmaster@exchange.example.com>
+To: sender@example.com
+Subject: Undeliverable: Your message
+Message-ID: <heur-007@example.com>
+In-Reply-To: <orig-heur-007@example.com>
+X-Failed-Recipients: bounce-hint007@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Your message to fail07@example.com couldn't be delivered.
+Remote server returned '550 5.1.1 RESOLVER.ADR.RecipNotFound; not found'

@@ -1,0 +1,25 @@
+// Icon rendering.
+//
+// Icons are FontAwesome SVGs inlined by `core/config/AwesomeIconSet.ts`. The set fetches the markup
+// and drops it into a `.awesome-icon` wrapper, so the sizing rules that would normally live on an
+// icon font's `@font-face` live here instead.
+
+.awesome-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+
+  > svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+
+    // The CDN's duotone SVGs paint with `fill="currentColor"` and give their secondary path
+    // `opacity: .4`, so the icon tints itself from whatever colour it inherits. Nothing here should
+    // set `fill` — doing so would flatten the duotone to a single tone.
+    fill: currentcolor;
+  }
+}

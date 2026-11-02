@@ -1,0 +1,119 @@
+// AppCard — the standard card surface.
+//
+// Ported from the reference project's `assets/styles/imports/_cards.scss`, reduced to what this
+// product uses and remapped onto the Teamable tokens (the original's `$card-bg`, `--smoke` and
+// `--border` do not exist here). The original's `.segments` block was dropped: it was two thirds of
+// the file, was built from hand-written media queries, and `v-row`/`v-col` expresses the same
+// layout — CLAUDE.md §3.5.
+//
+// Spec: `development/UI-guidelines/design-tokens_spec.md` §3, §3.3.
+
+.app-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: rgb(var(--v-theme-surface));
+  border: 1px solid var(--border);
+  width: 100%;
+  height: 100%;
+
+  // Radius from the central token (settings.scss / --radius = 12 px).
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+
+  > .app-card-header,
+  > .app-card-footer {
+    display: flex;
+    align-items: center;
+    min-height: 55px;
+    padding: 4px 20px;
+
+    // Theme token `card-header` (grey in light) — see VuetifyThemes.ts / W71.
+    color: rgb(var(--v-theme-on-card-header));
+
+    // An empty header or footer bar would otherwise render as a stray 55px stripe.
+    &:empty {
+      display: none;
+    }
+
+    > * {
+      width: 100%;
+    }
+  }
+
+  > .app-card-header {
+    border-bottom: 1px solid var(--border);
+    background-color: rgb(var(--v-theme-card-header));
+  }
+
+  > .app-card-footer {
+    border-top: 1px solid var(--border);
+  }
+
+  // Dense variant — used inside dialogs and side panels where the standard bar is too tall.
+  &.slim {
+    > .app-card-header,
+    > .app-card-footer {
+      min-height: 0;
+      padding: 8px 12px;
+    }
+  }
+
+  > .app-card-content {
+    overflow: hidden auto;
+  }
+
+  // Elevation is for genuinely floating surfaces only (§3). Soft recipe from --elevated-shadow.
+  &.elevated {
+    box-shadow: var(--elevated-shadow);
+  }
+
+  &.selectable {
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--accent-soft);
+    }
+  }
+
+  &.selected {
+    border-color: var(--accent);
+    background-color: var(--accent-soft);
+  }
+
+  // Dialog / bottom-sheet panel — body scrolls; header + footer stay fixed.
+  &.app-panel {
+    height: auto;
+    max-height: min(90dvh, calc(100dvh - 48px));
+
+    > .app-card-content {
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+  }
+
+  // Side detail drawer — fill the navigation-drawer height.
+  &.app-drawer-panel {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+
+    > .app-card-content {
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+  }
+
+  &.app-sheet-panel {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+// Temporary detail drawers: keep header/footer fixed; only the body scrolls.
+.v-navigation-drawer:has(.app-drawer-panel) > .v-navigation-drawer__content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

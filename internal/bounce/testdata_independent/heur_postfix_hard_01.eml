@@ -1,0 +1,16 @@
+From: double-bounce@mail.example.com
+To: sender@example.com
+Subject: Undelivered Mail Returned to Sender
+Message-ID: <heur-heur_postfix_hard_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+This is the mail system at host mail.example.com.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients.
+
+<nouser@example.it>: host mx.example.it[192.0.2.10] said:
+    550 5.1.1 User unknown (in reply to RCPT TO command)
+

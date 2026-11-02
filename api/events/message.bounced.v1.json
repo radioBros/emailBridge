@@ -1,0 +1,105 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/message.bounced/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "action": "failed",
+        "bounceType": "hard",
+        "diagnostic": "smtp; 550 5.1.1 User unknown",
+        "externalId": "crm-48213",
+        "messageId": "msg_01m5ck6pf0bf4meam7jp1fbskf",
+        "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+        "mta": "mx1.example.org",
+        "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+        "recipient": "giulia.bianchi@example.org",
+        "status": "5.1.1"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/message.bounced/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5dgv610p98z84d29j5x3pmt",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "msg_01m5ck6pf0bf4meam7jp1fbskf",
+      "time": "2026-10-27T08:31:15.664Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "message.bounced"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "action": "failed",
+      "bounceType": "hard",
+      "diagnostic": "smtp; 550 5.1.1 User unknown",
+      "externalId": "crm-48213",
+      "messageId": "msg_01m5ck6pf0bf4meam7jp1fbskf",
+      "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+      "mta": "mx1.example.org",
+      "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "recipient": "giulia.bianchi@example.org",
+      "status": "5.1.1"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "action": {
+      "description": "DSN action, e.g. failed or delayed",
+      "type": "string"
+    },
+    "bounceType": {
+      "description": "hard | soft",
+      "type": "string"
+    },
+    "diagnostic": {
+      "description": "Remote diagnostic, at most 512 characters",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "messageId": {
+      "description": "The bounce message (msg_…); empty when a sending provider reported the bounce (then the event subject is the outbound message)",
+      "type": "string"
+    },
+    "messageIdHeader": {
+      "description": "Message-ID of the original message, when known",
+      "type": "string"
+    },
+    "mta": {
+      "description": "Reporting MTA",
+      "type": "string"
+    },
+    "outboundId": {
+      "description": "The outbound message that bounced, when correlated",
+      "type": "string"
+    },
+    "recipient": {
+      "description": "Recipient that bounced",
+      "type": "string"
+    },
+    "status": {
+      "description": "Enhanced status code, e.g. 5.1.1",
+      "type": "string"
+    }
+  },
+  "required": [
+    "messageId",
+    "recipient",
+    "action",
+    "bounceType",
+    "accountId",
+    "externalId"
+  ],
+  "title": "message.bounced data (v1)",
+  "type": "object"
+}

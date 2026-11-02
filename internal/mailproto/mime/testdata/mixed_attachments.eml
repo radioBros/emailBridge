@@ -1,0 +1,27 @@
+Mime-Version: 1.0
+Content-Type: multipart/mixed; boundary=b00000001
+Message-Id: <mix@example.com>
+Date: Sun, 25 Oct 2026 14:00:00 +0000
+Subject: Mixed
+To: <to@example.com>
+From: <from@example.com>
+
+--b00000001
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+
+files
+
+--b00000001
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=a.txt
+Content-Type: text/plain; name=a.txt
+
+YWFh
+--b00000001
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=b.bin
+Content-Type: application/octet-stream; name=b.bin
+
+AAECAw==
+--b00000001--

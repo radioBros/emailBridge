@@ -1,0 +1,13 @@
+From: Mailer-Daemon <mailer-daemon@sendmail.example.com>
+To: sender@example.com
+Subject: Returned mail: User unknown (deferred)
+Message-ID: <heur-055@example.com>
+In-Reply-To: <orig-heur-055@example.com>
+X-Failed-Recipients: bounce-hint055@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+The original message was received at Mon, 1 Jan 2024
+----- Transient non-fatal errors -----
+<full05@example.com>
+(reason: 421 4.4.1 Connection timed out)

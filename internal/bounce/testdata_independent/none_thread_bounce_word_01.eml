@@ -1,0 +1,11 @@
+From: dev@example.com
+To: reader@example.com
+Subject: Re: handling bounce types in code
+Message-ID: <none-none_thread_bounce_word_01@example.com>
+Date: Mon, 26 Oct 2026 15:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+We should treat hard vs soft bounce differently in the app.
+Also auto-reply and complaint kinds. Design discussion only.
+

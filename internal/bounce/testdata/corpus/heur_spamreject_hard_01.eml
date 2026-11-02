@@ -1,0 +1,8 @@
+From: Mailer-Daemon <mailer-daemon@mx.example.com>
+To: sender@example.com
+Subject: Returned mail: see transcript for details
+X-Failed-Recipients: spam@example.com
+Message-ID: <heur-spam-01@example.com>
+
+This is the mail system at host mx.example.com.
+<spam@example.com>: host mx said: 550 5.7.1 Message rejected as spam

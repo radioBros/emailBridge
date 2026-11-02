@@ -1,0 +1,7 @@
+# Operations whose documentation does not meet the W70 standard yet (ratchet: only ever remove lines).
+# Regenerate with EB_OPENAPI_LINT_WRITE_ALLOW=1 go test ./tools/openapi/lint/ -run TestOperations
+getNotificationsSummary
+listNotifications
+markAllNotificationsRead
+markNotificationsRead
+resolveNotification

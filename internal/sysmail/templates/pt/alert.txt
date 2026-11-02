@@ -1,0 +1,5 @@
+EmailBridge
+
+{{.Title}}
+
+{{.Body}}

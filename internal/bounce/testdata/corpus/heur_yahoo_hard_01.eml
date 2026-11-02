@@ -1,0 +1,13 @@
+From: Mailer-Daemon <mailer-daemon@yahoo.com>
+To: sender@example.com
+Subject: Failure Delivery
+Message-ID: <heur-011@example.com>
+In-Reply-To: <orig-heur-011@example.com>
+X-Failed-Recipients: bounce-hint011@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Sorry, we were unable to deliver your message to the following address.
+
+<fail11@example.com>:
+550 5.1.1 User doesn't exist

@@ -1,0 +1,129 @@
+{
+  "$defs": {
+    "Envelope": {
+      "properties": {
+        "from": {
+          "description": "SMTP MAIL FROM address",
+          "type": "string"
+        },
+        "to": {
+          "description": "SMTP RCPT TO addresses",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/message.captured/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "captureId": "cap_01m5cxsea0rtzhbgs97gnj9kqm",
+        "envelope": {
+          "from": "reception@example.com",
+          "to": [
+            "giulia.bianchi@example.org"
+          ]
+        },
+        "externalId": "crm-48213",
+        "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+        "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+        "policy": "capture",
+        "subject": "Your appointment on 4 November"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/message.captured/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5deqe20xh52jw94xna6cv58",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "time": "2026-10-27T08:30:01.093Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "message.captured"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "captureId": "cap_01m5cxsea0rtzhbgs97gnj9kqm",
+      "envelope": {
+        "from": "reception@example.com",
+        "to": [
+          "giulia.bianchi@example.org"
+        ]
+      },
+      "externalId": "crm-48213",
+      "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+      "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "policy": "capture",
+      "subject": "Your appointment on 4 November"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "captureId": {
+      "description": "Sandbox capture ID (cap_…)",
+      "type": "string"
+    },
+    "envelope": {
+      "$ref": "#/$defs/Envelope",
+      "description": "SMTP envelope"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "messageIdHeader": {
+      "description": "Message-ID header of the sent message",
+      "type": "string"
+    },
+    "outboundId": {
+      "description": "Outbound ID (out_…)",
+      "type": "string"
+    },
+    "policy": {
+      "description": "Sandbox policy that applied",
+      "enum": [
+        "capture",
+        "rewrite",
+        "drop"
+      ],
+      "type": "string"
+    },
+    "subject": {
+      "description": "Subject of the message",
+      "type": "string"
+    }
+  },
+  "required": [
+    "captureId",
+    "policy",
+    "outboundId",
+    "messageIdHeader",
+    "envelope",
+    "subject",
+    "accountId",
+    "externalId"
+  ],
+  "title": "message.captured data (v1)",
+  "type": "object"
+}

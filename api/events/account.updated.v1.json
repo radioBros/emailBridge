@@ -1,0 +1,66 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/account.updated/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "changed": [
+          "name",
+          "sync"
+        ],
+        "externalId": "crm-48213"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/account.updated/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5caqpk0sz1anw6qhh3nyjzp",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "time": "2026-10-22T15:31:07.12Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "account.updated"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "changed": [
+        "name",
+        "sync"
+      ],
+      "externalId": "crm-48213"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "changed": {
+      "description": "Top-level field names that changed",
+      "items": {
+        "type": "string"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "changed",
+    "accountId",
+    "externalId"
+  ],
+  "title": "account.updated data (v1)",
+  "type": "object"
+}

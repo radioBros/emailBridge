@@ -1,0 +1,37 @@
+From: Postmaster <postmaster@zimbra.example.com>
+To: sender@example.com
+Subject: Undelivered Mail Returned to Sender
+Message-ID: <bounce-dsn_zimbra_soft_01@mail.example.com>
+Date: Mon, 26 Oct 2026 10:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status; boundary="bnd_dsn_zimbra_soft_01"
+Auto-Submitted: auto-replied
+
+--bnd_dsn_zimbra_soft_01
+Content-Type: text/plain; charset=utf-8
+
+Recipient over quota.
+
+--bnd_dsn_zimbra_soft_01
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; zimbra.example.com
+Arrival-Date: Mon, 26 Oct 2026 09:59:00 +0000
+
+Final-Recipient: rfc822; quota@zimbra.example.com
+Action: delayed
+Status: 4.2.2
+Diagnostic-Code: smtp; 452 4.2.2 Over quota
+Remote-MTA: dns; mx.example.it
+
+--bnd_dsn_zimbra_soft_01
+Content-Type: message/rfc822
+
+From: sender@example.com
+To: quota@zimbra.example.com
+Subject: Your invoice
+Message-ID: <orig-zm-s1@example.com>
+Date: Mon, 26 Oct 2026 09:58:00 +0000
+
+Body of original.
+--bnd_dsn_zimbra_soft_01--

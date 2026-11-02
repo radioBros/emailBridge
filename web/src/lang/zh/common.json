@@ -1,0 +1,10 @@
+{
+  "common": {
+    "search": "搜索",
+    "close": "关闭",
+    "states": {
+      "loading": "加载中",
+      "refreshing": "刷新中"
+    }
+  }
+}

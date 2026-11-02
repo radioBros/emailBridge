@@ -1,0 +1,11 @@
+From: alice@example.com
+To: team@example.com
+Subject: Re: Undelivered Mail Returned to Sender
+Message-ID: <none-023@example.com>
+In-Reply-To: <bounce-x@example.com>
+
+Weird bounce I received — quoting it here:
+
+> I'm sorry to have to inform you that your message could not
+> be delivered to one or more recipients.
+> <nobody@example.com>: host mx said: 550 5.1.1 User unknown

@@ -1,0 +1,65 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/account.auth_succeeded/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "externalId": "crm-48213",
+        "failedFor": "48m38s",
+        "protocol": "imap"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/account.auth_succeeded/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5cnaee070z834j1neyr6a58",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "time": "2026-10-26T09:02:41.007Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "account.auth_succeeded"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "externalId": "crm-48213",
+      "failedFor": "48m38s",
+      "protocol": "imap"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "failedFor": {
+      "description": "Duration of the failure period (Go duration string)",
+      "type": "string"
+    },
+    "protocol": {
+      "description": "Protocol whose login works again",
+      "enum": [
+        "imap",
+        "smtp"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "protocol",
+    "failedFor",
+    "accountId",
+    "externalId"
+  ],
+  "title": "account.auth_succeeded data (v1)",
+  "type": "object"
+}

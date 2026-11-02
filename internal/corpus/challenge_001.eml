@@ -1,0 +1,10 @@
+From: challenge@filter.example.com
+To: you@example.com
+Subject: Confirmation required — challenge 1
+X-Challenge: token-1
+Message-ID: <ch-001@example.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Your message is being held by a challenge-response spam filter.
+Please confirm by sending a blank reply.

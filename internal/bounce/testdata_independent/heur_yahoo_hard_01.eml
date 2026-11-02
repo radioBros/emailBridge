@@ -1,0 +1,13 @@
+From: MAILER-DAEMON@yahoo.example.com
+To: sender@example.com
+Subject: Failure Notice
+Message-ID: <heur-heur_yahoo_hard_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Sorry, we were unable to deliver your message to the following address.
+
+<missing@yahoo.example.com>:
+Remote host said: 554 delivery error: dd This user doesn't have a yahoo account
+

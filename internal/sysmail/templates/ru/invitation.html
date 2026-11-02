@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="ru">
+<body style="font-family:system-ui,sans-serif;line-height:1.5;color:#111;max-width:32rem;margin:1.5rem auto;padding:0 1rem">
+<p style="font-size:1.25rem;font-weight:600;margin:0 0 1rem">EmailBridge</p>
+<p>Приглашение{{if .OrgName}} в организацию <strong>{{.OrgName}}</strong>{{end}}{{if .InviterName}} от {{.InviterName}}{{end}}.</p>
+<p><a href="{{.InviteURL}}">Принять приглашение</a></p>
+<p style="color:#555">Если вы не ожидали этого письма, можете проигнорировать сообщение.</p>
+</body>
+</html>

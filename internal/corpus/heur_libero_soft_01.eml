@@ -1,0 +1,11 @@
+From: Mailer-Daemon <mailer-daemon@libero.it>
+To: sender@example.com
+Subject: Non recapitabile: utente sconosciuto (deferred)
+Message-ID: <heur-069@example.com>
+In-Reply-To: <orig-heur-069@example.com>
+X-Failed-Recipients: bounce-hint069@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Delivery error from mail.libero.it
+full19@example.it: 421 resources temporarily unavailable

@@ -1,0 +1,18 @@
+{
+  "tables": {
+    "search_placeholder": "Поиск",
+    "no_results": "Нет результатов",
+    "configure_columns": "Настроить столбцы",
+    "reset_widths": "Сбросить ширину",
+    "resize_column": "Изменить ширину столбца {column}",
+    "show": "Показать",
+    "entries": "строк",
+    "items_per_page": "Строк на странице",
+    "showing_items": "{from}–{to} из {total}",
+    "sort_by": "Сортировать по",
+    "sort_ascending": "По возрастанию, переключить на убывание",
+    "sort_descending": "По убыванию, переключить на возрастание",
+    "load_more_failed": "Не удалось загрузить ещё",
+    "retry": "Повторить"
+  }
+}

@@ -1,0 +1,147 @@
+// Global helper classes — step 2 of the styling ladder (CLAUDE.md §3.5).
+//
+// Step 1 is a Vuetify utility class and is the answer for essentially all layout and spacing.
+// A class earns a place in this file only when it is BOTH recurring AND inexpressible as a
+// utility — `grid-template-columns`, a pseudo-selector, a tint, real geometry.
+//
+// If you are about to add a class here that is `display: flex` plus a `gap`, stop: that is
+// `d-flex ga-*`.
+
+/// App-bar icon buttons: tonal pressed state with 12 px radius (never a light grey square + border).
+.v-app-bar {
+  .v-btn {
+    border-radius: var(--radius);
+
+    &.v-btn--active,
+    &[aria-expanded="true"] {
+      background: rgb(var(--v-theme-on-surface) / 8%);
+
+      .v-btn__overlay {
+        opacity: 0;
+      }
+    }
+
+    &:hover > .v-btn__overlay,
+    &:focus-visible > .v-btn__overlay {
+      opacity: 0.08;
+    }
+  }
+}
+
+/// Table toolbar slot: keep filters on one desktop row even when callers pass `w-100`.
+/// Min-width fits long de/ru labels + options (e.g. "Alle Status", "Все состояния");
+/// wrap on narrow viewports instead of truncating with ellipsis.
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+
+  > * {
+    flex: 1 1 15rem;
+    width: auto !important;
+    min-width: min(100%, 15rem);
+    max-width: 100%;
+  }
+}
+
+/// Standalone filter fields (outbox / logs / deliveries rows outside ServerTable toolbar).
+.table-filter {
+  min-width: min(100%, 15rem);
+}
+
+/// Responsive form-field grid.
+///
+/// Two columns from `md` up, one below. `align-items: start` is the load-bearing part — without it
+/// a field showing helper or error text stretches every sibling in its row.
+/// `grid-template-columns` is why this is a class and not `d-grid` plus utilities.
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+
+  @media (width >= 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /// A field that should span the full width of the grid regardless of breakpoint.
+  > .field-grid__full {
+    grid-column: 1 / -1;
+  }
+}
+
+/// Clamps text to N lines with an ellipsis. `-webkit-line-clamp` has no utility equivalent.
+.truncate-1,
+.truncate-2,
+.truncate-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-1 {
+  -webkit-line-clamp: 1;
+}
+
+.truncate-2 {
+  -webkit-line-clamp: 2;
+}
+
+.truncate-3 {
+  -webkit-line-clamp: 3;
+}
+
+/// Numeric columns: IBM Plex Mono with tabular figures, so columns of hours align and scan.
+/// design-tokens_spec.md §2 — "monospace for numbers is not decoration".
+.text-numeric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/// Grid children in a flex row must be allowed to shrink or long content forces a horizontal
+/// scrollbar on the page. Pairs with Vuetify's `text-truncate`.
+.min-w-0 {
+  min-width: 0;
+}
+
+/// Width bounds for toolbar fields (ServerTable / CardList search and sort). Same names as the
+/// reference project's generated size utilities, so templates port unchanged.
+.min-175 {
+  min-width: 175px;
+}
+
+.max-300 {
+  max-width: 300px;
+}
+.max-500 {
+  max-width: 500px;
+}
+
+.min-100 {
+  min-width: 100px;
+}
+
+/// Disabled coloured buttons must keep their hue at reduced emphasis (not a grey wash).
+$disabled-btn-colors: primary, secondary, success, info, warning, error, accent;
+
+@each $c in $disabled-btn-colors {
+  .v-btn--disabled.bg-#{$c},
+  .v-btn--disabled.v-btn--variant-flat.bg-#{$c},
+  .v-btn--disabled.v-btn--variant-elevated.bg-#{$c} {
+    opacity: 0.55 !important;
+    background-color: rgb(var(--v-theme-#{$c})) !important;
+    color: rgb(var(--v-theme-on-#{$c})) !important;
+
+    .v-btn__overlay {
+      opacity: 0 !important;
+    }
+  }
+
+  .v-btn--disabled.text-#{$c},
+  .v-btn--disabled.v-btn--variant-tonal.text-#{$c} {
+    opacity: 0.55 !important;
+    color: rgb(var(--v-theme-#{$c})) !important;
+  }
+}

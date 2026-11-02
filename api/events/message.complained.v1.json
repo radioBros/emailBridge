@@ -1,0 +1,78 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/message.complained/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "externalId": "crm-48213",
+        "feedbackType": "abuse",
+        "messageId": "msg_01m5ck6pf0bf4meam7jp1fbskf",
+        "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+        "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+        "recipient": "giulia.bianchi@example.org"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/message.complained/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5djyy00twg21xrfk5ssypq7",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "msg_01m5ck6pf0bf4meam7jp1fbskf",
+      "time": "2026-10-27T13:48:20.218Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "message.complained"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "externalId": "crm-48213",
+      "feedbackType": "abuse",
+      "messageId": "msg_01m5ck6pf0bf4meam7jp1fbskf",
+      "messageIdHeader": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+      "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "recipient": "giulia.bianchi@example.org"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "feedbackType": {
+      "description": "ARF Feedback-Type, e.g. abuse",
+      "type": "string"
+    },
+    "messageId": {
+      "description": "The complaint message (msg_…); empty when a sending provider reported the complaint",
+      "type": "string"
+    },
+    "messageIdHeader": {
+      "description": "Message-ID of the original message, when known",
+      "type": "string"
+    },
+    "outboundId": {
+      "description": "The outbound message complained about, when correlated",
+      "type": "string"
+    },
+    "recipient": {
+      "description": "Recipient who complained, when the report names one",
+      "type": "string"
+    }
+  },
+  "required": [
+    "messageId",
+    "accountId",
+    "externalId"
+  ],
+  "title": "message.complained data (v1)",
+  "type": "object"
+}

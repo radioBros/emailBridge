@@ -1,0 +1,7 @@
+EmailBridge
+
+Hallo{{if .Name}}, {{.Name}}{{end}},
+
+E-Mail-Adresse bestätigen: {{.VerifyURL}}
+
+Wenn Sie kein EmailBridge-Konto erstellt haben, können Sie diese Nachricht ignorieren.

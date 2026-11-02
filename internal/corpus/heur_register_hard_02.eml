@@ -1,0 +1,11 @@
+From: Postmaster <postmaster@register.it>
+To: sender@example.com
+Subject: Errore di consegna: non recapitabile
+Message-ID: <heur-018@example.com>
+In-Reply-To: <orig-heur-018@example.com>
+X-Failed-Recipients: bounce-hint018@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Il messaggio non e' recapitabile a fail18@example.it
+550 5.1.1 user unknown — permanent failure

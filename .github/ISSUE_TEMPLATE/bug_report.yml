@@ -1,0 +1,96 @@
+name: Bug report
+description: Report a defect in EmailBridge
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Do not paste secrets or private mail.** Strip passwords, tokens, API keys, webhook secrets,
+        and message content or addresses from every field and from any log excerpt before you submit.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What went wrong, including any error message or problem code.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What should have happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps someone else can follow.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: EmailBridge version or commit
+      description: Release tag or git commit SHA.
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Deployment tier
+      options:
+        - small
+        - medium
+        - large
+        - dev
+    validations:
+      required: true
+  - type: dropdown
+    id: roles
+    attributes:
+      label: Roles involved
+      description: Which process roles were running when it failed.
+      multiple: true
+      options:
+        - all
+        - api
+        - sync
+        - submit
+        - webhook
+        - scheduler
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Mail provider type
+      options:
+        - generic IMAP/SMTP
+        - Gmail
+        - Microsoft 365
+        - PEC
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log lines
+      description: Include a correlation or trace ID when you have one. Redact secrets and mail content first.
+      render: shell
+    validations:
+      required: false
+  - type: checkboxes
+    id: redaction
+    attributes:
+      label: Redaction confirmation
+      description: Required before submit.
+      options:
+        - label: I removed passwords, tokens, API keys, webhook secrets and message content/addresses from everything above.
+          required: true

@@ -1,0 +1,11 @@
+From: Mail Delivery System <postmaster@aruba.it>
+To: sender@example.com
+Subject: Messaggio non consegnato — indirizzo inesistente (deferred)
+Message-ID: <heur-065@example.com>
+In-Reply-To: <orig-heur-065@example.com>
+X-Failed-Recipients: bounce-hint065@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Impossibile consegnare il messaggio a full15@example.it
+Casella piena / quota: 452 4.2.2 mailbox full

@@ -1,0 +1,5 @@
+# Podman Quadlet network for the EmailBridge small tier.
+# Install: see README.md in this directory.
+
+[Network]
+NetworkName=emailbridge

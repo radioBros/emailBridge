@@ -1,0 +1,7 @@
+EmailBridge
+
+Hola{{if .Name}}, {{.Name}}{{end}}:
+
+Tu código de verificación es: {{.Code}}
+
+Caduca en breve. Si no lo has solicitado, puedes ignorar este mensaje.

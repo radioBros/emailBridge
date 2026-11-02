@@ -1,0 +1,9 @@
+{
+  "update": {
+    "available_title": "Update available",
+    "available_body": "A new version is available. Reload to use it — unsaved work will be lost.",
+    "reload": "Reload",
+    "later": "Later",
+    "indicator_tooltip": "New version available — click to reload"
+  }
+}

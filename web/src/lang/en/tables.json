@@ -1,0 +1,18 @@
+{
+  "tables": {
+    "search_placeholder": "Search",
+    "no_results": "No results",
+    "configure_columns": "Configure columns",
+    "reset_widths": "Reset widths",
+    "resize_column": "Resize column {column}",
+    "show": "Show",
+    "entries": "rows",
+    "items_per_page": "Rows per page",
+    "showing_items": "{from}–{to} of {total}",
+    "sort_by": "Sort by",
+    "sort_ascending": "Ascending, switch to descending",
+    "sort_descending": "Descending, switch to ascending",
+    "load_more_failed": "Could not load more items",
+    "retry": "Retry"
+  }
+}

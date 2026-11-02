@@ -1,0 +1,904 @@
+{
+  "$defs": {
+    "Address": {
+      "properties": {
+        "address": {
+          "description": "E-mail address",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "address"
+      ],
+      "type": "object"
+    },
+    "AttachmentInfo": {
+      "properties": {
+        "contentId": {
+          "description": "Content-ID for inline parts",
+          "type": "string"
+        },
+        "contentType": {
+          "description": "MIME type of the part",
+          "type": "string"
+        },
+        "disposition": {
+          "description": "attachment or inline",
+          "type": "string"
+        },
+        "filename": {
+          "description": "File name from the MIME part",
+          "type": "string"
+        },
+        "id": {
+          "description": "Attachment ID (att_…)",
+          "type": "string"
+        },
+        "partId": {
+          "description": "MIME part number (e.g. 2 or 1.2)",
+          "type": "string"
+        },
+        "scan": {
+          "description": "Malware scan result: clean, infected, error or skipped",
+          "type": "string"
+        },
+        "size": {
+          "description": "Decoded size in bytes",
+          "format": "int64",
+          "type": "integer"
+        },
+        "url": {
+          "description": "Signed download URL, when attachments are stored in object storage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contentType",
+        "size",
+        "partId"
+      ],
+      "type": "object"
+    },
+    "AuthResult": {
+      "properties": {
+        "domain": {
+          "description": "Domain that was checked",
+          "type": "string"
+        },
+        "result": {
+          "description": "Verdict: pass, fail, softfail, neutral, none, temperror or permerror",
+          "type": "string"
+        },
+        "selector": {
+          "description": "DKIM selector",
+          "type": "string"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "type": "object"
+    },
+    "AuthResults": {
+      "properties": {
+        "arc": {
+          "$ref": "#/$defs/AuthResult",
+          "description": "ARC chain verdict"
+        },
+        "dkim": {
+          "description": "One verdict per DKIM signature",
+          "items": {
+            "$ref": "#/$defs/AuthResult"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "dmarc": {
+          "$ref": "#/$defs/AuthResult",
+          "description": "DMARC verdict"
+        },
+        "source": {
+          "description": "header: taken from Authentication-Results; verify: computed by EmailBridge",
+          "enum": [
+            "header",
+            "verify"
+          ],
+          "type": "string"
+        },
+        "spf": {
+          "$ref": "#/$defs/AuthResult",
+          "description": "SPF verdict"
+        }
+      },
+      "required": [
+        "dkim",
+        "source"
+      ],
+      "type": "object"
+    },
+    "BounceInfo": {
+      "properties": {
+        "bounceType": {
+          "description": "hard | soft",
+          "type": "string"
+        },
+        "kind": {
+          "description": "dsn_bounce | heuristic_bounce | complaint | challenge_response",
+          "type": "string"
+        },
+        "originalMessageId": {
+          "description": "Message-ID of the original message",
+          "type": "string"
+        },
+        "outboundId": {
+          "description": "The outbound message it refers to, when correlated",
+          "type": "string"
+        },
+        "recipients": {
+          "description": "Per-recipient rows of the DSN",
+          "items": {
+            "$ref": "#/$defs/BounceRecipient"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    },
+    "BounceRecipient": {
+      "properties": {
+        "action": {
+          "description": "DSN action: failed, delayed, delivered, relayed or expanded",
+          "type": "string"
+        },
+        "address": {
+          "description": "Recipient that bounced",
+          "type": "string"
+        },
+        "bounceType": {
+          "description": "hard or soft",
+          "type": "string"
+        },
+        "diagnostic": {
+          "description": "Remote diagnostic, at most 512 characters",
+          "type": "string"
+        },
+        "status": {
+          "description": "Enhanced status code, e.g. 5.1.1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "address"
+      ],
+      "type": "object"
+    },
+    "CalendarEvent": {
+      "properties": {
+        "attendees": {
+          "description": "Attendees",
+          "items": {
+            "$ref": "#/$defs/CalendarPerson"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "dtEnd": {
+          "$ref": "#/$defs/CalendarTime",
+          "description": "End"
+        },
+        "dtStart": {
+          "$ref": "#/$defs/CalendarTime",
+          "description": "Start"
+        },
+        "method": {
+          "description": "iTIP method of the calendar: REQUEST, REPLY, CANCEL, PUBLISH …",
+          "type": "string"
+        },
+        "organizer": {
+          "$ref": "#/$defs/CalendarPerson",
+          "description": "Organizer"
+        },
+        "rrule": {
+          "description": "Recurrence rule (RFC 5545 RRULE)",
+          "type": "string"
+        },
+        "sequence": {
+          "description": "Revision number (SEQUENCE)",
+          "format": "int64",
+          "type": "integer"
+        },
+        "status": {
+          "description": "TENTATIVE, CONFIRMED or CANCELLED",
+          "type": "string"
+        },
+        "summary": {
+          "description": "Event title",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Event UID",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "sequence"
+      ],
+      "type": "object"
+    },
+    "CalendarPerson": {
+      "properties": {
+        "address": {
+          "description": "E-mail address",
+          "type": "string"
+        },
+        "name": {
+          "description": "Common name (CN)",
+          "type": "string"
+        },
+        "partStat": {
+          "description": "Participation status, e.g. ACCEPTED or NEEDS-ACTION",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role, e.g. REQ-PARTICIPANT",
+          "type": "string"
+        },
+        "rsvp": {
+          "description": "The organizer asks for a reply (RSVP=TRUE)",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "address"
+      ],
+      "type": "object"
+    },
+    "CalendarTime": {
+      "properties": {
+        "allDay": {
+          "description": "All-day event (a DATE value)",
+          "type": "boolean"
+        },
+        "dateTime": {
+          "description": "Date and time (UTC)",
+          "format": "date-time",
+          "type": "string"
+        },
+        "timeZone": {
+          "description": "Original TZID",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dateTime"
+      ],
+      "type": "object"
+    },
+    "Mailbox": {
+      "properties": {
+        "mailboxId": {
+          "description": "Mailbox ID (mbx_…)",
+          "type": "string"
+        },
+        "path": {
+          "description": "Folder path as on the server",
+          "type": "string"
+        },
+        "specialUse": {
+          "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mailboxId",
+        "path"
+      ],
+      "type": "object"
+    },
+    "PECInfo": {
+      "properties": {
+        "deliveredTo": {
+          "description": "Recipient the receipt confirms",
+          "type": "string"
+        },
+        "error": {
+          "description": "daticert errore (nessuno = none)",
+          "type": "string"
+        },
+        "kind": {
+          "description": "envelope: a certified message (busta di trasporto); anomaly: busta di anomalia; receipt: a PEC receipt",
+          "enum": [
+            "envelope",
+            "anomaly",
+            "receipt"
+          ],
+          "type": "string"
+        },
+        "originalMessageId": {
+          "description": "Message-ID of the original message",
+          "type": "string"
+        },
+        "parseError": {
+          "description": "Why daticert.xml could not be parsed, when it could not",
+          "type": "string"
+        },
+        "receiptId": {
+          "description": "rcp_… for receipts",
+          "type": "string"
+        },
+        "receiptKind": {
+          "description": "Receipt variant requested by the sender",
+          "enum": [
+            "completa",
+            "breve",
+            "sintetica"
+          ],
+          "type": "string"
+        },
+        "signature": {
+          "$ref": "#/$defs/PECSignature",
+          "description": "S/MIME check of the PEC message"
+        },
+        "transportId": {
+          "description": "PEC transport identifier (identificativo)",
+          "type": "string"
+        },
+        "type": {
+          "description": "X-Ricevuta / X-Trasporto value, e.g. accettazione, avvenuta-consegna, posta-certificata",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "type",
+        "signature"
+      ],
+      "type": "object"
+    },
+    "PECSignature": {
+      "properties": {
+        "trusted": {
+          "description": "Signer chains to a configured trust anchor; null when no anchors are configured",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "valid": {
+          "description": "The S/MIME signature verifies",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "valid",
+        "trusted"
+      ],
+      "type": "object"
+    },
+    "SpamInfo": {
+      "properties": {
+        "action": {
+          "description": "Rspamd action, e.g. no action, add header, reject",
+          "type": "string"
+        },
+        "score": {
+          "description": "Rspamd score",
+          "format": "double",
+          "type": "number"
+        },
+        "symbols": {
+          "additionalProperties": {
+            "format": "double",
+            "type": "number"
+          },
+          "description": "Matched Rspamd symbols with their scores",
+          "type": "object"
+        }
+      },
+      "required": [
+        "score"
+      ],
+      "type": "object"
+    },
+    "TextContent": {
+      "properties": {
+        "html": {
+          "description": "HTML body, when the endpoint asked for it",
+          "type": "string"
+        },
+        "plain": {
+          "description": "Plain-text body, when the endpoint asked for it",
+          "type": "string"
+        },
+        "size": {
+          "description": "Size of the full text in bytes before truncation",
+          "format": "int64",
+          "type": "integer"
+        },
+        "truncated": {
+          "description": "True when a body was cut at the endpoint's text limit",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "truncated",
+        "size"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/message.received/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "attachments": [
+          {
+            "contentType": "application/pdf",
+            "disposition": "attachment",
+            "filename": "id-card.pdf",
+            "id": "att_01m5d68e60kfdar6a5nn8d0mae",
+            "partId": "2",
+            "scan": "clean",
+            "size": 38412
+          }
+        ],
+        "authResults": {
+          "dkim": [
+            {
+              "domain": "example.org",
+              "result": "pass",
+              "selector": "s2026"
+            }
+          ],
+          "dmarc": {
+            "domain": "example.org",
+            "result": "pass"
+          },
+          "source": "header",
+          "spf": {
+            "domain": "example.org",
+            "result": "pass"
+          }
+        },
+        "calendarEvents": [
+          {
+            "attendees": [
+              {
+                "address": "reception@example.com",
+                "name": "Reception",
+                "partStat": "NEEDS-ACTION",
+                "role": "REQ-PARTICIPANT"
+              }
+            ],
+            "dtEnd": {
+              "dateTime": "2026-11-04T09:30:00Z",
+              "timeZone": "Europe/Rome"
+            },
+            "dtStart": {
+              "dateTime": "2026-11-04T09:00:00Z",
+              "timeZone": "Europe/Rome"
+            },
+            "method": "REQUEST",
+            "organizer": {
+              "address": "giulia.bianchi@example.org",
+              "name": "Giulia Bianchi"
+            },
+            "sequence": 0,
+            "status": "CONFIRMED",
+            "summary": "Appointment: Giulia Bianchi",
+            "uid": "7f3c2b9e-1d4a-4c5b-9e2f-0a1b2c3d4e5f@example.org"
+          }
+        ],
+        "cc": [],
+        "date": "2026-10-27T10:14:09+01:00",
+        "emailId": "a3f1c9e07b2d4e58",
+        "externalId": "crm-48213",
+        "flags": [],
+        "from": {
+          "address": "giulia.bianchi@example.org",
+          "name": "Giulia Bianchi"
+        },
+        "inReplyTo": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+        "internalDate": "2026-10-27T09:14:12Z",
+        "labels": [],
+        "mailbox": {
+          "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+          "path": "INBOX"
+        },
+        "messageId": "msg_01m5ch2yg09swc93g54trswp15",
+        "messageIdHeader": "\u003cCAF7x2m9Qp1@mail.example.org\u003e",
+        "references": [
+          "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e"
+        ],
+        "replyText": "Thank you, 4 November at 10:00 works for me.",
+        "seenBefore": false,
+        "size": 48213,
+        "subject": "Re: Your appointment on 4 November",
+        "text": {
+          "plain": "Thank you, 4 November at 10:00 works for me.\n\nGiulia",
+          "size": 412,
+          "truncated": false
+        },
+        "threadId": "t_9c41e2b07a",
+        "to": [
+          {
+            "address": "reception@example.com",
+            "name": "Reception"
+          }
+        ],
+        "uid": 48213,
+        "uidValidity": 1729651200
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/message.received/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5czx69032gsbkp82n4ajd1w",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "msg_01m5ch2yg09swc93g54trswp15",
+      "time": "2026-10-27T09:14:22.318Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "message.received"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "attachments": [
+        {
+          "contentType": "application/pdf",
+          "disposition": "attachment",
+          "filename": "id-card.pdf",
+          "id": "att_01m5d68e60kfdar6a5nn8d0mae",
+          "partId": "2",
+          "scan": "clean",
+          "size": 38412
+        }
+      ],
+      "authResults": {
+        "dkim": [
+          {
+            "domain": "example.org",
+            "result": "pass",
+            "selector": "s2026"
+          }
+        ],
+        "dmarc": {
+          "domain": "example.org",
+          "result": "pass"
+        },
+        "source": "header",
+        "spf": {
+          "domain": "example.org",
+          "result": "pass"
+        }
+      },
+      "calendarEvents": [
+        {
+          "attendees": [
+            {
+              "address": "reception@example.com",
+              "name": "Reception",
+              "partStat": "NEEDS-ACTION",
+              "role": "REQ-PARTICIPANT"
+            }
+          ],
+          "dtEnd": {
+            "dateTime": "2026-11-04T09:30:00Z",
+            "timeZone": "Europe/Rome"
+          },
+          "dtStart": {
+            "dateTime": "2026-11-04T09:00:00Z",
+            "timeZone": "Europe/Rome"
+          },
+          "method": "REQUEST",
+          "organizer": {
+            "address": "giulia.bianchi@example.org",
+            "name": "Giulia Bianchi"
+          },
+          "sequence": 0,
+          "status": "CONFIRMED",
+          "summary": "Appointment: Giulia Bianchi",
+          "uid": "7f3c2b9e-1d4a-4c5b-9e2f-0a1b2c3d4e5f@example.org"
+        }
+      ],
+      "cc": [],
+      "date": "2026-10-27T10:14:09+01:00",
+      "emailId": "a3f1c9e07b2d4e58",
+      "externalId": "crm-48213",
+      "flags": [],
+      "from": {
+        "address": "giulia.bianchi@example.org",
+        "name": "Giulia Bianchi"
+      },
+      "inReplyTo": "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e",
+      "internalDate": "2026-10-27T09:14:12Z",
+      "labels": [],
+      "mailbox": {
+        "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+        "path": "INBOX"
+      },
+      "messageId": "msg_01m5ch2yg09swc93g54trswp15",
+      "messageIdHeader": "\u003cCAF7x2m9Qp1@mail.example.org\u003e",
+      "references": [
+        "\u003c01m5cqe6d02twj9xw9b9vyh5b4@mail.example.com\u003e"
+      ],
+      "replyText": "Thank you, 4 November at 10:00 works for me.",
+      "seenBefore": false,
+      "size": 48213,
+      "subject": "Re: Your appointment on 4 November",
+      "text": {
+        "plain": "Thank you, 4 November at 10:00 works for me.\n\nGiulia",
+        "size": 412,
+        "truncated": false
+      },
+      "threadId": "t_9c41e2b07a",
+      "to": [
+        {
+          "address": "reception@example.com",
+          "name": "Reception"
+        }
+      ],
+      "uid": 48213,
+      "uidValidity": 1729651200
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "attachments": {
+      "description": "Attachment metadata, when the endpoint's payload options include it",
+      "items": {
+        "$ref": "#/$defs/AttachmentInfo"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "authResults": {
+      "$ref": "#/$defs/AuthResults",
+      "description": "SPF, DKIM, DMARC and ARC results"
+    },
+    "bcc": {
+      "description": "Bcc recipients (only on messages the account sent)",
+      "items": {
+        "$ref": "#/$defs/Address"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "bounce": {
+      "$ref": "#/$defs/BounceInfo",
+      "description": "Bounce or complaint classification, inbound.bounceDetection on (P5)"
+    },
+    "calendarEvents": {
+      "description": "Parsed text/calendar parts (P4): invitations, updates, cancellations",
+      "items": {
+        "$ref": "#/$defs/CalendarEvent"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "cc": {
+      "description": "Cc recipients",
+      "items": {
+        "$ref": "#/$defs/Address"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "date": {
+      "description": "Date header, null if unparsable",
+      "format": "date-time",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "emailId": {
+      "description": "Stable message identity across folders (Gmail X-GM-MSGID or a content hash)",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "flags": {
+      "description": "IMAP flags",
+      "items": {
+        "type": "string"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "from": {
+      "$ref": "#/$defs/Address",
+      "description": "From address; null when missing"
+    },
+    "headers": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "description": "Lower-cased header names the endpoint asked for",
+      "type": "object"
+    },
+    "inReplyTo": {
+      "description": "In-Reply-To header",
+      "type": "string"
+    },
+    "internalDate": {
+      "description": "IMAP INTERNALDATE (when the server received the message)",
+      "format": "date-time",
+      "type": "string"
+    },
+    "isAutoReply": {
+      "description": "Automatic reply (RFC 3834, out-of-office), inbound.bounceDetection on (P5)",
+      "type": "boolean"
+    },
+    "labels": {
+      "description": "Gmail labels (empty on other servers)",
+      "items": {
+        "type": "string"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "mailbox": {
+      "$ref": "#/$defs/Mailbox",
+      "description": "Folder the message arrived in"
+    },
+    "messageId": {
+      "description": "Our ID (msg_…)",
+      "type": "string"
+    },
+    "messageIdHeader": {
+      "description": "Message-ID header, unchanged",
+      "type": "string"
+    },
+    "pec": {
+      "$ref": "#/$defs/PECInfo",
+      "description": "PEC envelope or receipt, pec.enabled accounts (P9, S17 §4)"
+    },
+    "references": {
+      "description": "Message-IDs of the References header",
+      "items": {
+        "type": "string"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "replyText": {
+      "description": "New reply text with quoted history stripped (P4.2 / W48)",
+      "type": "string"
+    },
+    "replyTo": {
+      "description": "Reply-To addresses",
+      "items": {
+        "$ref": "#/$defs/Address"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "seenBefore": {
+      "description": "Same emailId already exists in another folder (a move)",
+      "type": "boolean"
+    },
+    "sender": {
+      "$ref": "#/$defs/Address",
+      "description": "Sender header, when different from From"
+    },
+    "size": {
+      "description": "RFC 822 size in bytes",
+      "format": "int64",
+      "type": "integer"
+    },
+    "spam": {
+      "$ref": "#/$defs/SpamInfo",
+      "description": "Rspamd score/action/symbols when integrations.rspamd is on (P8.3)"
+    },
+    "subject": {
+      "description": "Decoded Subject header",
+      "type": "string"
+    },
+    "text": {
+      "$ref": "#/$defs/TextContent",
+      "description": "Message text, when the endpoint's payload options include it"
+    },
+    "threadId": {
+      "description": "Conversation ID",
+      "type": "string"
+    },
+    "to": {
+      "description": "To recipients",
+      "items": {
+        "$ref": "#/$defs/Address"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "uid": {
+      "description": "IMAP UID in the folder",
+      "format": "int32",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "uidValidity": {
+      "description": "UIDVALIDITY of the folder",
+      "format": "int32",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "webSafeHtml": {
+      "description": "Sanitised HTML body (P4): no scripts, handlers, forms or external CSS; links open in a new tab",
+      "type": "string"
+    }
+  },
+  "required": [
+    "messageId",
+    "mailbox",
+    "uid",
+    "uidValidity",
+    "emailId",
+    "threadId",
+    "messageIdHeader",
+    "date",
+    "internalDate",
+    "size",
+    "flags",
+    "labels",
+    "from",
+    "to",
+    "cc",
+    "subject",
+    "seenBefore",
+    "accountId",
+    "externalId"
+  ],
+  "title": "message.received data (v1)",
+  "type": "object"
+}

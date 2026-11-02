@@ -1,0 +1,106 @@
+{
+  "$defs": {
+    "Mailbox": {
+      "properties": {
+        "mailboxId": {
+          "description": "Mailbox ID (mbx_…)",
+          "type": "string"
+        },
+        "path": {
+          "description": "Folder path as on the server",
+          "type": "string"
+        },
+        "specialUse": {
+          "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mailboxId",
+        "path"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/message.deleted/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "externalId": "crm-48213",
+        "mailbox": {
+          "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+          "path": "INBOX"
+        },
+        "messageId": "msg_01m5ch2yg09swc93g54trswp15",
+        "messageIdHeader": "\u003cCAF7x2m9Qp1@mail.example.org\u003e",
+        "uid": 48213
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/message.deleted/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5d44p70hy8qdwczk2dxyq84",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "msg_01m5ch2yg09swc93g54trswp15",
+      "time": "2026-10-27T11:02:19.511Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "message.deleted"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "externalId": "crm-48213",
+      "mailbox": {
+        "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+        "path": "INBOX"
+      },
+      "messageId": "msg_01m5ch2yg09swc93g54trswp15",
+      "messageIdHeader": "\u003cCAF7x2m9Qp1@mail.example.org\u003e",
+      "uid": 48213
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mailbox": {
+      "$ref": "#/$defs/Mailbox",
+      "description": "Folder the message was removed from"
+    },
+    "messageId": {
+      "description": "Our ID (msg_…)",
+      "type": "string"
+    },
+    "messageIdHeader": {
+      "description": "Message-ID header",
+      "type": "string"
+    },
+    "uid": {
+      "description": "IMAP UID it had",
+      "format": "int32",
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "messageId",
+    "mailbox",
+    "uid",
+    "messageIdHeader",
+    "accountId",
+    "externalId"
+  ],
+  "title": "message.deleted data (v1)",
+  "type": "object"
+}

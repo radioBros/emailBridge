@@ -1,0 +1,51 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/endpoint.test/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "endpointId": "whe_01m5cshyc0d23xkhrbz7e490pm",
+        "message": "EmailBridge endpoint test",
+        "sentAt": "2026-10-27T09:40:00.512Z"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/endpoint.test/v1.json",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5e1s5s0fzzsp861d0hb22qd",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9",
+      "specversion": "1.0",
+      "subject": "whe_01m5cshyc0d23xkhrbz7e490pm",
+      "time": "2026-10-27T09:40:00.512Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "endpoint.test"
+    },
+    {
+      "endpointId": "whe_01m5cshyc0d23xkhrbz7e490pm",
+      "message": "EmailBridge endpoint test",
+      "sentAt": "2026-10-27T09:40:00.512Z"
+    }
+  ],
+  "properties": {
+    "endpointId": {
+      "description": "Webhook endpoint ID (whe_…)",
+      "type": "string"
+    },
+    "message": {
+      "description": "Fixed test text",
+      "type": "string"
+    },
+    "sentAt": {
+      "description": "When the test was sent",
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "endpointId",
+    "message",
+    "sentAt"
+  ],
+  "title": "endpoint.test data (v1)",
+  "type": "object"
+}

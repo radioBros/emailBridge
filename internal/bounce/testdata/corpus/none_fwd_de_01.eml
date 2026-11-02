@@ -1,0 +1,10 @@
+From: max@example.com
+To: team@example.com
+Subject: WG: Unzustellbar
+Message-ID: <none-fwd-de-01@example.com>
+
+Weitergeleitete Nachricht
+
+From: Mailer-Daemon <mailer-daemon@mx.example.com>
+Zustellung fehlgeschlagen an gone@example.com
+550 5.1.1 User unknown

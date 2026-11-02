@@ -1,0 +1,53 @@
+# Load tests — manual only: the simulator and a webhook sink on the runner, never the live server.
+name: load
+
+on:
+  workflow_dispatch:
+    inputs:
+      accounts:
+        description: Simulated accounts (EB_LOAD_ACCOUNTS)
+        default: "1000"
+      rate:
+        description: Injected events per second (EB_LOAD_RATE)
+        default: "20"
+      duration:
+        description: Injection time (EB_LOAD_DURATION)
+        default: 3m
+      nodes:
+        description: Nodes (1, or ≥ 3 for a role-split cluster)
+        default: "1"
+      send_rate:
+        description: API submits per second for the send test (EB_LOAD_SEND_RATE)
+        default: "10"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: load-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  load:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Load harness (event → webhook, API submit)
+        env:
+          EB_LOAD_ACCOUNTS: ${{ inputs.accounts }}
+          EB_LOAD_RATE: ${{ inputs.rate }}
+          EB_LOAD_DURATION: ${{ inputs.duration }}
+          EB_LOAD_NODES: ${{ inputs.nodes }}
+          EB_LOAD_SEND_RATE: ${{ inputs.send_rate }}
+        run: go test -count=1 -tags "e2e load" -timeout 80m -v -run 'TestLoad' ./test/load/
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: load-results
+          path: load-results/
+          if-no-files-found: ignore

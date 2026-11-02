@@ -1,0 +1,14 @@
+From: Mail Delivery System <mailer-daemon@mx.example.com>
+To: sender@example.com
+Subject: Undelivered Mail Returned to Sender (deferred)
+Message-ID: <heur-051@example.com>
+In-Reply-To: <orig-heur-051@example.com>
+X-Failed-Recipients: bounce-hint051@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients.
+
+<full01@example.com>: host mx.example.com said:
+452 4.2.2 Mailbox full

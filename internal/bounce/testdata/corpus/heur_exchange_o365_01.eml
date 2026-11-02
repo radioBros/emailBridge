@@ -1,0 +1,11 @@
+From: Microsoft Outlook <MicrosoftExchange329E594659@example.com>
+To: sender@example.com
+Subject: Undeliverable: Project update
+Auto-Submitted: auto-generated
+Message-ID: <heur-exch-o365-01@example.com>
+
+Delivery has failed to these recipients or groups:
+
+gone-o365@example.com
+
+Remote Server returned '550 5.1.1 RESOLVER.ADR.RecipNotFound; not found'

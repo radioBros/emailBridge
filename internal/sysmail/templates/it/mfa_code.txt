@@ -1,0 +1,7 @@
+EmailBridge
+
+Ciao{{if .Name}} {{.Name}}{{end}},
+
+Il tuo codice di verifica è: {{.Code}}
+
+Scade a breve. Se non hai richiesto questo codice, puoi ignorare il messaggio.

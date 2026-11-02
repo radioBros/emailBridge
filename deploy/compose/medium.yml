@@ -1,0 +1,313 @@
+# EmailBridge medium tier — project name `emailbridge`.
+#
+# From the repository root (secrets in ./secrets/, data in ./.data/):
+#   emailbridge secrets init
+#   # Set secrets/mongo_uri to all three members, e.g.
+#   # mongodb://root:…@mongo-1:27017,mongo-2:27017,mongo-3:27017/?authSource=admin&replicaSet=rs0
+#   podman compose -p emailbridge --project-directory . -f deploy/compose/medium.yml up -d
+#   docker  compose -p emailbridge --project-directory . -f deploy/compose/medium.yml up -d
+#
+# SECRETS_DIR defaults to ./secrets. STACK_DATA defaults to ./.data.
+# Roles are split; each EmailBridge replica uses a distinct hostname as EB_NODE_ID
+# (EB_NODE_ID unset → hostname). No init containers — mongo healthchecks initiate/join rs0.
+# Single entry point: gateway (reverse proxy) → emailbridge-api-*.
+
+name: emailbridge
+
+x-emailbridge-common: &emailbridge-common
+  image: ghcr.io/radiobros/emailbridge:v1.0.0
+  # > EB_SHUTDOWN_GRACE (60s): a sync node hands its accounts over on SIGTERM before it is killed.
+  stop_grace_period: 75s
+  depends_on:
+    nats-1:
+      condition: service_healthy
+    nats-2:
+      condition: service_healthy
+    nats-3:
+      condition: service_healthy
+    mongo-1:
+      condition: service_healthy
+    mongo-2:
+      condition: service_healthy
+    mongo-3:
+      condition: service_healthy
+    s3:
+      condition: service_healthy
+  environment: &emailbridge-env
+    EB_PUBLIC_URL: http://localhost:8080 # a domain name: passkeys refuse an IP
+    EB_NATS_MODE: external
+    EB_NATS_URL: nats://nats-1:4222,nats://nats-2:4222,nats://nats-3:4222
+    EB_NATS_REPLICAS: "3"
+    EB_MONGO_URI_FILE: /run/secrets/mongo_uri
+    EB_MONGO_DATABASE: emailbridge
+    EB_S3_ENDPOINT: http://s3:8333
+    EB_S3_PATH_STYLE: "true"
+    EB_S3_ACCESS_KEY_FILE: /run/secrets/s3_access_key
+    EB_S3_SECRET_KEY_FILE: /run/secrets/s3_secret_key
+    EB_KEYS_LOCAL_FILE: /run/secrets/keys
+    EB_AUTH_SECRET_FILE: /run/secrets/auth_secret
+    EB_DATA_DIR: /data
+    EB_HTTP_TRUSTED_PROXIES: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+  secrets:
+    - mongo_uri
+    - s3_access_key
+    - s3_secret_key
+    - keys
+    - auth_secret
+  healthcheck:
+    test: ["CMD", "/emailbridge", "healthcheck"]
+    interval: 10s
+    timeout: 5s
+    retries: 12
+    start_period: 30s
+  restart: unless-stopped
+
+x-nats-common: &nats-common
+  image: nats:2.15.1-alpine
+  healthcheck:
+    test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8222/healthz"]
+    interval: 5s
+    timeout: 5s
+    retries: 30
+    start_period: 10s
+  restart: unless-stopped
+
+x-mongo-common: &mongo-common
+  image: mongo:8.0.15
+  entrypoint:
+    - bash
+    - -ec
+    - |
+      install -m 0400 -o 999 -g 999 /run/secrets/mongo_keyfile /tmp/keyfile
+      exec docker-entrypoint.sh mongod --replSet rs0 --bind_ip_all --keyFile /tmp/keyfile --auth
+  environment:
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_root_password
+    MONGO_INITDB_DATABASE: emailbridge
+  secrets:
+    - mongo_keyfile
+    - mongo_root_password
+  healthcheck:
+    test:
+      - CMD-SHELL
+      - >
+        mongosh -u root -p "$$(cat /run/secrets/mongo_root_password)"
+        --authenticationDatabase admin --quiet --eval
+        "try { rs.status().ok } catch (e) {
+        rs.initiate({_id:'rs0',members:[
+        {_id:0,host:'mongo-1:27017'},
+        {_id:1,host:'mongo-2:27017'},
+        {_id:2,host:'mongo-3:27017'}
+        ]}).ok }"
+    interval: 5s
+    timeout: 15s
+    retries: 36
+    start_period: 20s
+  restart: unless-stopped
+
+services:
+  nats-1:
+    <<: *nats-common
+    command:
+      - "-js"
+      - "-m"
+      - "8222"
+      - "--name"
+      - "nats-1"
+      - "--store_dir"
+      - "/data"
+      - "--cluster_name"
+      - "emailbridge"
+      - "--cluster"
+      - "nats://0.0.0.0:6222"
+      - "--routes"
+      - "nats://nats-1:6222,nats://nats-2:6222,nats://nats-3:6222"
+    volumes:
+      - ${STACK_DATA:-./.data}/nats-1:/data:Z
+
+  nats-2:
+    <<: *nats-common
+    command:
+      - "-js"
+      - "-m"
+      - "8222"
+      - "--name"
+      - "nats-2"
+      - "--store_dir"
+      - "/data"
+      - "--cluster_name"
+      - "emailbridge"
+      - "--cluster"
+      - "nats://0.0.0.0:6222"
+      - "--routes"
+      - "nats://nats-1:6222,nats://nats-2:6222,nats://nats-3:6222"
+    volumes:
+      - ${STACK_DATA:-./.data}/nats-2:/data:Z
+
+  nats-3:
+    <<: *nats-common
+    command:
+      - "-js"
+      - "-m"
+      - "8222"
+      - "--name"
+      - "nats-3"
+      - "--store_dir"
+      - "/data"
+      - "--cluster_name"
+      - "emailbridge"
+      - "--cluster"
+      - "nats://0.0.0.0:6222"
+      - "--routes"
+      - "nats://nats-1:6222,nats://nats-2:6222,nats://nats-3:6222"
+    volumes:
+      - ${STACK_DATA:-./.data}/nats-3:/data:Z
+
+  mongo-1:
+    <<: *mongo-common
+    volumes:
+      - ${STACK_DATA:-./.data}/mongo-1:/data/db:Z
+
+  mongo-2:
+    <<: *mongo-common
+    volumes:
+      - ${STACK_DATA:-./.data}/mongo-2:/data/db:Z
+
+  mongo-3:
+    <<: *mongo-common
+    volumes:
+      - ${STACK_DATA:-./.data}/mongo-3:/data/db:Z
+
+  s3:
+    image: chrislusf/seaweedfs:4.50
+    entrypoint:
+      - sh
+      - -ec
+      - |
+        AK=$$(cat /run/secrets/s3_access_key)
+        SK=$$(cat /run/secrets/s3_secret_key)
+        cat > /tmp/s3.json <<EOF
+        {"identities":[{"name":"emailbridge","credentials":[{"accessKey":"$$AK","secretKey":"$$SK"}],"actions":["Admin","Read","Write","List","Tagging"]}]}
+        EOF
+        exec weed server -dir=/data -ip.bind=0.0.0.0 -volume.max=0 -master.volumeSizeLimitMB=1024 -s3 -s3.port=8333 -s3.config=/tmp/s3.json
+    volumes:
+      - ${STACK_DATA:-./.data}/s3:/data:Z
+    ports:
+      - "127.0.0.1:8333:8333"
+    secrets:
+      - s3_access_key
+      - s3_secret_key
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          code=$$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8333/)
+          && echo "$$code" | grep -Eq '^[0-9]{3}$'
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+
+  # API + webhook role — two replicas with distinct hostnames (EB_NODE_ID fallback).
+  emailbridge-api-1:
+    <<: *emailbridge-common
+    hostname: emailbridge-api-1
+    environment:
+      <<: *emailbridge-env
+      EB_ROLES: api,webhook
+    volumes:
+      - ${STACK_DATA:-./.data}/emailbridge-api-1:/data:Z
+
+  emailbridge-api-2:
+    <<: *emailbridge-common
+    hostname: emailbridge-api-2
+    environment:
+      <<: *emailbridge-env
+      EB_ROLES: api,webhook
+    volumes:
+      - ${STACK_DATA:-./.data}/emailbridge-api-2:/data:Z
+
+  emailbridge-sync-1:
+    <<: *emailbridge-common
+    hostname: emailbridge-sync-1
+    environment:
+      <<: *emailbridge-env
+      EB_ROLES: sync
+    volumes:
+      - ${STACK_DATA:-./.data}/emailbridge-sync-1:/data:Z
+
+  emailbridge-sync-2:
+    <<: *emailbridge-common
+    hostname: emailbridge-sync-2
+    environment:
+      <<: *emailbridge-env
+      EB_ROLES: sync
+    volumes:
+      - ${STACK_DATA:-./.data}/emailbridge-sync-2:/data:Z
+
+  emailbridge-worker:
+    <<: *emailbridge-common
+    hostname: emailbridge-worker
+    environment:
+      <<: *emailbridge-env
+      EB_ROLES: submit,scheduler
+    volumes:
+      - ${STACK_DATA:-./.data}/emailbridge-worker:/data:Z
+
+  # Single stack entry point. TLS may terminate here or at an outer proxy.
+  gateway:
+    image: nginx:1.27-alpine
+    depends_on:
+      emailbridge-api-1:
+        condition: service_healthy
+      emailbridge-api-2:
+        condition: service_healthy
+    entrypoint:
+      - sh
+      - -ec
+      - |
+        cat > /etc/nginx/conf.d/default.conf <<'EOF'
+        upstream emailbridge_api {
+          server emailbridge-api-1:8080;
+          server emailbridge-api-2:8080;
+        }
+        server {
+          listen 8080;
+          location / {
+            proxy_http_version 1.1;
+            proxy_set_header Host $$host;
+            proxy_set_header X-Forwarded-For $$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $$scheme;
+            proxy_set_header Upgrade $$http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://emailbridge_api;
+          }
+        }
+        EOF
+        exec nginx -g 'daemon off;'
+    ports:
+      - "127.0.0.1:8080:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/readyz"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+
+secrets:
+  mongo_keyfile:
+    file: ${SECRETS_DIR:-./secrets}/mongo_keyfile
+  mongo_root_password:
+    file: ${SECRETS_DIR:-./secrets}/mongo_root_password
+  mongo_uri:
+    file: ${SECRETS_DIR:-./secrets}/mongo_uri
+  s3_access_key:
+    file: ${SECRETS_DIR:-./secrets}/s3_access_key
+  s3_secret_key:
+    file: ${SECRETS_DIR:-./secrets}/s3_secret_key
+  keys:
+    file: ${SECRETS_DIR:-./secrets}/keys
+  auth_secret:
+    file: ${SECRETS_DIR:-./secrets}/auth_secret

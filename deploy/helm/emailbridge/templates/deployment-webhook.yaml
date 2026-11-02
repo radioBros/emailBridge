@@ -1,0 +1,3 @@
+{{- if .Values.roles.webhook.enabled }}
+{{- include "emailbridge.deployment" (dict "root" . "component" "webhook" "role" .Values.roles.webhook) }}
+{{- end }}

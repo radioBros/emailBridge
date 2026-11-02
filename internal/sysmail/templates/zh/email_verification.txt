@@ -1,0 +1,7 @@
+EmailBridge
+
+您好{{if .Name}}，{{.Name}}{{end}}：
+
+验证您的电子邮件地址：{{.VerifyURL}}
+
+如果您并未创建 EmailBridge 账户，可以忽略此邮件。

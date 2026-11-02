@@ -1,0 +1,13 @@
+From: news@list.example.com
+To: reader@example.com
+Subject: Weekly digest: product updates
+Message-ID: <none-none_newsletter_01@example.com>
+Date: Mon, 26 Oct 2026 15:00:00 +0000
+List-Id: <product.list.example.com>
+Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Here is this week's newsletter with tips and links.
+Unsubscribe: https://list.example.com/unsub
+

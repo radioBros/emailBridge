@@ -1,0 +1,10 @@
+{
+  "common": {
+    "search": "Buscar",
+    "close": "Fechar",
+    "states": {
+      "loading": "Carregando",
+      "refreshing": "Atualizando"
+    }
+  }
+}

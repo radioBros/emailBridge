@@ -1,0 +1,10 @@
+From: postmaster@mx.example.com
+To: sender@example.com
+Subject: Delivery failure
+X-Failed-Recipients: blocked@example.com
+Message-ID: <heur-policy-02@example.com>
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients.
+
+<blocked@example.com>: host mx said: 550 5.7.1 content rejected

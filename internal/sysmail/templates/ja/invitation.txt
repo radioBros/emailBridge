@@ -1,0 +1,7 @@
+EmailBridge
+
+招待されました{{if .OrgName}} — {{.OrgName}}{{end}}{{if .InviterName}}（招待者: {{.InviterName}}）{{end}}。
+
+招待を承認する: {{.InviteURL}}
+
+心当たりがない場合は、このメッセージを無視してください。

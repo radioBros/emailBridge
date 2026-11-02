@@ -1,0 +1,9 @@
+{
+  "update": {
+    "available_title": "Actualización disponible",
+    "available_body": "Hay una versión nueva. Recarga para usarla: se perderá el trabajo no guardado.",
+    "reload": "Recargar",
+    "later": "Más tarde",
+    "indicator_tooltip": "Hay una versión nueva: haz clic para recargar"
+  }
+}

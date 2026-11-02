@@ -1,0 +1,18 @@
+{
+  "tables": {
+    "search_placeholder": "搜索",
+    "no_results": "无结果",
+    "configure_columns": "配置列",
+    "reset_widths": "重置列宽",
+    "resize_column": "调整列宽 {column}",
+    "show": "显示",
+    "entries": "行",
+    "items_per_page": "每页行数",
+    "showing_items": "第 {from}–{to} 项，共 {total} 项",
+    "sort_by": "排序依据",
+    "sort_ascending": "升序，切换为降序",
+    "sort_descending": "降序，切换为升序",
+    "load_more_failed": "无法加载更多项目",
+    "retry": "重试"
+  }
+}

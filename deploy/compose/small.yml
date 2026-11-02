@@ -1,0 +1,150 @@
+# EmailBridge small tier — project name `emailbridge`.
+#
+# From the repository root (secrets in ./secrets/, data in ./.data/):
+#   emailbridge secrets init
+#   podman compose -p emailbridge --project-directory . -f deploy/compose/small.yml up -d
+#   docker  compose -p emailbridge --project-directory . -f deploy/compose/small.yml up -d
+#
+# SECRETS_DIR defaults to ./secrets (repo root when using --project-directory .).
+# STACK_DATA defaults to ./.data (resolved against --project-directory).
+# Backing services are separate containers; EmailBridge uses EB_NATS_MODE=external.
+# No init containers — mongo healthcheck initiates the replica set.
+
+name: emailbridge
+
+services:
+  nats:
+    image: nats:2.15.1-alpine
+    command: ["-js", "-m", "8222", "--store_dir", "/data"]
+    volumes:
+      - ${STACK_DATA:-./.data}/nats:/data:Z
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8222/healthz"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 5s
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:8.0.15
+    entrypoint:
+      - bash
+      - -ec
+      - |
+        install -m 0400 -o 999 -g 999 /run/secrets/mongo_keyfile /tmp/keyfile
+        exec docker-entrypoint.sh mongod --replSet rs0 --bind_ip_all --keyFile /tmp/keyfile --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_root_password
+      MONGO_INITDB_DATABASE: emailbridge
+    volumes:
+      - ${STACK_DATA:-./.data}/mongo:/data/db:Z
+    secrets:
+      - mongo_keyfile
+      - mongo_root_password
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          mongosh -u root -p "$$(cat /run/secrets/mongo_root_password)"
+          --authenticationDatabase admin --quiet --eval
+          "try { rs.status().ok } catch (e) {
+          rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}).ok }"
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 15s
+    restart: unless-stopped
+
+  s3:
+    image: chrislusf/seaweedfs:4.50
+    # Render S3 identities from compose secrets, then start a single-node server + S3 gateway. `-volume.max=0`
+    # sizes the volume count from free disk and 1 GiB volumes keep room for every bucket (each takes several
+    # volumes; the low default made writes to a second bucket — evidence — fail).
+    entrypoint:
+      - sh
+      - -ec
+      - |
+        AK=$$(cat /run/secrets/s3_access_key)
+        SK=$$(cat /run/secrets/s3_secret_key)
+        cat > /tmp/s3.json <<EOF
+        {"identities":[{"name":"emailbridge","credentials":[{"accessKey":"$$AK","secretKey":"$$SK"}],"actions":["Admin","Read","Write","List","Tagging"]}]}
+        EOF
+        exec weed server -dir=/data -ip.bind=0.0.0.0 -volume.max=0 -master.volumeSizeLimitMB=1024 -s3 -s3.port=8333 -s3.config=/tmp/s3.json
+    volumes:
+      - ${STACK_DATA:-./.data}/s3:/data:Z
+    ports:
+      - "127.0.0.1:8333:8333"
+    secrets:
+      - s3_access_key
+      - s3_secret_key
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          code=$$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8333/)
+          && echo "$$code" | grep -Eq '^[0-9]{3}$'
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+
+  emailbridge:
+    image: ghcr.io/radiobros/emailbridge:v1.0.0
+    # > EB_SHUTDOWN_GRACE (60s): in-flight work finishes and leases are released before the kill.
+    stop_grace_period: 75s
+    depends_on:
+      nats:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+      s3:
+        condition: service_healthy
+    environment:
+      EB_PUBLIC_URL: http://localhost:8080 # a domain name: passkeys refuse an IP
+      EB_NATS_MODE: external
+      EB_NATS_URL: nats://nats:4222
+      EB_MONGO_URI_FILE: /run/secrets/mongo_uri
+      EB_MONGO_DATABASE: emailbridge
+      EB_S3_ENDPOINT: http://s3:8333
+      EB_S3_PATH_STYLE: "true"
+      EB_S3_ACCESS_KEY_FILE: /run/secrets/s3_access_key
+      EB_S3_SECRET_KEY_FILE: /run/secrets/s3_secret_key
+      EB_KEYS_LOCAL_FILE: /run/secrets/keys
+      EB_AUTH_SECRET_FILE: /run/secrets/auth_secret
+      EB_DATA_DIR: /data
+    volumes:
+      - ${STACK_DATA:-./.data}/emailbridge:/data:Z
+    ports:
+      - "127.0.0.1:8080:8080"
+    secrets:
+      - mongo_uri
+      - s3_access_key
+      - s3_secret_key
+      - keys
+      - auth_secret
+    healthcheck:
+      test: ["CMD", "/emailbridge", "healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    restart: unless-stopped
+
+secrets:
+  mongo_keyfile:
+    file: ${SECRETS_DIR:-./secrets}/mongo_keyfile
+  mongo_root_password:
+    file: ${SECRETS_DIR:-./secrets}/mongo_root_password
+  mongo_uri:
+    file: ${SECRETS_DIR:-./secrets}/mongo_uri
+  s3_access_key:
+    file: ${SECRETS_DIR:-./secrets}/s3_access_key
+  s3_secret_key:
+    file: ${SECRETS_DIR:-./secrets}/s3_secret_key
+  keys:
+    file: ${SECRETS_DIR:-./secrets}/keys
+  auth_secret:
+    file: ${SECRETS_DIR:-./secrets}/auth_secret

@@ -1,0 +1,9 @@
+From: Mailer-Daemon <bounces@yahoo.com>
+To: sender@example.com
+Subject: Failure Delivery
+Message-ID: <heur-norp-yahoo-01@example.com>
+
+Sorry, we were unable to deliver your message to the following address.
+
+fail-norp07@example.com
+550 5.1.1 User doesn't exist

@@ -1,0 +1,9 @@
+{
+  "update": {
+    "available_title": "Mise à jour disponible",
+    "available_body": "Une nouvelle version est disponible. Rechargez pour l’utiliser — le travail non enregistré sera perdu.",
+    "reload": "Recharger",
+    "later": "Plus tard",
+    "indicator_tooltip": "Nouvelle version disponible — cliquez pour recharger"
+  }
+}

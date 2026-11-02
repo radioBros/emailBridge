@@ -1,0 +1,1912 @@
+{
+ "generatedFrom": "api/events/*.json",
+ "types": {
+  "account.added": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.email",
+     "type": "string",
+     "description": "Mailbox address of the new account"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.name",
+     "type": "string",
+     "description": "Display name of the account; omitted when not set"
+    }
+   ]
+  },
+  "account.auth_failed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.code",
+     "type": "string",
+     "description": "Problem code of the failure, e.g. mail_auth_failed or oauth_revoked"
+    },
+    {
+     "path": "data.disableAt",
+     "type": "time",
+     "description": "When the account will be disabled if failures continue"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.failingSince",
+     "type": "time",
+     "description": "When the current run of failed logins started"
+    },
+    {
+     "path": "data.protocol",
+     "type": "string",
+     "description": "Protocol whose login failed",
+     "enum": [
+      "imap",
+      "smtp"
+     ]
+    },
+    {
+     "path": "data.response",
+     "type": "string",
+     "description": "Redacted server text"
+    }
+   ]
+  },
+  "account.auth_succeeded": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.failedFor",
+     "type": "string",
+     "description": "Duration of the failure period (Go duration string)"
+    },
+    {
+     "path": "data.protocol",
+     "type": "string",
+     "description": "Protocol whose login works again",
+     "enum": [
+      "imap",
+      "smtp"
+     ]
+    }
+   ]
+  },
+  "account.connect_failed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.code",
+     "type": "string",
+     "description": "Problem code, e.g. mail_connect_failed, mail_tls_failed or mail_timeout"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.kind",
+     "type": "string",
+     "description": "Error kind (S0 error model), e.g. temporary or config"
+    },
+    {
+     "path": "data.protocol",
+     "type": "string",
+     "description": "Protocol whose connection failed",
+     "enum": [
+      "imap",
+      "smtp"
+     ]
+    },
+    {
+     "path": "data.response",
+     "type": "string",
+     "description": "Redacted server text or network error"
+    }
+   ]
+  },
+  "account.deleted": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    }
+   ]
+  },
+  "account.initialized": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.durationMs",
+     "type": "number",
+     "description": "Duration of the first full sync in milliseconds"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.mailboxes",
+     "type": "number",
+     "description": "Folders indexed by the first full sync"
+    },
+    {
+     "path": "data.messages",
+     "type": "number",
+     "description": "Messages indexed by the first full sync"
+    }
+   ]
+  },
+  "account.state_changed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.from",
+     "type": "string",
+     "description": "Previous connection state (S5 §2: new, connecting, syncing, connected, authError, connectError, disconnected, disabled, deleting)"
+    },
+    {
+     "path": "data.reason",
+     "type": "object",
+     "description": "Why the state changed; omitted for a normal transition"
+    },
+    {
+     "path": "data.reason.code",
+     "type": "string",
+     "description": "Problem code"
+    },
+    {
+     "path": "data.reason.kind",
+     "type": "string",
+     "description": "Error kind (S0 error model)"
+    },
+    {
+     "path": "data.reason.message",
+     "type": "string",
+     "description": "Human-readable, redacted"
+    },
+    {
+     "path": "data.to",
+     "type": "string",
+     "description": "New connection state"
+    }
+   ]
+  },
+  "account.updated": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.changed",
+     "type": "array",
+     "description": "Top-level field names that changed",
+     "items": "string"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    }
+   ]
+  },
+  "endpoint.test": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.endpointId",
+     "type": "string",
+     "description": "Webhook endpoint ID (whe_…)"
+    },
+    {
+     "path": "data.message",
+     "type": "string",
+     "description": "Fixed test text"
+    },
+    {
+     "path": "data.sentAt",
+     "type": "time",
+     "description": "When the test was sent"
+    }
+   ]
+  },
+  "export.completed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.byteSize",
+     "type": "number",
+     "description": "Encrypted object size in bytes"
+    },
+    {
+     "path": "data.exportId",
+     "type": "string",
+     "description": "Export ID (exp_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.messageCount",
+     "type": "number",
+     "description": "Messages in the export"
+    }
+   ]
+  },
+  "export.failed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.code",
+     "type": "string",
+     "description": "Problem code"
+    },
+    {
+     "path": "data.exportId",
+     "type": "string",
+     "description": "Export ID (exp_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.message",
+     "type": "string",
+     "description": "Human-readable, redacted"
+    }
+   ]
+  },
+  "list.unsubscribed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.bot",
+     "type": "bool",
+     "description": "True when prefetch/bot heuristics matched"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.ip",
+     "type": "string",
+     "description": "Truncated client IP"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Outbound ID (out_…)"
+    },
+    {
+     "path": "data.recipient",
+     "type": "string",
+     "description": "Recipient who unsubscribed"
+    },
+    {
+     "path": "data.userAgent",
+     "type": "string",
+     "description": "Client User-Agent"
+    }
+   ]
+  },
+  "mailbox.created": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.mailbox",
+     "type": "object",
+     "description": "The folder that was created or deleted"
+    },
+    {
+     "path": "data.mailbox.mailboxId",
+     "type": "string",
+     "description": "Mailbox ID (mbx_…)"
+    },
+    {
+     "path": "data.mailbox.path",
+     "type": "string",
+     "description": "Folder path as on the server"
+    },
+    {
+     "path": "data.mailbox.specialUse",
+     "type": "string",
+     "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)"
+    }
+   ]
+  },
+  "mailbox.deleted": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.mailbox",
+     "type": "object",
+     "description": "The folder that was created or deleted"
+    },
+    {
+     "path": "data.mailbox.mailboxId",
+     "type": "string",
+     "description": "Mailbox ID (mbx_…)"
+    },
+    {
+     "path": "data.mailbox.path",
+     "type": "string",
+     "description": "Folder path as on the server"
+    },
+    {
+     "path": "data.mailbox.specialUse",
+     "type": "string",
+     "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)"
+    }
+   ]
+  },
+  "mailbox.reset": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.mailbox",
+     "type": "object",
+     "description": "The folder whose UIDVALIDITY changed"
+    },
+    {
+     "path": "data.mailbox.mailboxId",
+     "type": "string",
+     "description": "Mailbox ID (mbx_…)"
+    },
+    {
+     "path": "data.mailbox.path",
+     "type": "string",
+     "description": "Folder path as on the server"
+    },
+    {
+     "path": "data.mailbox.specialUse",
+     "type": "string",
+     "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)"
+    },
+    {
+     "path": "data.messages",
+     "type": "number",
+     "description": "Messages re-indexed"
+    },
+    {
+     "path": "data.newUidValidity",
+     "type": "number",
+     "description": "UIDVALIDITY after the reset"
+    },
+    {
+     "path": "data.oldUidValidity",
+     "type": "number",
+     "description": "UIDVALIDITY before the reset"
+    }
+   ]
+  },
+  "message.bounced": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.action",
+     "type": "string",
+     "description": "DSN action, e.g. failed or delayed"
+    },
+    {
+     "path": "data.bounceType",
+     "type": "string",
+     "description": "hard | soft"
+    },
+    {
+     "path": "data.diagnostic",
+     "type": "string",
+     "description": "Remote diagnostic, at most 512 characters"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.messageId",
+     "type": "string",
+     "description": "The bounce message (msg_…); empty when a sending provider reported the bounce (then the event subject is the outbound message)"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID of the original message, when known"
+    },
+    {
+     "path": "data.mta",
+     "type": "string",
+     "description": "Reporting MTA"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "The outbound message that bounced, when correlated"
+    },
+    {
+     "path": "data.recipient",
+     "type": "string",
+     "description": "Recipient that bounced"
+    },
+    {
+     "path": "data.status",
+     "type": "string",
+     "description": "Enhanced status code, e.g. 5.1.1"
+    }
+   ]
+  },
+  "message.captured": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.captureId",
+     "type": "string",
+     "description": "Sandbox capture ID (cap_…)"
+    },
+    {
+     "path": "data.envelope",
+     "type": "object",
+     "description": "SMTP envelope"
+    },
+    {
+     "path": "data.envelope.from",
+     "type": "string",
+     "description": "SMTP MAIL FROM address"
+    },
+    {
+     "path": "data.envelope.to",
+     "type": "array",
+     "description": "SMTP RCPT TO addresses",
+     "items": "string"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID header of the sent message"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Outbound ID (out_…)"
+    },
+    {
+     "path": "data.policy",
+     "type": "string",
+     "description": "Sandbox policy that applied",
+     "enum": [
+      "capture",
+      "rewrite",
+      "drop"
+     ]
+    },
+    {
+     "path": "data.subject",
+     "type": "string",
+     "description": "Subject of the message"
+    }
+   ]
+  },
+  "message.complained": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.feedbackType",
+     "type": "string",
+     "description": "ARF Feedback-Type, e.g. abuse"
+    },
+    {
+     "path": "data.messageId",
+     "type": "string",
+     "description": "The complaint message (msg_…); empty when a sending provider reported the complaint"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID of the original message, when known"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "The outbound message complained about, when correlated"
+    },
+    {
+     "path": "data.recipient",
+     "type": "string",
+     "description": "Recipient who complained, when the report names one"
+    }
+   ]
+  },
+  "message.deleted": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.mailbox",
+     "type": "object",
+     "description": "Folder the message was removed from"
+    },
+    {
+     "path": "data.mailbox.mailboxId",
+     "type": "string",
+     "description": "Mailbox ID (mbx_…)"
+    },
+    {
+     "path": "data.mailbox.path",
+     "type": "string",
+     "description": "Folder path as on the server"
+    },
+    {
+     "path": "data.mailbox.specialUse",
+     "type": "string",
+     "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)"
+    },
+    {
+     "path": "data.messageId",
+     "type": "string",
+     "description": "Our ID (msg_…)"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID header"
+    },
+    {
+     "path": "data.uid",
+     "type": "number",
+     "description": "IMAP UID it had"
+    }
+   ]
+  },
+  "message.delivery_attempt_failed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.attempt",
+     "type": "number",
+     "description": "Attempt number that failed"
+    },
+    {
+     "path": "data.envelope",
+     "type": "object",
+     "description": "SMTP envelope"
+    },
+    {
+     "path": "data.envelope.from",
+     "type": "string",
+     "description": "SMTP MAIL FROM address"
+    },
+    {
+     "path": "data.envelope.to",
+     "type": "array",
+     "description": "SMTP RCPT TO addresses",
+     "items": "string"
+    },
+    {
+     "path": "data.error",
+     "type": "object",
+     "description": "Why the attempt failed"
+    },
+    {
+     "path": "data.error.code",
+     "type": "string",
+     "description": "Problem code, e.g. smtp_permanent, smtp_temporary or mail_connect_failed"
+    },
+    {
+     "path": "data.error.enhanced",
+     "type": "string",
+     "description": "Enhanced status code (RFC 3463)"
+    },
+    {
+     "path": "data.error.kind",
+     "type": "string",
+     "description": "Error kind (S0 error model): temporary, permanent, rate_limited or outcome_unknown"
+    },
+    {
+     "path": "data.error.response",
+     "type": "string",
+     "description": "Redacted server reply"
+    },
+    {
+     "path": "data.error.smtpCode",
+     "type": "number",
+     "description": "SMTP reply code, when the server answered"
+    },
+    {
+     "path": "data.error.stage",
+     "type": "string",
+     "description": "SMTP stage that failed",
+     "enum": [
+      "connect",
+      "ehlo",
+      "auth",
+      "mailFrom",
+      "rcptTo",
+      "data",
+      "dataEnd"
+     ]
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.maxAttempts",
+     "type": "number",
+     "description": "Attempts allowed before the message fails"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID header of the sent message"
+    },
+    {
+     "path": "data.nextAttemptAt",
+     "type": "time",
+     "description": "When the next attempt is scheduled"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Outbound ID (out_…)"
+    },
+    {
+     "path": "data.subject",
+     "type": "string",
+     "description": "Subject of the message"
+    }
+   ]
+  },
+  "message.failed": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.attempts",
+     "type": "number",
+     "description": "Attempts made"
+    },
+    {
+     "path": "data.envelope",
+     "type": "object",
+     "description": "SMTP envelope"
+    },
+    {
+     "path": "data.envelope.from",
+     "type": "string",
+     "description": "SMTP MAIL FROM address"
+    },
+    {
+     "path": "data.envelope.to",
+     "type": "array",
+     "description": "SMTP RCPT TO addresses",
+     "items": "string"
+    },
+    {
+     "path": "data.error",
+     "type": "object",
+     "description": "Error of the last attempt"
+    },
+    {
+     "path": "data.error.code",
+     "type": "string",
+     "description": "Problem code, e.g. smtp_permanent, smtp_temporary or mail_connect_failed"
+    },
+    {
+     "path": "data.error.enhanced",
+     "type": "string",
+     "description": "Enhanced status code (RFC 3463)"
+    },
+    {
+     "path": "data.error.kind",
+     "type": "string",
+     "description": "Error kind (S0 error model): temporary, permanent, rate_limited or outcome_unknown"
+    },
+    {
+     "path": "data.error.response",
+     "type": "string",
+     "description": "Redacted server reply"
+    },
+    {
+     "path": "data.error.smtpCode",
+     "type": "number",
+     "description": "SMTP reply code, when the server answered"
+    },
+    {
+     "path": "data.error.stage",
+     "type": "string",
+     "description": "SMTP stage that failed",
+     "enum": [
+      "connect",
+      "ehlo",
+      "auth",
+      "mailFrom",
+      "rcptTo",
+      "data",
+      "dataEnd"
+     ]
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID header of the sent message"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Outbound ID (out_…)"
+    },
+    {
+     "path": "data.outcomeUnknown",
+     "type": "bool",
+     "description": "No final reply after DATA under atMostOnce"
+    },
+    {
+     "path": "data.subject",
+     "type": "string",
+     "description": "Subject of the message"
+    }
+   ]
+  },
+  "message.missing": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.mailbox",
+     "type": "object",
+     "description": "Folder where the message was expected"
+    },
+    {
+     "path": "data.mailbox.mailboxId",
+     "type": "string",
+     "description": "Mailbox ID (mbx_…)"
+    },
+    {
+     "path": "data.mailbox.path",
+     "type": "string",
+     "description": "Folder path as on the server"
+    },
+    {
+     "path": "data.mailbox.specialUse",
+     "type": "string",
+     "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID header, when known"
+    },
+    {
+     "path": "data.uid",
+     "type": "number",
+     "description": "IMAP UID that disappeared"
+    }
+   ]
+  },
+  "message.received": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.attachments",
+     "type": "array",
+     "description": "Attachment metadata, when the endpoint's payload options include it",
+     "items": "object",
+     "itemFields": [
+      "contentId",
+      "contentType",
+      "disposition",
+      "filename",
+      "id",
+      "partId",
+      "scan",
+      "size",
+      "url"
+     ]
+    },
+    {
+     "path": "data.authResults",
+     "type": "object",
+     "description": "SPF, DKIM, DMARC and ARC results"
+    },
+    {
+     "path": "data.authResults.arc",
+     "type": "object",
+     "description": "ARC chain verdict"
+    },
+    {
+     "path": "data.authResults.arc.domain",
+     "type": "string",
+     "description": "Domain that was checked"
+    },
+    {
+     "path": "data.authResults.arc.result",
+     "type": "string",
+     "description": "Verdict: pass, fail, softfail, neutral, none, temperror or permerror"
+    },
+    {
+     "path": "data.authResults.arc.selector",
+     "type": "string",
+     "description": "DKIM selector"
+    },
+    {
+     "path": "data.authResults.dkim",
+     "type": "array",
+     "description": "One verdict per DKIM signature",
+     "items": "object",
+     "itemFields": [
+      "domain",
+      "result",
+      "selector"
+     ]
+    },
+    {
+     "path": "data.authResults.dmarc",
+     "type": "object",
+     "description": "DMARC verdict"
+    },
+    {
+     "path": "data.authResults.dmarc.domain",
+     "type": "string",
+     "description": "Domain that was checked"
+    },
+    {
+     "path": "data.authResults.dmarc.result",
+     "type": "string",
+     "description": "Verdict: pass, fail, softfail, neutral, none, temperror or permerror"
+    },
+    {
+     "path": "data.authResults.dmarc.selector",
+     "type": "string",
+     "description": "DKIM selector"
+    },
+    {
+     "path": "data.authResults.source",
+     "type": "string",
+     "description": "header: taken from Authentication-Results; verify: computed by EmailBridge",
+     "enum": [
+      "header",
+      "verify"
+     ]
+    },
+    {
+     "path": "data.authResults.spf",
+     "type": "object",
+     "description": "SPF verdict"
+    },
+    {
+     "path": "data.authResults.spf.domain",
+     "type": "string",
+     "description": "Domain that was checked"
+    },
+    {
+     "path": "data.authResults.spf.result",
+     "type": "string",
+     "description": "Verdict: pass, fail, softfail, neutral, none, temperror or permerror"
+    },
+    {
+     "path": "data.authResults.spf.selector",
+     "type": "string",
+     "description": "DKIM selector"
+    },
+    {
+     "path": "data.bcc",
+     "type": "array",
+     "description": "Bcc recipients (only on messages the account sent)",
+     "items": "object",
+     "itemFields": [
+      "address",
+      "name"
+     ]
+    },
+    {
+     "path": "data.bounce",
+     "type": "object",
+     "description": "Bounce or complaint classification, inbound.bounceDetection on (P5)"
+    },
+    {
+     "path": "data.bounce.bounceType",
+     "type": "string",
+     "description": "hard | soft"
+    },
+    {
+     "path": "data.bounce.kind",
+     "type": "string",
+     "description": "dsn_bounce | heuristic_bounce | complaint | challenge_response"
+    },
+    {
+     "path": "data.bounce.originalMessageId",
+     "type": "string",
+     "description": "Message-ID of the original message"
+    },
+    {
+     "path": "data.bounce.outboundId",
+     "type": "string",
+     "description": "The outbound message it refers to, when correlated"
+    },
+    {
+     "path": "data.bounce.recipients",
+     "type": "array",
+     "description": "Per-recipient rows of the DSN",
+     "items": "object",
+     "itemFields": [
+      "action",
+      "address",
+      "bounceType",
+      "diagnostic",
+      "status"
+     ]
+    },
+    {
+     "path": "data.calendarEvents",
+     "type": "array",
+     "description": "Parsed text/calendar parts (P4): invitations, updates, cancellations",
+     "items": "object",
+     "itemFields": [
+      "attendees",
+      "dtEnd",
+      "dtStart",
+      "method",
+      "organizer",
+      "rrule",
+      "sequence",
+      "status",
+      "summary",
+      "uid"
+     ]
+    },
+    {
+     "path": "data.cc",
+     "type": "array",
+     "description": "Cc recipients",
+     "items": "object",
+     "itemFields": [
+      "address",
+      "name"
+     ]
+    },
+    {
+     "path": "data.date",
+     "type": "time",
+     "description": "Date header, null if unparsable"
+    },
+    {
+     "path": "data.emailId",
+     "type": "string",
+     "description": "Stable message identity across folders (Gmail X-GM-MSGID or a content hash)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.flags",
+     "type": "array",
+     "description": "IMAP flags",
+     "items": "string"
+    },
+    {
+     "path": "data.from",
+     "type": "object",
+     "description": "From address; null when missing"
+    },
+    {
+     "path": "data.from.address",
+     "type": "string",
+     "description": "E-mail address"
+    },
+    {
+     "path": "data.from.name",
+     "type": "string",
+     "description": "Display name"
+    },
+    {
+     "path": "data.headers",
+     "type": "object",
+     "description": "Lower-cased header names the endpoint asked for",
+     "map": true
+    },
+    {
+     "path": "data.inReplyTo",
+     "type": "string",
+     "description": "In-Reply-To header"
+    },
+    {
+     "path": "data.internalDate",
+     "type": "time",
+     "description": "IMAP INTERNALDATE (when the server received the message)"
+    },
+    {
+     "path": "data.isAutoReply",
+     "type": "bool",
+     "description": "Automatic reply (RFC 3834, out-of-office), inbound.bounceDetection on (P5)"
+    },
+    {
+     "path": "data.labels",
+     "type": "array",
+     "description": "Gmail labels (empty on other servers)",
+     "items": "string"
+    },
+    {
+     "path": "data.mailbox",
+     "type": "object",
+     "description": "Folder the message arrived in"
+    },
+    {
+     "path": "data.mailbox.mailboxId",
+     "type": "string",
+     "description": "Mailbox ID (mbx_…)"
+    },
+    {
+     "path": "data.mailbox.path",
+     "type": "string",
+     "description": "Folder path as on the server"
+    },
+    {
+     "path": "data.mailbox.specialUse",
+     "type": "string",
+     "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)"
+    },
+    {
+     "path": "data.messageId",
+     "type": "string",
+     "description": "Our ID (msg_…)"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID header, unchanged"
+    },
+    {
+     "path": "data.pec",
+     "type": "object",
+     "description": "PEC envelope or receipt, pec.enabled accounts (P9, S17 §4)"
+    },
+    {
+     "path": "data.pec.deliveredTo",
+     "type": "string",
+     "description": "Recipient the receipt confirms"
+    },
+    {
+     "path": "data.pec.error",
+     "type": "string",
+     "description": "daticert errore (nessuno = none)"
+    },
+    {
+     "path": "data.pec.kind",
+     "type": "string",
+     "description": "envelope: a certified message (busta di trasporto); anomaly: busta di anomalia; receipt: a PEC receipt",
+     "enum": [
+      "envelope",
+      "anomaly",
+      "receipt"
+     ]
+    },
+    {
+     "path": "data.pec.originalMessageId",
+     "type": "string",
+     "description": "Message-ID of the original message"
+    },
+    {
+     "path": "data.pec.parseError",
+     "type": "string",
+     "description": "Why daticert.xml could not be parsed, when it could not"
+    },
+    {
+     "path": "data.pec.receiptId",
+     "type": "string",
+     "description": "rcp_… for receipts"
+    },
+    {
+     "path": "data.pec.receiptKind",
+     "type": "string",
+     "description": "Receipt variant requested by the sender",
+     "enum": [
+      "completa",
+      "breve",
+      "sintetica"
+     ]
+    },
+    {
+     "path": "data.pec.signature",
+     "type": "object",
+     "description": "S/MIME check of the PEC message"
+    },
+    {
+     "path": "data.pec.signature.trusted",
+     "type": "bool",
+     "description": "Signer chains to a configured trust anchor; null when no anchors are configured"
+    },
+    {
+     "path": "data.pec.signature.valid",
+     "type": "bool",
+     "description": "The S/MIME signature verifies"
+    },
+    {
+     "path": "data.pec.transportId",
+     "type": "string",
+     "description": "PEC transport identifier (identificativo)"
+    },
+    {
+     "path": "data.pec.type",
+     "type": "string",
+     "description": "X-Ricevuta / X-Trasporto value, e.g. accettazione, avvenuta-consegna, posta-certificata"
+    },
+    {
+     "path": "data.references",
+     "type": "array",
+     "description": "Message-IDs of the References header",
+     "items": "string"
+    },
+    {
+     "path": "data.replyText",
+     "type": "string",
+     "description": "New reply text with quoted history stripped (P4.2 / W48)"
+    },
+    {
+     "path": "data.replyTo",
+     "type": "array",
+     "description": "Reply-To addresses",
+     "items": "object",
+     "itemFields": [
+      "address",
+      "name"
+     ]
+    },
+    {
+     "path": "data.seenBefore",
+     "type": "bool",
+     "description": "Same emailId already exists in another folder (a move)"
+    },
+    {
+     "path": "data.sender",
+     "type": "object",
+     "description": "Sender header, when different from From"
+    },
+    {
+     "path": "data.sender.address",
+     "type": "string",
+     "description": "E-mail address"
+    },
+    {
+     "path": "data.sender.name",
+     "type": "string",
+     "description": "Display name"
+    },
+    {
+     "path": "data.size",
+     "type": "number",
+     "description": "RFC 822 size in bytes"
+    },
+    {
+     "path": "data.spam",
+     "type": "object",
+     "description": "Rspamd score/action/symbols when integrations.rspamd is on (P8.3)"
+    },
+    {
+     "path": "data.spam.action",
+     "type": "string",
+     "description": "Rspamd action, e.g. no action, add header, reject"
+    },
+    {
+     "path": "data.spam.score",
+     "type": "number",
+     "description": "Rspamd score"
+    },
+    {
+     "path": "data.spam.symbols",
+     "type": "object",
+     "description": "Matched Rspamd symbols with their scores",
+     "map": true
+    },
+    {
+     "path": "data.subject",
+     "type": "string",
+     "description": "Decoded Subject header"
+    },
+    {
+     "path": "data.text",
+     "type": "object",
+     "description": "Message text, when the endpoint's payload options include it"
+    },
+    {
+     "path": "data.text.html",
+     "type": "string",
+     "description": "HTML body, when the endpoint asked for it"
+    },
+    {
+     "path": "data.text.plain",
+     "type": "string",
+     "description": "Plain-text body, when the endpoint asked for it"
+    },
+    {
+     "path": "data.text.size",
+     "type": "number",
+     "description": "Size of the full text in bytes before truncation"
+    },
+    {
+     "path": "data.text.truncated",
+     "type": "bool",
+     "description": "True when a body was cut at the endpoint's text limit"
+    },
+    {
+     "path": "data.threadId",
+     "type": "string",
+     "description": "Conversation ID"
+    },
+    {
+     "path": "data.to",
+     "type": "array",
+     "description": "To recipients",
+     "items": "object",
+     "itemFields": [
+      "address",
+      "name"
+     ]
+    },
+    {
+     "path": "data.uid",
+     "type": "number",
+     "description": "IMAP UID in the folder"
+    },
+    {
+     "path": "data.uidValidity",
+     "type": "number",
+     "description": "UIDVALIDITY of the folder"
+    },
+    {
+     "path": "data.webSafeHtml",
+     "type": "string",
+     "description": "Sanitised HTML body (P4): no scripts, handlers, forms or external CSS; links open in a new tab"
+    }
+   ]
+  },
+  "message.sent": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.attempt",
+     "type": "number",
+     "description": "Attempt number that succeeded (1 = first try)"
+    },
+    {
+     "path": "data.envelope",
+     "type": "object",
+     "description": "SMTP envelope"
+    },
+    {
+     "path": "data.envelope.from",
+     "type": "string",
+     "description": "SMTP MAIL FROM address"
+    },
+    {
+     "path": "data.envelope.to",
+     "type": "array",
+     "description": "SMTP RCPT TO addresses",
+     "items": "string"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.gatewayId",
+     "type": "string",
+     "description": "P5"
+    },
+    {
+     "path": "data.messageIdHeader",
+     "type": "string",
+     "description": "Message-ID header of the sent message"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Outbound ID (out_…)"
+    },
+    {
+     "path": "data.rejected",
+     "type": "array",
+     "description": "Recipients refused while the others were accepted",
+     "items": "object",
+     "itemFields": [
+      "address",
+      "code",
+      "enhanced",
+      "message"
+     ]
+    },
+    {
+     "path": "data.sentAt",
+     "type": "time",
+     "description": "When the server accepted the message"
+    },
+    {
+     "path": "data.smtp",
+     "type": "object",
+     "description": "Final SMTP reply"
+    },
+    {
+     "path": "data.smtp.code",
+     "type": "number",
+     "description": "SMTP reply code"
+    },
+    {
+     "path": "data.smtp.enhanced",
+     "type": "string",
+     "description": "Enhanced status code (RFC 3463)"
+    },
+    {
+     "path": "data.smtp.host",
+     "type": "string",
+     "description": "SMTP server that answered"
+    },
+    {
+     "path": "data.smtp.response",
+     "type": "string",
+     "description": "Server reply text"
+    },
+    {
+     "path": "data.subject",
+     "type": "string",
+     "description": "Subject of the message"
+    }
+   ]
+  },
+  "message.updated": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.flags",
+     "type": "object",
+     "description": "IMAP flag changes"
+    },
+    {
+     "path": "data.flags.added",
+     "type": "array",
+     "description": "Values added by this change",
+     "items": "string"
+    },
+    {
+     "path": "data.flags.current",
+     "type": "array",
+     "description": "All values after the change",
+     "items": "string"
+    },
+    {
+     "path": "data.flags.removed",
+     "type": "array",
+     "description": "Values removed by this change",
+     "items": "string"
+    },
+    {
+     "path": "data.labels",
+     "type": "object",
+     "description": "P6 (Gmail labels)"
+    },
+    {
+     "path": "data.labels.added",
+     "type": "array",
+     "description": "Values added by this change",
+     "items": "string"
+    },
+    {
+     "path": "data.labels.current",
+     "type": "array",
+     "description": "All values after the change",
+     "items": "string"
+    },
+    {
+     "path": "data.labels.removed",
+     "type": "array",
+     "description": "Values removed by this change",
+     "items": "string"
+    },
+    {
+     "path": "data.mailbox",
+     "type": "object",
+     "description": "Folder of the message"
+    },
+    {
+     "path": "data.mailbox.mailboxId",
+     "type": "string",
+     "description": "Mailbox ID (mbx_…)"
+    },
+    {
+     "path": "data.mailbox.path",
+     "type": "string",
+     "description": "Folder path as on the server"
+    },
+    {
+     "path": "data.mailbox.specialUse",
+     "type": "string",
+     "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)"
+    },
+    {
+     "path": "data.messageId",
+     "type": "string",
+     "description": "Our ID (msg_…)"
+    },
+    {
+     "path": "data.uid",
+     "type": "number",
+     "description": "IMAP UID in the folder"
+    }
+   ]
+  },
+  "pec.receipt": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.at",
+     "type": "time",
+     "description": "Date and time in the receipt"
+    },
+    {
+     "path": "data.deliveredTo",
+     "type": "string",
+     "description": "Recipient the receipt confirms"
+    },
+    {
+     "path": "data.error",
+     "type": "string",
+     "description": "daticert errore value (nessuno = none)"
+    },
+    {
+     "path": "data.errorDetail",
+     "type": "string",
+     "description": "daticert errore-esteso text"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.messageId",
+     "type": "string",
+     "description": "The receipt in the index (msg_…)"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Linked outbound message, when EmailBridge sent the original"
+    },
+    {
+     "path": "data.pecState",
+     "type": "string",
+     "description": "Outbound PEC state after this receipt (S17 §5.2)"
+    },
+    {
+     "path": "data.provider",
+     "type": "string",
+     "description": "PEC provider that issued the receipt"
+    },
+    {
+     "path": "data.receiptId",
+     "type": "string",
+     "description": "rcp_…"
+    },
+    {
+     "path": "data.receiptKind",
+     "type": "string",
+     "description": "completa, breve or sintetica"
+    },
+    {
+     "path": "data.recipients",
+     "type": "array",
+     "description": "Addressees listed in daticert.xml",
+     "items": "object",
+     "itemFields": [
+      "address",
+      "kind"
+     ]
+    },
+    {
+     "path": "data.refMessageIdHeader",
+     "type": "string",
+     "description": "X-Riferimento-Message-ID: the original's Message-ID"
+    },
+    {
+     "path": "data.sha256",
+     "type": "string",
+     "description": "SHA-256 of the raw receipt (hex)"
+    },
+    {
+     "path": "data.signature",
+     "type": "object",
+     "description": "S/MIME check of the receipt"
+    },
+    {
+     "path": "data.signature.trusted",
+     "type": "bool",
+     "description": "Signer chains to a configured trust anchor; null when no anchors are configured"
+    },
+    {
+     "path": "data.signature.valid",
+     "type": "bool",
+     "description": "The S/MIME signature verifies"
+    },
+    {
+     "path": "data.transportId",
+     "type": "string",
+     "description": "PEC transport identifier (identificativo)"
+    },
+    {
+     "path": "data.type",
+     "type": "string",
+     "description": "accettazione, non-accettazione, presa-in-carico, avvenuta-consegna, errore-consegna, preavviso-errore-consegna, rilevazione-virus"
+    }
+   ]
+  },
+  "system.alert.raised": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.category",
+     "type": "string",
+     "description": "Alert category, e.g. webhooks, accounts or storage"
+    },
+    {
+     "path": "data.detailKey",
+     "type": "string",
+     "description": "i18n key of the detail text"
+    },
+    {
+     "path": "data.key",
+     "type": "string",
+     "description": "Dedup key"
+    },
+    {
+     "path": "data.link",
+     "type": "string",
+     "description": "Admin UI path to the affected resource"
+    },
+    {
+     "path": "data.notificationId",
+     "type": "string",
+     "description": "Notification ID (ntf_…)"
+    },
+    {
+     "path": "data.occurrences",
+     "type": "number",
+     "description": "How often the condition was seen since it was raised"
+    },
+    {
+     "path": "data.params",
+     "type": "object",
+     "description": "Values for the title and detail texts",
+     "map": true
+    },
+    {
+     "path": "data.scope",
+     "type": "string",
+     "description": "org_… or instance"
+    },
+    {
+     "path": "data.severity",
+     "type": "string",
+     "description": "Alert severity",
+     "enum": [
+      "info",
+      "warning",
+      "critical"
+     ]
+    },
+    {
+     "path": "data.titleKey",
+     "type": "string",
+     "description": "i18n key of the title"
+    }
+   ]
+  },
+  "system.alert.resolved": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.category",
+     "type": "string",
+     "description": "Alert category"
+    },
+    {
+     "path": "data.key",
+     "type": "string",
+     "description": "Dedup key of the alert"
+    },
+    {
+     "path": "data.notificationId",
+     "type": "string",
+     "description": "Notification ID (ntf_…)"
+    },
+    {
+     "path": "data.resolvedAt",
+     "type": "time",
+     "description": "When the condition cleared"
+    },
+    {
+     "path": "data.scope",
+     "type": "string",
+     "description": "org_… or instance"
+    }
+   ]
+  },
+  "tracking.clicked": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.bot",
+     "type": "bool",
+     "description": "True when prefetch/bot heuristics matched"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.ip",
+     "type": "string",
+     "description": "Truncated client IP"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Outbound ID (out_…)"
+    },
+    {
+     "path": "data.recipient",
+     "type": "string",
+     "description": "Recipient who clicked"
+    },
+    {
+     "path": "data.url",
+     "type": "string",
+     "description": "Original destination URL"
+    },
+    {
+     "path": "data.userAgent",
+     "type": "string",
+     "description": "Client User-Agent"
+    }
+   ]
+  },
+  "tracking.opened": {
+   "version": 1,
+   "fields": [
+    {
+     "path": "data.accountId",
+     "type": "string",
+     "description": "Account ID (acc_…)"
+    },
+    {
+     "path": "data.bot",
+     "type": "bool",
+     "description": "True when prefetch/bot heuristics matched"
+    },
+    {
+     "path": "data.externalId",
+     "type": "string",
+     "description": "Caller-supplied external ID, or null"
+    },
+    {
+     "path": "data.ip",
+     "type": "string",
+     "description": "Truncated client IP"
+    },
+    {
+     "path": "data.outboundId",
+     "type": "string",
+     "description": "Outbound ID (out_…)"
+    },
+    {
+     "path": "data.recipient",
+     "type": "string",
+     "description": "Recipient whose pixel was loaded"
+    },
+    {
+     "path": "data.userAgent",
+     "type": "string",
+     "description": "Client User-Agent"
+    }
+   ]
+  }
+ }
+}

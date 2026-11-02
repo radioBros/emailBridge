@@ -1,0 +1,2 @@
+go test fuzz v1
+[]byte("X-RiCevutA:00\nContent-TYpe: multipArt/0; BoundArY=\"---\" \n\n-----\nContent-Disposition:0; filenAme=\"dAtiCert.Xml\" \nContent-TrAnsfer-EnCoding: BAse64 \n\n00\n-----")

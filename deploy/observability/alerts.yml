@@ -1,0 +1,108 @@
+# EmailBridge Prometheus alert rules.
+# Load with Prometheus rule_files or Prometheus Operator PrometheusRule.
+groups:
+  - name: emailbridge
+    rules:
+      - alert: EBAuthFailuresRising
+        expr: sum(rate(eb_auth_failures_total[5m])) > 5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Authentication failures are rising
+          description: More than 5 auth failures per second sustained for 5 minutes.
+
+      - alert: EBDeadLetters
+        expr: sum(increase(eb_deadletters_total[15m])) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Dead letters in a work queue
+          description: At least one message was dead-lettered in the last 15 minutes.
+
+      - alert: EBEndpointFailing
+        expr: max(eb_endpoint_breaker_open) > 0
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: Webhook circuit breaker open
+          description: At least one endpoint breaker has stayed open for more than 10 minutes.
+
+      - alert: EBLeaseChurn
+        expr: sum(rate(eb_lease_changes_total[5m])) > 2
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Lease churn is high
+          description: Lease claim/loss/release/hand-off rate exceeds 2/s for 10 minutes.
+
+      - alert: EBRelayLag
+        expr: eb_relay_lag_seconds > 30
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Events outbox relay lag
+          description: Oldest unpublished event is older than 30 seconds.
+
+      - alert: EBLogLoss
+        expr: sum(rate(eb_log_dropped_total[5m])) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Log records are being dropped
+          description: The log buffer is dropping records under back-pressure.
+
+      - alert: EBLogDiskNearCap
+        expr: sum(eb_log_disk_bytes) / clamp_min(eb_log_disk_cap_bytes, 1) > 0.9
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: Log disk near capacity
+          description: Log store disk usage exceeds 90% of the configured diskCap.
+
+      - alert: EBSyncCapacity
+        expr: |
+          max(
+            eb_sync_accounts
+            / clamp_min(eb_sync_max_accounts, 1)
+          ) > 0.9
+          and on() eb_sync_max_accounts > 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Sync node near account capacity
+          description: A sync node holds more than 90% of EB_SYNC_MAX_ACCOUNTS.
+
+      - alert: EBMigrationsPending
+        expr: eb_migrations_pending > 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: MongoDB migrations pending
+          description: This binary knows migrations that are not yet applied.
+
+      - alert: EBInsecureTLSAccounts
+        expr: eb_insecure_tls_accounts > 0
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: Accounts with ignoreCertErrors
+          description: One or more accounts have accounts.ignoreCertErrors enabled.
+
+      - alert: EBRuleFailing
+        expr: eb_rule_errors_recent > 50
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: Rule evaluation errors rising
+          description: More than 50 ruleErrors were written in the last 15 minutes.

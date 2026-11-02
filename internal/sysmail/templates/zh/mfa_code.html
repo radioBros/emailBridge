@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh">
+<body style="font-family:system-ui,sans-serif;line-height:1.5;color:#111;max-width:32rem;margin:1.5rem auto;padding:0 1rem">
+<p style="font-size:1.25rem;font-weight:600;margin:0 0 1rem">EmailBridge</p>
+<p>您好{{if .Name}}，{{.Name}}{{end}}：</p>
+<p>您的验证码是：</p>
+<p style="font-size:1.5rem;font-weight:700;letter-spacing:0.1em">{{.Code}}</p>
+<p style="color:#555">验证码将很快过期。如果您并未请求此验证码，可以忽略此邮件。</p>
+</body>
+</html>

@@ -1,0 +1,13 @@
+From: Mailer-Daemon <mailer-daemon@yahoo.com>
+To: sender@example.com
+Subject: Failure Delivery (deferred)
+Message-ID: <heur-061@example.com>
+In-Reply-To: <orig-heur-061@example.com>
+X-Failed-Recipients: bounce-hint061@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Sorry, we were unable to deliver your message to the following address.
+
+<full11@example.com>:
+451 4.7.1 Greylisted, please try again later

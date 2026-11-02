@@ -1,0 +1,96 @@
+// Pagination: equal-size tonal squares (`md` = 8 px via VuetifyDefaults).
+// Vuetify paints `.v-btn__overlay` at opacity 1 on aria-current — that washed
+// the active digit out; keep overlay off and let the tonal underlay show.
+.v-pagination {
+  .v-btn {
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+  }
+
+  .v-pagination__item--is-active .v-btn {
+    color: rgb(var(--v-theme-primary));
+
+    .v-btn__overlay {
+      opacity: 0;
+    }
+
+    .v-btn__underlay {
+      background: currentcolor;
+      opacity: var(--v-activated-opacity);
+    }
+  }
+
+  // Disabled first/prev/next/last: soft fade, not a heavy grey block.
+  .v-btn--disabled {
+    opacity: 0.4;
+    background: transparent;
+    color: rgb(var(--v-theme-on-surface));
+
+    .v-btn__overlay,
+    .v-btn__underlay {
+      opacity: 0;
+    }
+  }
+}
+
+// Dark sticky headers must stay on the theme surface. applyTheme toggles
+// .v-theme--dark without remounting Vuetify; without this, some th cells
+// keep a light plate and fail axe color-contrast (~1.16:1).
+.v-theme--dark {
+  .v-data-table thead .v-data-table__th,
+  .v-table thead th {
+    background: rgb(var(--v-theme-surface));
+    color: rgb(var(--v-theme-on-surface));
+  }
+
+  .v-data-table-header__content {
+    color: inherit;
+  }
+}
+
+// Fill-height tables (W61): remaining viewport below page chrome, min height from --table-fill-min.
+// ServerTable / CardList opt in via `.table-fill`; opt out with fillHeight={false}.
+.table-fill {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--table-fill-min);
+  height: max(var(--table-fill-min), calc(100dvh - var(--table-chrome)));
+  overflow: hidden;
+
+  > .table-fill__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  > .table-fill__footer,
+  > .table-footer,
+  .table-fill__footer {
+    flex-shrink: 0;
+  }
+
+  // Empty / no-data: centre in the body while the footer stays pinned.
+  .table-fill__empty {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+  }
+}
+
+.v-table > .v-table__wrapper > table > tbody > tr > td, 
+.v-table > .v-table__wrapper > table > tbody > tr > th,
+.v-table > .v-table__wrapper > table > thead > tr > td,
+.v-table > .v-table__wrapper > table > thead > tr > th, 
+.v-table > .v-table__wrapper > table > tfoot > tr > td, 
+.v-table > .v-table__wrapper > table > tfoot > tr > th {
+  &:not(:empty) {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}

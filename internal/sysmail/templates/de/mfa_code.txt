@@ -1,0 +1,7 @@
+EmailBridge
+
+Hallo{{if .Name}}, {{.Name}}{{end}},
+
+Ihr Bestätigungscode lautet: {{.Code}}
+
+Er läuft in Kürze ab. Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese Nachricht ignorieren.

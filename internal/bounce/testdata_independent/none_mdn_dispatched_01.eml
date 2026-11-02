@@ -1,0 +1,21 @@
+From: carol@example.com
+To: dave@example.com
+Subject: Delivery Receipt: Contract
+Message-ID: <mdn-02@example.com>
+Date: Mon, 26 Oct 2026 15:12:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=disposition-notification; boundary="mdn2"
+
+--mdn2
+Content-Type: text/plain; charset=utf-8
+
+Your message was successfully dispatched.
+
+--mdn2
+Content-Type: message/disposition-notification
+
+Final-Recipient: rfc822; carol@example.com
+Original-Message-ID: <contract@example.com>
+Disposition: automatic-action/MDN-sent-automatically; dispatched
+
+--mdn2--

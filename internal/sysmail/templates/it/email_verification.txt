@@ -1,0 +1,7 @@
+EmailBridge
+
+Ciao{{if .Name}} {{.Name}}{{end}},
+
+Verifica il tuo indirizzo email: {{.VerifyURL}}
+
+Se non hai creato un account EmailBridge, puoi ignorare il messaggio.

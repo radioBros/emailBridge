@@ -1,0 +1,15 @@
+From: Mail Delivery Subsystem <mailer-daemon@google.com>
+To: sender@example.com
+Subject: Delivery Status Notification (Failure)
+Message-ID: <heur-009@example.com>
+In-Reply-To: <orig-heur-009@example.com>
+X-Failed-Recipients: bounce-hint009@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Delivery to the following recipient failed permanently:
+
+fail09@example.com
+
+Technical details:
+550-5.1.1 The email account that you tried to reach does not exist.

@@ -1,0 +1,71 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/account.initialized/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "durationMs": 158342,
+        "externalId": "crm-48213",
+        "mailboxes": 7,
+        "messages": 12483
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/account.initialized/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5cez6h07ymb4n8z9nha90qn",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "time": "2026-10-20T10:04:52.906Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "account.initialized"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "durationMs": 158342,
+      "externalId": "crm-48213",
+      "mailboxes": 7,
+      "messages": 12483
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "durationMs": {
+      "description": "Duration of the first full sync in milliseconds",
+      "format": "int64",
+      "type": "integer"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mailboxes": {
+      "description": "Folders indexed by the first full sync",
+      "format": "int64",
+      "type": "integer"
+    },
+    "messages": {
+      "description": "Messages indexed by the first full sync",
+      "format": "int64",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "mailboxes",
+    "messages",
+    "durationMs",
+    "accountId",
+    "externalId"
+  ],
+  "title": "account.initialized data (v1)",
+  "type": "object"
+}

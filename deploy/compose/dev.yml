@@ -1,0 +1,33 @@
+# EmailBridge dev overlay — use project name `emailbridge-dev` via -p.
+#
+# From the repository root:
+#   podman compose -p emailbridge-dev --project-directory . \
+#     -f deploy/compose/small.yml -f deploy/compose/dev.yml up -d
+#   docker  compose -p emailbridge-dev --project-directory . \
+#     -f deploy/compose/small.yml -f deploy/compose/dev.yml up -d
+#
+# Adds a local Dovecot IMAP/SMTP mailbox for development. Later overlays
+# (simulator, webhook sink) land as comments until those images exist.
+
+services:
+  dovecot:
+    image: dovecot/dovecot:2.4.5
+    environment:
+      USER_PASSWORD: ${USER_PASSWORD:-devpass}
+    ports:
+      # Image listens on 31143 (IMAP/STARTTLS) and 31993 (IMAPS), not the IANA ports.
+      - "127.0.0.1:10143:31143"
+      - "127.0.0.1:10993:31993"
+      - "127.0.0.1:10025:25"
+      - "127.0.0.1:10465:465"
+    restart: unless-stopped
+
+  # provider simulator (cmd/eb-simulator):
+  # simulator:
+  #   image: ghcr.io/radiobros/emailbridge-simulator:v1.0.0
+  #   ...
+
+  # webhook sink (test/sink):
+  # sink:
+  #   image: ghcr.io/radiobros/emailbridge-sink:v1.0.0
+  #   ...

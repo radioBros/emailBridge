@@ -1,0 +1,7 @@
+From: Mailer-Daemon <mailer-daemon@libero.it>
+To: sender@example.com
+Subject: Il messaggio non è stato consegnato
+Message-ID: <heur-it-libero-01@example.com>
+
+Il messaggio non è stato consegnato a gone-libero@example.it
+Errore di consegna permanente: 550 5.1.1 destinatario sconosciuto

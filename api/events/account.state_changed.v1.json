@@ -1,0 +1,98 @@
+{
+  "$defs": {
+    "Reason": {
+      "properties": {
+        "code": {
+          "description": "Problem code",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Error kind (S0 error model)",
+          "type": "string"
+        },
+        "message": {
+          "description": "Human-readable, redacted",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "code"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/account.state_changed/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "externalId": "crm-48213",
+        "from": "connected",
+        "reason": {
+          "code": "mail_auth_failed",
+          "kind": "auth",
+          "message": "AUTHENTICATE failed: invalid credentials"
+        },
+        "to": "authError"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/account.state_changed/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5ch2yg09swc93g54trswp15",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "time": "2026-10-26T08:14:03.554Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "account.state_changed"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "externalId": "crm-48213",
+      "from": "connected",
+      "reason": {
+        "code": "mail_auth_failed",
+        "kind": "auth",
+        "message": "AUTHENTICATE failed: invalid credentials"
+      },
+      "to": "authError"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "from": {
+      "description": "Previous connection state (S5 §2: new, connecting, syncing, connected, authError, connectError, disconnected, disabled, deleting)",
+      "type": "string"
+    },
+    "reason": {
+      "$ref": "#/$defs/Reason",
+      "description": "Why the state changed; omitted for a normal transition"
+    },
+    "to": {
+      "description": "New connection state",
+      "type": "string"
+    }
+  },
+  "required": [
+    "from",
+    "to",
+    "accountId",
+    "externalId"
+  ],
+  "title": "account.state_changed data (v1)",
+  "type": "object"
+}

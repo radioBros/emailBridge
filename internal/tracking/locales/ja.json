@@ -1,0 +1,7 @@
+{
+  "title": "配信停止",
+  "confirm": "{email} の配信を停止しますか？",
+  "button": "配信停止",
+  "done_title": "配信を停止しました",
+  "done_body": "{email} の配信を停止しました。"
+}

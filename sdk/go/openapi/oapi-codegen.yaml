@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/oapi-codegen/oapi-codegen/v2.8.1/configuration-schema.json
+# Run via `go generate` from this directory so `output` lands next to this file.
+package: openapi
+output: client.gen.go
+generate:
+  models: true
+  client: true
+compatibility:
+  always-prefix-enum-values: true

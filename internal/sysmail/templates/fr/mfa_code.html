@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="fr">
+<body style="font-family:system-ui,sans-serif;line-height:1.5;color:#111;max-width:32rem;margin:1.5rem auto;padding:0 1rem">
+<p style="font-size:1.25rem;font-weight:600;margin:0 0 1rem">EmailBridge</p>
+<p>Bonjour{{if .Name}}, {{.Name}}{{end}},</p>
+<p>Votre code de vérification est :</p>
+<p style="font-size:1.5rem;font-weight:700;letter-spacing:0.1em">{{.Code}}</p>
+<p style="color:#555">Il expire bientôt. Si vous n’avez pas fait cette demande, vous pouvez ignorer ce message.</p>
+</body>
+</html>

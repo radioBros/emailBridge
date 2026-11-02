@@ -1,0 +1,7 @@
+EmailBridge
+
+{{if .Name}}{{.Name}} 様{{end}}
+
+メールアドレスを確認する: {{.VerifyURL}}
+
+EmailBridge アカウントを作成していない場合は、このメッセージを無視してください。

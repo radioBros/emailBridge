@@ -1,0 +1,80 @@
+// Loading affordances — the overlay half of the two-state loading rule (README §10).
+//
+// The rule in one line: **a first load is a skeleton, a refetch is an overlay.** A skeleton is for
+// when there is nothing on screen yet; an overlay is for when there already is, and replacing that
+// with a skeleton would throw away what the user was reading and flash the whole page.
+//
+// This partial owns BOTH: the overlay itself, and the bone colours the skeletons are painted in
+// (the markup for those lives in `components/states/LoadingSkeleton.vue`).
+//
+// Ported from the reference project's `assets/styles/imports/_loaders.scss`, reduced to the rules
+// that carry the pattern and remapped onto this kit's tokens.
+
+/// Scrim + centred spinner covering the nearest positioned ancestor.
+///
+/// **It is `position: absolute`, so it needs a positioned ancestor.** `.app-card` sets
+/// `position: relative` (see `_cards.scss`), so an overlay inside any `AppCard` is already correct.
+/// Anywhere else — a bare `v-row`, a plain `div` — the call site adds Vuetify's `position-relative`
+/// utility, or the overlay will size itself to whatever container happens to be positioned further
+/// up, usually the page.
+.loader-overlay {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inset: 0;
+  background: var(--overlay-scrim);
+
+  // The delay is the point, not a decoration.
+  //
+  // Most refetches finish in well under 200ms. Without a delay every one of them flashes a spinner
+  // across content the user is mid-sentence in, which reads as the page breaking rather than as the
+  // page working. `both` holds the from-state during the delay, so nothing is painted at all until
+  // the request has proven itself slow enough to be worth reporting.
+  animation: loader-overlay-in 160ms ease 140ms both;
+
+  // The overlay is not the content. A screen reader announcing it is right; a keyboard user tabbing
+  // into it is not, and neither is a pointer stealing a click from the button underneath during the
+  // fraction of a second it is up.
+  pointer-events: none;
+
+  /// A refetch over a tall section — a long table, a full calendar — must not park its spinner
+  /// hundreds of pixels below the fold where nobody sees it.
+  &.loader-overlay--top {
+    align-items: flex-start;
+    padding-top: 12%;
+  }
+}
+
+@keyframes loader-overlay-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-overlay {
+    animation-duration: 1ms;
+  }
+}
+
+// Skeleton bones — theme colours `skeleton` / `skeleton-highlight` (VuetifyThemes + _tokens).
+.v-skeleton-loader {
+  background: transparent !important;
+}
+
+.v-skeleton-loader .v-skeleton-loader__avatar,
+ .v-skeleton-loader .v-skeleton-loader__button,
+.v-skeleton-loader .v-skeleton-loader__chip,
+.v-skeleton-loader .v-skeleton-loader__divider,
+.v-skeleton-loader .v-skeleton-loader__heading,
+.v-skeleton-loader .v-skeleton-loader__image,
+.v-skeleton-loader .v-skeleton-loader__ossein,
+.v-skeleton-loader .v-skeleton-loader__text {
+  opacity: 0.2;
+}

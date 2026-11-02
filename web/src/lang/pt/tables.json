@@ -1,0 +1,18 @@
+{
+  "tables": {
+    "search_placeholder": "Buscar",
+    "no_results": "Nenhum resultado",
+    "configure_columns": "Configurar colunas",
+    "reset_widths": "Redefinir larguras",
+    "resize_column": "Redimensionar coluna {column}",
+    "show": "Mostrar",
+    "entries": "linhas",
+    "items_per_page": "Linhas por página",
+    "showing_items": "{from}–{to} de {total}",
+    "sort_by": "Ordenar por",
+    "sort_ascending": "Crescente, mudar para decrescente",
+    "sort_descending": "Decrescente, mudar para crescente",
+    "load_more_failed": "Não foi possível carregar mais itens",
+    "retry": "Tentar de novo"
+  }
+}

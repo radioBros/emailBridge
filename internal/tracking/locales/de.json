@@ -1,0 +1,7 @@
+{
+  "title": "Abmelden",
+  "confirm": "{email} abmelden?",
+  "button": "Abmelden",
+  "done_title": "Abgemeldet",
+  "done_body": "{email} wurde abgemeldet."
+}

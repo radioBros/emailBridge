@@ -1,0 +1,28 @@
+EmailBridge {{ .Chart.AppVersion }} installed as {{ include "emailbridge.fullname" . }}.
+
+Roles:
+{{- range $c, $r := .Values.roles }}
+{{- if $r.enabled }}
+  - {{ $c }}: EB_ROLES={{ $r.roles }}
+{{- end }}
+{{- end }}
+
+Secrets: mount Secret "{{ .Values.existingSecret }}" with keys
+  {{ .Values.secretFiles.mongo_uri }}, {{ .Values.secretFiles.auth_secret }}, {{ .Values.secretFiles.keys }}
+  (optional S3 / NATS creds).
+
+terminationGracePeriodSeconds={{ .Values.terminationGracePeriodSeconds }} (must exceed EB_SHUTDOWN_GRACE).
+No init containers — migrations run in the main entrypoint under the lock.
+
+External MongoDB / NATS / S3 are required (mongodb.enabled / nats.enabled / minio.enabled stay false
+unless you wire optional subcharts yourself — see README).
+
+API Service: {{ include "emailbridge.fullname" . }}:{{ .Values.service.port }}
+{{- if .Values.ingress.enabled }}
+Ingress host(s):
+{{- range .Values.ingress.hosts }}
+  - http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}
+{{- end }}
+{{- end }}
+
+Docs: docs/ops/large.md

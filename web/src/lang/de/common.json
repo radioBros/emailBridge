@@ -1,0 +1,10 @@
+{
+  "common": {
+    "search": "Suchen",
+    "close": "Schließen",
+    "states": {
+      "loading": "Laden",
+      "refreshing": "Aktualisieren"
+    }
+  }
+}

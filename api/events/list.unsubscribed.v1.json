@@ -1,0 +1,77 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/list.unsubscribed/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "externalId": "crm-48213",
+        "ip": "198.51.100.0",
+        "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+        "recipient": "giulia.bianchi@example.org",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/list.unsubscribed/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5dsa5x0v78ag81yce7hjpr3",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "time": "2026-10-27T09:05:40.011Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "list.unsubscribed"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "externalId": "crm-48213",
+      "ip": "198.51.100.0",
+      "outboundId": "out_01m5cqe6d02twj9xw9b9vyh5b4",
+      "recipient": "giulia.bianchi@example.org",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "bot": {
+      "description": "True when prefetch/bot heuristics matched",
+      "type": "boolean"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ip": {
+      "description": "Truncated client IP",
+      "type": "string"
+    },
+    "outboundId": {
+      "description": "Outbound ID (out_…)",
+      "type": "string"
+    },
+    "recipient": {
+      "description": "Recipient who unsubscribed",
+      "type": "string"
+    },
+    "userAgent": {
+      "description": "Client User-Agent",
+      "type": "string"
+    }
+  },
+  "required": [
+    "outboundId",
+    "recipient",
+    "accountId",
+    "externalId"
+  ],
+  "title": "list.unsubscribed data (v1)",
+  "type": "object"
+}

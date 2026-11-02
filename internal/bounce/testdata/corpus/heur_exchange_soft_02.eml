@@ -1,0 +1,11 @@
+From: Microsoft Outlook <postmaster@exchange.example.com>
+To: sender@example.com
+Subject: Undeliverable: Your message (deferred)
+Message-ID: <heur-058@example.com>
+In-Reply-To: <orig-heur-058@example.com>
+X-Failed-Recipients: bounce-hint058@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Your message to full08@example.com couldn't be delivered.
+Remote server returned '452 4.2.2 mailbox full / over quota'

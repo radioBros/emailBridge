@@ -1,0 +1,44 @@
+// Form styling — global. Validation glyphs use bundled SVG data URIs (no CDN).
+
+// mdiAlertCircle / mdiCheckCircle paths, masked so colour comes from the theme.
+$icon-error: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z'/%3E%3C/svg%3E");
+$icon-success: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z'/%3E%3C/svg%3E");
+
+.v-input:not(.search-input, .no-validation, .no-validation-icons, .v-textarea, .v-input--readonly) {
+  .v-input__control > .v-field {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      display: inline-block;
+      width: 1.25em;
+      height: 1.25em;
+      transform: translateY(-50%);
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: contain;
+    }
+  }
+
+  &.v-input--error .v-input__control > .v-field {
+    padding-right: 2.5rem;
+
+    &::after {
+      background-color: rgb(var(--v-theme-error));
+      content: "";
+      mask-image: $icon-error;
+    }
+  }
+
+  &.v-input--dirty:not(.v-input--error) .v-input__control > .v-field {
+    padding-right: 2.5rem;
+
+    &::after {
+      background-color: rgb(var(--v-theme-success));
+      content: "";
+      mask-image: $icon-success;
+    }
+  }
+}

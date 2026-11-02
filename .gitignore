@@ -1,0 +1,99 @@
+# Secrets and local config — never commit
+.env
+.env.*
+!.env.example
+/secrets/
+/*.pem
+/*.key
+
+# Local data (bind mounts, test stacks) — anchored to the repo root
+/.data/
+/data/
+/tmp/
+
+# Go
+/bin/
+/dist/
+*.test
+*.out
+coverage.*
+go.work.sum
+
+# Node / admin UI
+node_modules/
+web/dist/
+web/.vite/
+*.log
+
+# Editors and OS
+.idea/
+.vscode/
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Test artefacts
+playwright-report/
+test-results/
+load-results/
+web/e2e/screens/
+web/e2e/.stack.json
+web/e2e/.auth/
+web/e2e/last-run.json
+web/e2e/last-run.txt
+web/e2e/run*.txt
+web/e2e/failures.csv
+
+# Test fixtures (keys, certificates, sample mail) are always tracked
+!**/testdata/**
+
+# Spikes (throw-away prototypes)
+/spikes/
+*.cov
+
+# admin build copied in for -tags embedweb
+internal/webui/dist/
+
+# SDK and docs-site build output (P7.4, P7.5)
+__pycache__/
+*.pyc
+.pytest_cache/
+sdk/python/.venv/
+sdk/python/dist/
+sdk/python/*.egg-info/
+sdk/php/vendor/
+sdk/typescript/dist/
+docs/site/site/
+
+# Local coverage dumps and binaries left at the repo root by test runs
+/$cov*
+/c1
+/c2
+/c-*
+/cov_*
+/cover-*
+/coverage-*
+/*-funcs.txt
+/*.exe
+*.exe
+
+# Vitest coverage report and UI-stack scratch output
+web/coverage/
+web/e2e/uistack-*.txt
+web/e2e/_screenshot-review/
+sdk/go/cover-*
+
+# Development process files (never part of the public repo)
+AGENTS.md
+CLAUDE.md
+.claude/
+.claude-flow/
+.cursor/
+.cursorignore
+.swarm/
+docs/plan/
+docs/project/
+docs/spec/
+docs/i18n/
+docs/status.md
+tmp/

@@ -1,0 +1,18 @@
+{{- if .Values.pdb.enabled }}
+{{- range $component, $role := .Values.roles }}
+{{- if $role.enabled }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "emailbridge.fullname" $ }}-{{ $component }}
+  labels:
+    {{- include "emailbridge.componentLabels" (dict "root" $ "component" $component) | nindent 4 }}
+spec:
+  minAvailable: {{ $.Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "emailbridge.componentSelectorLabels" (dict "root" $ "component" $component) | nindent 6 }}
+{{- end }}
+{{- end }}
+{{- end }}

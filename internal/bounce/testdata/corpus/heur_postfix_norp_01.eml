@@ -1,0 +1,12 @@
+From: Mail Delivery System <noreply@mx.example.com>
+To: sender@example.com
+Subject: Undelivered Mail Returned to Sender
+X-Failed-Recipients: fail-norp01@example.com
+Message-ID: <heur-norp-postfix-01@example.com>
+
+This is the mail system at host mx.example.com.
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients.
+
+<fail-norp01@example.com>: host mx.example.com said:
+550 5.1.1 User unknown (in reply to RCPT TO command)

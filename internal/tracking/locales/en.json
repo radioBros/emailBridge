@@ -1,0 +1,7 @@
+{
+  "title": "Unsubscribe",
+  "confirm": "Unsubscribe {email}?",
+  "button": "Unsubscribe",
+  "done_title": "Unsubscribed",
+  "done_body": "{email} has been unsubscribed."
+}

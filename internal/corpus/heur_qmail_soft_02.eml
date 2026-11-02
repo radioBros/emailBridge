@@ -1,0 +1,13 @@
+From: Mailer-Daemon <mailer-daemon@qmail.example.com>
+To: sender@example.com
+Subject: failure notice (deferred)
+Message-ID: <heur-064@example.com>
+In-Reply-To: <orig-heur-064@example.com>
+X-Failed-Recipients: bounce-hint064@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Hi. This is the qmail-send program at mx.example.com.
+Deferred:
+<full14@example.com>:
+451 Unable to accept message temporarily

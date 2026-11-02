@@ -1,0 +1,166 @@
+{
+  "$defs": {
+    "FlagChange": {
+      "properties": {
+        "added": {
+          "description": "Values added by this change",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "current": {
+          "description": "All values after the change",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "removed": {
+          "description": "Values removed by this change",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "added",
+        "removed",
+        "current"
+      ],
+      "type": "object"
+    },
+    "Mailbox": {
+      "properties": {
+        "mailboxId": {
+          "description": "Mailbox ID (mbx_…)",
+          "type": "string"
+        },
+        "path": {
+          "description": "Folder path as on the server",
+          "type": "string"
+        },
+        "specialUse": {
+          "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mailboxId",
+        "path"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/message.updated/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "externalId": "crm-48213",
+        "flags": {
+          "added": [
+            "\\Seen"
+          ],
+          "current": [
+            "\\Seen"
+          ],
+          "removed": []
+        },
+        "mailbox": {
+          "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+          "path": "INBOX"
+        },
+        "messageId": "msg_01m5ch2yg09swc93g54trswp15",
+        "uid": 48213
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/message.updated/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5d20y80n4ps0apz3e6baqq3",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "msg_01m5ch2yg09swc93g54trswp15",
+      "time": "2026-10-27T09:31:40.004Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "message.updated"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "externalId": "crm-48213",
+      "flags": {
+        "added": [
+          "\\Seen"
+        ],
+        "current": [
+          "\\Seen"
+        ],
+        "removed": []
+      },
+      "mailbox": {
+        "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+        "path": "INBOX"
+      },
+      "messageId": "msg_01m5ch2yg09swc93g54trswp15",
+      "uid": 48213
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "flags": {
+      "$ref": "#/$defs/FlagChange",
+      "description": "IMAP flag changes"
+    },
+    "labels": {
+      "$ref": "#/$defs/FlagChange",
+      "description": "P6 (Gmail labels)"
+    },
+    "mailbox": {
+      "$ref": "#/$defs/Mailbox",
+      "description": "Folder of the message"
+    },
+    "messageId": {
+      "description": "Our ID (msg_…)",
+      "type": "string"
+    },
+    "uid": {
+      "description": "IMAP UID in the folder",
+      "format": "int32",
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "messageId",
+    "mailbox",
+    "uid",
+    "flags",
+    "accountId",
+    "externalId"
+  ],
+  "title": "message.updated data (v1)",
+  "type": "object"
+}

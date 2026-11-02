@@ -1,0 +1,10 @@
+From: billing@example.com
+To: reader@example.com
+Subject: Invoice 2026-100
+Message-ID: <none-none_invoice_01@example.com>
+Date: Mon, 26 Oct 2026 15:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Please find invoice 2026-100 attached. Payment due in 30 days.
+

@@ -1,0 +1,381 @@
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/fetch.go third_party/go-imap/fetch.go
+--- upstream/go-imap@v2.0.0-beta.8/fetch.go	2026-10-22 11:40:30.025768300 +0200
++++ third_party/go-imap/fetch.go	2026-10-26 05:21:07.588304000 +0100
+@@ -21,6 +21,9 @@
+ 	ModSeq            bool                          // requires CONDSTORE
+ 
+ 	ChangedSince uint64 // requires CONDSTORE
++	// Vanished adds the VANISHED modifier to UID FETCH … (CHANGEDSINCE n): UIDs expunged since n are
++	// reported as VANISHED (EARLIER). Requires ENABLE QRESYNC and ChangedSince. EmailBridge patch.
++	Vanished bool
+ }
+ 
+ // FetchItemBodyStructure contains FETCH options for the body structure.
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/imapclient/client.go third_party/go-imap/imapclient/client.go
+--- upstream/go-imap@v2.0.0-beta.8/imapclient/client.go	2026-10-22 11:40:30.081089300 +0200
++++ third_party/go-imap/imapclient/client.go	2026-10-26 05:21:07.591839900 +0100
+@@ -980,6 +980,11 @@
+ 			return c.dec.Err()
+ 		}
+ 		return c.handleFetch(num)
++	case "VANISHED": // EmailBridge patch (RFC 7162 §3.2.10)
++		if !c.dec.ExpectSP() {
++			return c.dec.Err()
++		}
++		return c.handleVanished()
+ 	case "EXPUNGE":
+ 		return c.handleExpunge(num)
+ 	case "SEARCH":
+@@ -1191,6 +1196,10 @@
+ // See Options.UnilateralDataHandler.
+ type UnilateralDataHandler struct {
+ 	Expunge func(seqNum uint32)
++	// Vanished receives VANISHED responses (requires ENABLE QRESYNC). Without EARLIER they replace
++	// EXPUNGE for the selected mailbox; with EARLIER they answer SELECT … (QRESYNC …) and
++	// UID FETCH … (CHANGEDSINCE n VANISHED). EmailBridge patch.
++	Vanished func(data *VanishedData)
+ 	Mailbox func(data *UnilateralDataMailbox)
+ 	Fetch   func(msg *FetchMessageData)
+ 
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/imapclient/enable.go third_party/go-imap/imapclient/enable.go
+--- upstream/go-imap@v2.0.0-beta.8/imapclient/enable.go	2026-10-22 11:40:30.104158200 +0200
++++ third_party/go-imap/imapclient/enable.go	2026-10-26 05:21:07.589831600 +0100
+@@ -14,7 +14,8 @@
+ 	// extensions we support here
+ 	for _, name := range caps {
+ 		switch name {
+-		case imap.CapIMAP4rev2, imap.CapUTF8Accept, imap.CapMetadata, imap.CapMetadataServer:
++		case imap.CapIMAP4rev2, imap.CapUTF8Accept, imap.CapMetadata, imap.CapMetadataServer,
++			imap.CapCondStore, imap.CapQResync: // EmailBridge patch: VANISHED is handled (vanished.go)
+ 			// ok
+ 		default:
+ 			done := make(chan error)
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/imapclient/fetch.go third_party/go-imap/imapclient/fetch.go
+--- upstream/go-imap@v2.0.0-beta.8/imapclient/fetch.go	2026-10-22 11:40:30.133645100 +0200
++++ third_party/go-imap/imapclient/fetch.go	2026-10-26 05:21:07.590840600 +0100
+@@ -34,7 +34,11 @@
+ 	enc.SP().NumSet(numSet).SP()
+ 	writeFetchItems(enc.Encoder, numKind, options)
+ 	if options.ChangedSince != 0 {
+-		enc.SP().Special('(').Atom("CHANGEDSINCE").SP().ModSeq(options.ChangedSince).Special(')')
++		enc.SP().Special('(').Atom("CHANGEDSINCE").SP().ModSeq(options.ChangedSince)
++		if options.Vanished && numKind == imapwire.NumKindUID { // EmailBridge patch (RFC 7162 §3.2.6)
++			enc.SP().Atom("VANISHED")
++		}
++		enc.Special(')')
+ 	}
+ 	enc.end()
+ 	return cmd
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/imapclient/select.go third_party/go-imap/imapclient/select.go
+--- upstream/go-imap@v2.0.0-beta.8/imapclient/select.go	2026-10-22 11:40:30.217957600 +0200
++++ third_party/go-imap/imapclient/select.go	2026-10-26 05:21:07.589831600 +0100
+@@ -17,7 +17,16 @@
+ 	cmd := &SelectCommand{mailbox: mailbox}
+ 	enc := c.beginCommand(cmdName, cmd)
+ 	enc.SP().Mailbox(mailbox)
+-	if options != nil && options.CondStore {
++	switch {
++	case options != nil && options.QResync != nil: // EmailBridge patch (RFC 7162 §3.2.5)
++		q := options.QResync
++		enc.SP().Special('(').Atom("QRESYNC").SP().Special('(')
++		enc.Number(q.UIDValidity).SP().ModSeq(q.ModSeq)
++		if len(q.KnownUIDs) > 0 {
++			enc.SP().NumSet(q.KnownUIDs)
++		}
++		enc.Special(')').Special(')')
++	case options != nil && options.CondStore:
+ 		enc.SP().Special('(').Atom("CONDSTORE").Special(')')
+ 	}
+ 	enc.end()
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/imapclient/vanished.go third_party/go-imap/imapclient/vanished.go
+--- upstream/go-imap@v2.0.0-beta.8/imapclient/vanished.go	1970-01-01 01:00:00.000000000 +0100
++++ third_party/go-imap/imapclient/vanished.go	2026-10-26 05:21:26.591262400 +0100
+@@ -0,0 +1,72 @@
++package imapclient
++
++// EmailBridge patch: QRESYNC VANISHED responses (RFC 7162 §3.2.10). See third_party/go-imap/PATCHES.md.
++
++import (
++	"fmt"
++
++	"github.com/emersion/go-imap/v2"
++)
++
++// VanishedData is a VANISHED response.
++type VanishedData struct {
++	// Earlier is true for "VANISHED (EARLIER)": UIDs expunged before this point (answers to
++	// SELECT … (QRESYNC …) and UID FETCH … (VANISHED)). They do not change the current message count.
++	Earlier bool
++	UIDs    imap.UIDSet
++}
++
++// handleVanished parses `VANISHED [(EARLIER) SP] uid-set`. Without EARLIER the response replaces EXPUNGE for
++// the selected mailbox, so the message count drops by the number of UIDs, like one EXPUNGE per UID.
++func (c *Client) handleVanished() error {
++	var data VanishedData
++	if c.dec.Special('(') {
++		var atom string
++		if !c.dec.ExpectAtom(&atom) || !c.dec.ExpectSpecial(')') || !c.dec.ExpectSP() {
++			return c.dec.Err()
++		}
++		if atom != "EARLIER" {
++			return fmt.Errorf("in VANISHED: unknown tag %q", atom)
++		}
++		data.Earlier = true
++	}
++	if !c.dec.ExpectUIDSet(&data.UIDs) {
++		return c.dec.Err()
++	}
++
++	if !data.Earlier {
++		n := uidSetCount(data.UIDs)
++		c.mutex.Lock()
++		if c.state == imap.ConnStateSelected && c.mailbox != nil {
++			c.mailbox = c.mailbox.copy()
++			if n >= c.mailbox.NumMessages {
++				c.mailbox.NumMessages = 0
++			} else {
++				c.mailbox.NumMessages -= n
++			}
++		}
++		c.mutex.Unlock()
++	}
++
++	if handler := c.options.unilateralDataHandler().Vanished; handler != nil {
++		handler(&data)
++	}
++	return nil
++}
++
++// uidSetCount counts the UIDs of a set whose ranges are all bounded (VANISHED never uses "*").
++func uidSetCount(set imap.UIDSet) uint32 {
++	var n uint32
++	for _, r := range set {
++		start, stop := r.Start, r.Stop
++		if stop == 0 || start == 0 { // "*" never appears in VANISHED; count it as one UID defensively
++			n++
++			continue
++		}
++		if stop < start {
++			start, stop = stop, start
++		}
++		n += uint32(stop-start) + 1
++	}
++	return n
++}
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/imapclient/vanished_test.go third_party/go-imap/imapclient/vanished_test.go
+--- upstream/go-imap@v2.0.0-beta.8/imapclient/vanished_test.go	1970-01-01 01:00:00.000000000 +0100
++++ third_party/go-imap/imapclient/vanished_test.go	2026-10-26 05:23:25.888180000 +0100
+@@ -0,0 +1,172 @@
++package imapclient
++
++// EmailBridge patch tests: QRESYNC encoding and VANISHED parsing against a scripted server.
++
++import (
++	"bufio"
++	"net"
++	"strings"
++	"sync"
++	"testing"
++	"time"
++
++	"github.com/emersion/go-imap/v2"
++)
++
++type scripted struct {
++	t     *testing.T
++	conn  net.Conn
++	r     *bufio.Reader
++	lines chan string
++}
++
++func (s *scripted) send(lines ...string) {
++	for _, l := range lines {
++		if _, err := s.conn.Write([]byte(l + "\r\n")); err != nil {
++			s.t.Errorf("server write: %v", err)
++		}
++	}
++}
++
++// next returns the next command line the client sent.
++func (s *scripted) next() string {
++	select {
++	case l := <-s.lines:
++		return l
++	case <-time.After(5 * time.Second):
++		s.t.Fatal("no command from the client")
++		return ""
++	}
++}
++
++func newScripted(t *testing.T, handler *UnilateralDataHandler) (*Client, *scripted) {
++	t.Helper()
++	srvConn, cliConn := net.Pipe()
++	s := &scripted{t: t, conn: srvConn, r: bufio.NewReader(srvConn), lines: make(chan string, 16)}
++	go func() {
++		for {
++			l, err := s.r.ReadString('\n')
++			if err != nil {
++				close(s.lines)
++				return
++			}
++			s.lines <- strings.TrimRight(l, "\r\n")
++		}
++	}()
++	go s.send("* OK [CAPABILITY IMAP4rev1 CONDSTORE QRESYNC ENABLE] ready")
++	c := New(cliConn, &Options{UnilateralDataHandler: handler})
++	t.Cleanup(func() { _ = c.Close(); _ = srvConn.Close() })
++	if err := c.WaitGreeting(); err != nil {
++		t.Fatal(err)
++	}
++	return c, s
++}
++
++func tagOf(line string) string { return strings.SplitN(line, " ", 2)[0] }
++
++func TestQResyncSelectFetchAndVanished(t *testing.T) {
++	var mu sync.Mutex
++	var got []VanishedData
++	var fetched []uint32
++	fetchDone := make(chan struct{}, 1)
++	handler := &UnilateralDataHandler{
++		Vanished: func(d *VanishedData) { mu.Lock(); got = append(got, *d); mu.Unlock() },
++		Fetch: func(msg *FetchMessageData) {
++			for item := msg.Next(); item != nil; item = msg.Next() {
++				if uid, ok := item.(FetchItemDataUID); ok {
++					mu.Lock()
++					fetched = append(fetched, uint32(uid.UID))
++					mu.Unlock()
++				}
++			}
++			fetchDone <- struct{}{}
++		},
++	}
++	c, s := newScripted(t, handler)
++
++	enable := c.Enable(imap.CapQResync)
++	line := s.next()
++	if !strings.HasSuffix(line, " ENABLE QRESYNC") {
++		t.Fatalf("enable: %q", line)
++	}
++	s.send("* ENABLED QRESYNC", tagOf(line)+" OK enabled")
++	if _, err := enable.Wait(); err != nil {
++		t.Fatal(err)
++	}
++
++	var known imap.UIDSet
++	known.AddRange(1, 20)
++	sel := c.Select("INBOX", &imap.SelectOptions{QResync: &imap.SelectQResync{UIDValidity: 7, ModSeq: 42, KnownUIDs: known}})
++	line = s.next()
++	if !strings.HasSuffix(line, ` SELECT INBOX (QRESYNC (7 42 1:20))`) {
++		t.Fatalf("select: %q", line)
++	}
++	s.send("* 10 EXISTS", "* OK [UIDVALIDITY 7] ok", "* OK [UIDNEXT 21] ok", "* OK [HIGHESTMODSEQ 90] ok",
++		"* VANISHED (EARLIER) 3:5,9", "* 1 FETCH (UID 2 FLAGS (\\Seen) MODSEQ (50))", tagOf(line)+" OK [READ-WRITE] selected")
++	data, err := sel.Wait()
++	if err != nil || data.NumMessages != 10 || data.HighestModSeq != 90 {
++		t.Fatalf("select data: %+v %v", data, err)
++	}
++	if c.Mailbox().NumMessages != 10 {
++		t.Fatalf("EARLIER must not change the count: %d", c.Mailbox().NumMessages)
++	}
++
++	// While selected, VANISHED without EARLIER replaces EXPUNGE: the count drops by the number of UIDs.
++	noop := c.Noop()
++	line = s.next()
++	s.send("* VANISHED 6:7", tagOf(line)+" OK noop")
++	if err := noop.Wait(); err != nil {
++		t.Fatal(err)
++	}
++	if c.Mailbox().NumMessages != 8 {
++		t.Fatalf("count after VANISHED 6:7: %d", c.Mailbox().NumMessages)
++	}
++
++	var all imap.UIDSet
++	all.AddRange(1, 0)
++	fetch := c.Fetch(all, &imap.FetchOptions{Flags: true, ChangedSince: 42, Vanished: true})
++	line = s.next()
++	if !strings.HasSuffix(line, " UID FETCH 1:* (UID FLAGS) (CHANGEDSINCE 42 VANISHED)") {
++		t.Fatalf("uid fetch: %q", line)
++	}
++	s.send("* VANISHED (EARLIER) 11", tagOf(line)+" OK fetched")
++	if err := fetch.Close(); err != nil {
++		t.Fatal(err)
++	}
++
++	select { // the unilateral FETCH handler may still be draining its items
++	case <-fetchDone:
++	case <-time.After(5 * time.Second):
++		t.Fatal("unilateral FETCH handler never finished")
++	}
++	mu.Lock()
++	defer mu.Unlock()
++	if len(got) != 3 || !got[0].Earlier || got[0].UIDs.String() != "3:5,9" || got[1].Earlier ||
++		got[1].UIDs.String() != "6:7" || !got[2].Earlier || got[2].UIDs.String() != "11" {
++		t.Fatalf("vanished: %+v", got)
++	}
++	if len(fetched) != 1 || fetched[0] != 2 {
++		t.Fatalf("unilateral FETCH during SELECT: %v", fetched)
++	}
++}
++
++func TestVanishedRejectsUnknownTag(t *testing.T) {
++	c, s := newScripted(t, &UnilateralDataHandler{Vanished: func(*VanishedData) {}})
++	noop := c.Noop()
++	line := s.next()
++	_ = tagOf(line)
++	s.send("* VANISHED (LATER) 1") // the client drops the connection on this protocol error
++	if err := noop.Wait(); err == nil {
++		t.Fatal("an unknown VANISHED tag must be a protocol error")
++	}
++}
++
++func TestUIDSetCount(t *testing.T) {
++	var set imap.UIDSet
++	set.AddRange(3, 5)
++	set.AddNum(9)
++	set = append(set, imap.UIDRange{Start: 20, Stop: 18})
++	if n := uidSetCount(set); n != 7 {
++		t.Fatalf("count %d", n)
++	}
++}
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/imapserver/tracker.go third_party/go-imap/imapserver/tracker.go
+--- upstream/go-imap@v2.0.0-beta.8/imapserver/tracker.go	2026-10-22 11:40:30.356213000 +0200
++++ third_party/go-imap/imapserver/tracker.go	2026-10-26 06:36:46.936416500 +0100
+@@ -212,6 +212,14 @@
+ 		t.mutex.Unlock()
+ 	}()
+ 
++	// EmailBridge patch: deliver what was queued before the channel above was registered. queueUpdate
++	// appends to the queue and reads t.updates under the same mutex, so an update queued before the
++	// registration is drained here and one queued after it signals the channel: none is left waiting for
++	// the next unrelated update (RFC 2177: the server sends pending updates when IDLE starts).
++	if err := t.Poll(w, true); err != nil {
++		return err
++	}
++
+ 	for {
+ 		select {
+ 		case <-updates:
+diff -ruN --strip-trailing-cr -x PATCHES.md -x '*.patch' upstream/go-imap@v2.0.0-beta.8/select.go third_party/go-imap/select.go
+--- upstream/go-imap@v2.0.0-beta.8/select.go	2026-10-22 11:40:30.480343800 +0200
++++ third_party/go-imap/select.go	2026-10-26 05:21:07.588304000 +0100
+@@ -4,6 +4,18 @@
+ type SelectOptions struct {
+ 	ReadOnly  bool
+ 	CondStore bool // requires CONDSTORE
++
++	// QResync, when set, sends the QRESYNC parameter (RFC 7162 §3.2.5). It requires ENABLE QRESYNC and
++	// implies CONDSTORE. The server answers with VANISHED (EARLIER) for UIDs expunged since ModSeq and
++	// FETCH responses for messages changed since ModSeq, before the tagged OK. EmailBridge patch.
++	QResync *SelectQResync
++}
++
++// SelectQResync holds the QRESYNC parameters of SELECT and EXAMINE. EmailBridge patch.
++type SelectQResync struct {
++	UIDValidity uint32
++	ModSeq      uint64
++	KnownUIDs   UIDSet // optional
+ }
+ 
+ // SelectData is the data returned by a SELECT command.

@@ -1,0 +1,9 @@
+From: Mail Delivery System <mailer-daemon@mx.example.com>
+To: sender@example.com
+Subject: Delayed Mail: greylist
+X-Failed-Recipients: grey@example.com
+Message-ID: <heur-grey-01@example.com>
+
+This is the mail system at host mx.example.com.
+Delivery temporarily deferred for grey@example.com
+451 4.7.1 greylisted — try again later

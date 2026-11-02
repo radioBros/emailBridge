@@ -1,0 +1,146 @@
+# Task runner for EmailBridge (https://taskfile.dev). `task --list` shows everything.
+version: "3"
+
+vars:
+  BIN: bin/emailbridge{{exeExt}}
+  VERSION:
+    sh: git describe --tags --always --dirty 2>/dev/null || echo dev
+  COMMIT:
+    sh: git rev-parse --short HEAD 2>/dev/null || echo none
+  DATE:
+    sh: date -u +%Y-%m-%dT%H:%M:%SZ
+  LDFLAGS: -s -w -X main.version={{.VERSION}} -X main.commit={{.COMMIT}} -X main.date={{.DATE}}
+  GO_IMAGE: golang:1.27
+
+tasks:
+  dev:secrets:
+    desc: Write the dev stack secrets once (.data/dev/secrets, gitignored)
+    status:
+      - test -f .data/dev/secrets/keys
+    cmds:
+      - go run ./cmd/emailbridge secrets init --dir .data/dev/secrets
+
+  dev:deps:
+    desc: Start the dev stack emailbridge-dev - EmailBridge on :8080 (entry point) + MongoDB, Dovecot, S3
+    deps: [dev:secrets]
+    cmds:
+      - docker compose -f deploy/compose/devdeps.yml up -d --build --wait
+
+  dev:deps:down:
+    desc: Stop the emailbridge-dev stack (data stays in .data/dev)
+    cmds:
+      - docker compose -f deploy/compose/devdeps.yml down
+
+  default:
+    cmds:
+      - task --list
+
+  build:
+    desc: Build the emailbridge binary into bin/
+    cmds:
+      - go build -trimpath -ldflags "{{.LDFLAGS}}" -o {{.BIN}} ./cmd/emailbridge
+
+  build:full:
+    desc: Build the admin SPA and a binary that embeds it (-tags embedweb)
+    cmds:
+      - pnpm --dir web install --frozen-lockfile
+      - pnpm --dir web build
+      - rm -rf internal/webui/dist
+      - cp -r web/dist internal/webui/dist
+      - go build -trimpath -tags embedweb -ldflags "{{.LDFLAGS}}" -o {{.BIN}} ./cmd/emailbridge
+
+  run:
+    desc: Run emailbridge serve with the local environment
+    cmds:
+      - go run ./cmd/emailbridge serve
+
+  fmt:
+    desc: Check formatting (gofmt -l must print nothing)
+    cmds:
+      - test -z "$(gofmt -l $(git ls-files '*.go'))"
+
+  vet:
+    desc: go vet
+    cmds:
+      - go vet ./...
+
+  lint:
+    desc: golangci-lint (includes the module import rules)
+    cmds:
+      - golangci-lint run ./...
+
+  lint:log:
+    desc: logcheck — constant log messages, no message content in logs
+    cmds:
+      - go run ./tools/logcheck/cmd/logcheck ./...
+
+  test:
+    desc: Unit tests with coverage
+    cmds:
+      - go test -count=1 -coverprofile=coverage.out ./...
+
+  test:race:
+    desc: Unit tests with the race detector, inside a Linux container (no cgo toolchain needed locally)
+    cmds:
+      - docker run --rm -v "{{.ROOT_DIR}}:/src" -w /src -e GOFLAGS=-buildvcs=false {{.GO_IMAGE}} go test -race -count=1 ./...
+
+  test:int:
+    desc: Integration tests (testcontainers; needs Docker or Podman)
+    cmds:
+      - go test -count=1 -tags integration ./...
+
+  test:e2e:
+    desc: End-to-end scenarios (real binary + containers; needs Docker or Podman)
+    cmds:
+      - go test -count=1 -tags e2e -timeout 30m ./test/e2e/...
+
+  openapi:
+    desc: Regenerate api/openapi/openapi.yaml from a booted full node (needs Docker or Podman), then the web types
+    cmds:
+      - go test -count=1 -tags e2e -run TestDumpOpenAPI ./test/e2e/p1/
+      - task: gen:web
+    env:
+      EB_E2E_DUMP_OPENAPI: '{{.ROOT_DIR}}/api/openapi/openapi.yaml'
+
+  gen:web:
+    desc: TypeScript types for the admin SPA from api/openapi/openapi.yaml
+    dir: web
+    cmds:
+      - pnpm exec openapi-typescript ../api/openapi/openapi.yaml -o src/api/schema.d.ts
+
+  test:chaos:
+    desc: Chaos scenarios on the e2e stack (node kills, scripted faults; never against the live server)
+    cmds:
+      - go test -count=1 -tags "e2e chaos" -timeout 30m ./test/chaos/...
+
+  test:load:
+    desc: Load harness — EB_LOAD_ACCOUNTS / EB_LOAD_RATE / EB_LOAD_DURATION / EB_LOAD_NODES / EB_LOAD_SEND_RATE; simulator only, never the live server
+    cmds:
+      - go test -count=1 -tags "e2e load" -timeout 80m -v -run 'TestLoad' ./test/load/
+
+
+  gen:events:
+    desc: Regenerate the event JSON Schemas in api/events
+    cmds:
+      - go run ./tools/eventschema
+
+  vuln:
+    desc: govulncheck
+    cmds:
+      - govulncheck ./...
+
+  sec:
+    desc: Security checks (gosec via golangci-lint, govulncheck)
+    cmds:
+      - task: lint
+      - task: vuln
+
+  ci:
+    desc: Everything CI runs on every push (without containers)
+    cmds:
+      - task: fmt
+      - task: vet
+      - task: lint
+      - task: lint:log
+      - task: test
+      - task: vuln

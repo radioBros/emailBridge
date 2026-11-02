@@ -1,0 +1,12 @@
+From: MAILER-DAEMON@mail.example.com
+To: sender@example.com
+Subject: Mail delivery failed: mailbox full
+Message-ID: <heur-heur_soft_quota_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+The recipient's mailbox is full.
+452 4.2.2 Over quota for full@example.it
+Please try again later.
+

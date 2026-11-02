@@ -1,0 +1,7 @@
+{
+  "title": "Cancelar suscripción",
+  "confirm": "¿Cancelar la suscripción de {email}?",
+  "button": "Cancelar suscripción",
+  "done_title": "Suscripción cancelada",
+  "done_body": "Se ha cancelado la suscripción de {email}."
+}

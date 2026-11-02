@@ -1,0 +1,7 @@
+EmailBridge
+
+Você recebeu um convite{{if .OrgName}} para {{.OrgName}}{{end}}{{if .InviterName}} de {{.InviterName}}{{end}}.
+
+Aceitar o convite: {{.InviteURL}}
+
+Se você não esperava isso, pode ignorar esta mensagem.

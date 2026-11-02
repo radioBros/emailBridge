@@ -1,0 +1,31 @@
+From: alice@example.com
+To: bob@example.com
+Subject: Read: Project plan
+Message-ID: <mdn-01@example.com>
+Date: Mon, 26 Oct 2026 15:10:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=disposition-notification; boundary="mdn_bnd"
+
+--mdn_bnd
+Content-Type: text/plain; charset=utf-8
+
+The message was displayed on Mon, 26 Oct 2026.
+
+--mdn_bnd
+Content-Type: message/disposition-notification
+
+Reporting-UA: Example-MUA; ExampleMail 1.0
+Final-Recipient: rfc822; alice@example.com
+Original-Message-ID: <project-plan@example.com>
+Disposition: manual-action/MDN-sent-manually; displayed
+
+--mdn_bnd
+Content-Type: message/rfc822
+
+From: bob@example.com
+To: alice@example.com
+Subject: Project plan
+Message-ID: <project-plan@example.com>
+
+Plan attached.
+--mdn_bnd--

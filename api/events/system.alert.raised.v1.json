@@ -1,0 +1,110 @@
+{
+  "$id": "https://emailbridge.dev/schemas/events/system.alert.raised/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "category": "webhooks",
+        "detailKey": "notify.webhook.failing.detail",
+        "key": "webhook.failing:whe_01m5cshyc0d23xkhrbz7e490pm",
+        "link": "/webhooks/whe_01m5cshyc0d23xkhrbz7e490pm",
+        "notificationId": "ntf_01m5d44p70hy8qdwczk2dxyq84",
+        "occurrences": 3,
+        "params": {
+          "name": "CRM inbound"
+        },
+        "scope": "org_01m5caqpk0kast63yc13wpy2d9",
+        "severity": "warning",
+        "titleKey": "notify.webhook.failing.title"
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/system.alert.raised/v1.json",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5e3wxr0k0k8597dg8a9k9m3",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9",
+      "specversion": "1.0",
+      "subject": "ntf_01m5d44p70hy8qdwczk2dxyq84",
+      "time": "2026-10-27T07:15:00.14Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "system.alert.raised"
+    },
+    {
+      "category": "webhooks",
+      "detailKey": "notify.webhook.failing.detail",
+      "key": "webhook.failing:whe_01m5cshyc0d23xkhrbz7e490pm",
+      "link": "/webhooks/whe_01m5cshyc0d23xkhrbz7e490pm",
+      "notificationId": "ntf_01m5d44p70hy8qdwczk2dxyq84",
+      "occurrences": 3,
+      "params": {
+        "name": "CRM inbound"
+      },
+      "scope": "org_01m5caqpk0kast63yc13wpy2d9",
+      "severity": "warning",
+      "titleKey": "notify.webhook.failing.title"
+    }
+  ],
+  "properties": {
+    "category": {
+      "description": "Alert category, e.g. webhooks, accounts or storage",
+      "type": "string"
+    },
+    "detailKey": {
+      "description": "i18n key of the detail text",
+      "type": "string"
+    },
+    "key": {
+      "description": "Dedup key",
+      "type": "string"
+    },
+    "link": {
+      "description": "Admin UI path to the affected resource",
+      "type": "string"
+    },
+    "notificationId": {
+      "description": "Notification ID (ntf_…)",
+      "type": "string"
+    },
+    "occurrences": {
+      "description": "How often the condition was seen since it was raised",
+      "format": "int64",
+      "type": "integer"
+    },
+    "params": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Values for the title and detail texts",
+      "type": "object"
+    },
+    "scope": {
+      "description": "org_… or instance",
+      "type": "string"
+    },
+    "severity": {
+      "description": "Alert severity",
+      "enum": [
+        "info",
+        "warning",
+        "critical"
+      ],
+      "type": "string"
+    },
+    "titleKey": {
+      "description": "i18n key of the title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "notificationId",
+    "key",
+    "category",
+    "severity",
+    "scope",
+    "titleKey",
+    "detailKey",
+    "occurrences"
+  ],
+  "title": "system.alert.raised data (v1)",
+  "type": "object"
+}

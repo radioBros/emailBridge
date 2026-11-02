@@ -1,0 +1,10 @@
+From: reader@example.com
+To: reader@example.com
+Subject: Read: Proposal
+Message-ID: <none-none_read_receipt_plain_01@example.com>
+Date: Mon, 26 Oct 2026 15:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+This is a human saying they read the proposal, not an MDN MIME part.
+

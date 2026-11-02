@@ -1,0 +1,14 @@
+From: analyst@example.com
+To: reader@example.com
+Subject: Interesting DSN example for docs
+Message-ID: <none-none_fwd_dsn_text_01@example.com>
+Date: Mon, 26 Oct 2026 15:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+For documentation I'm quoting a DSN structure:
+Status: 5.1.1
+Action: failed
+Final-Recipient: rfc822; demo@example.com
+But this email itself is ordinary discussion.
+

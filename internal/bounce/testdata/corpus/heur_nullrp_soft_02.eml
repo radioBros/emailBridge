@@ -1,0 +1,10 @@
+From: postmaster@relay.example.com
+Return-Path: <>
+To: sender@example.com
+Subject: Temporary delivery failure
+X-Failed-Recipients: greylist@example.com
+Message-ID: <heur-nullrp-soft-02@example.com>
+
+The following address(es) failed:
+ greylist@example.com
+450 4.7.1 greylist — try again in a few minutes

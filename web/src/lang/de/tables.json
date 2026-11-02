@@ -1,0 +1,18 @@
+{
+  "tables": {
+    "search_placeholder": "Suchen",
+    "no_results": "Keine Ergebnisse",
+    "configure_columns": "Spalten konfigurieren",
+    "reset_widths": "Breiten zurücksetzen",
+    "resize_column": "Spalte {column} skalieren",
+    "show": "Anzeigen",
+    "entries": "Zeilen",
+    "items_per_page": "Zeilen pro Seite",
+    "showing_items": "{from}–{to} von {total}",
+    "sort_by": "Sortieren nach",
+    "sort_ascending": "Aufsteigend, zu absteigend wechseln",
+    "sort_descending": "Absteigend, zu aufsteigend wechseln",
+    "load_more_failed": "Weitere Einträge konnten nicht geladen werden",
+    "retry": "Erneut"
+  }
+}

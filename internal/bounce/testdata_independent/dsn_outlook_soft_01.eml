@@ -1,0 +1,37 @@
+From: postmaster@hotmail.example.com
+To: sender@example.com
+Subject: Delivery Status Notification (Delay)
+Message-ID: <bounce-dsn_outlook_soft_01@mail.example.com>
+Date: Mon, 26 Oct 2026 10:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status; boundary="bnd_dsn_outlook_soft_01"
+Auto-Submitted: auto-replied
+
+--bnd_dsn_outlook_soft_01
+Content-Type: text/plain; charset=utf-8
+
+Temporarily deferred.
+
+--bnd_dsn_outlook_soft_01
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; hotmail.example.com
+Arrival-Date: Mon, 26 Oct 2026 09:59:00 +0000
+
+Final-Recipient: rfc822; user@hotmail.example.com
+Action: delayed
+Status: 4.7.0
+Diagnostic-Code: smtp; 421 RP-001 Message deferred
+Remote-MTA: dns; mx.example.it
+
+--bnd_dsn_outlook_soft_01
+Content-Type: message/rfc822
+
+From: sender@example.com
+To: user@hotmail.example.com
+Subject: Your invoice
+Message-ID: <orig-ol-s1@example.com>
+Date: Mon, 26 Oct 2026 09:58:00 +0000
+
+Body of original.
+--bnd_dsn_outlook_soft_01--

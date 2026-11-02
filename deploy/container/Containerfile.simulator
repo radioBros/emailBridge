@@ -1,0 +1,23 @@
+# Provider simulator image. Distroless, non-root.
+# podman build -f deploy/container/Containerfile.simulator -t emailbridge-simulator:dev .
+
+# Cross-compiles on the build host's CPU (CGO is off), so multi-arch builds need no emulation.
+FROM --platform=$BUILDPLATFORM golang:1.27 AS build
+ARG TARGETOS
+ARG TARGETARCH
+WORKDIR /src
+COPY go.mod go.sum ./
+# Local replace targets (patched go-imap, limen-passkey) must exist before go mod download.
+COPY third_party/ ./third_party/
+RUN --mount=type=cache,target=/go/pkg/mod \
+	go mod download
+COPY . .
+RUN --mount=type=cache,target=/go/pkg/mod \
+	--mount=type=cache,target=/root/.cache/go-build \
+	CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags "-s -w" -o /out/eb-simulator ./cmd/eb-simulator
+
+FROM gcr.io/distroless/static-debian12:nonroot
+COPY --from=build /out/eb-simulator /eb-simulator
+USER 65532:65532
+EXPOSE 1143 1993 1025 1465 18080
+ENTRYPOINT ["/eb-simulator"]

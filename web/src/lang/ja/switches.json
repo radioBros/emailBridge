@@ -1,0 +1,394 @@
+{
+  "switches": {
+    "sandbox": {
+      "enabled": {
+        "label": "サンドボックスモード",
+        "description": "送信せずに外向きメールをキャプチャします。"
+      },
+      "recipientPolicy": {
+        "label": "サンドボックス受信者ポリシー",
+        "description": "サンドボックスが受信者をどう扱うか：allow、rewrite、drop、または capture。"
+      }
+    },
+    "inbound": {
+      "authResults": {
+        "label": "受信 Auth 結果",
+        "description": "受信メッセージに SPF、DKIM、DMARC、ARC の結果を含めます。"
+      },
+      "archiveRaw": {
+        "label": "生の受信をアーカイブ",
+        "description": "新しいメッセージの生ソースをすべて S3 に保存します。"
+      },
+      "replyText": {
+        "label": "返信テキスト抽出",
+        "description": "エンドポイントが有効にしたとき、返信テキストの抽出を許可します。"
+      },
+      "bounceDetection": {
+        "label": "バウンス検出",
+        "description": "バウンス、ARF レポート、自動返信を分類します。"
+      }
+    },
+    "sync": {
+      "qresync": {
+        "label": "QRESYNC 同期",
+        "description": "メールサーバーが提供する場合、QRESYNC 変更検出を使います。"
+      }
+    },
+    "protocolLogs": {
+      "enabled": {
+        "label": "プロトコルログ",
+        "description": "アカウントごとの IMAP と SMTP トランスクリプトを保持します。"
+      },
+      "rawDebug": {
+        "label": "プロトコル生デバッグ",
+        "description": "プロトコルの全バイトを記録します（TTL 後に自動でオフになります）。"
+      }
+    },
+    "webhook": {
+      "signature": {
+        "mode": {
+          "label": "Webhook 署名モード",
+          "description": "標準またはボディのみの Webhook 署名を選びます。"
+        }
+      },
+      "secret": {
+        "perEndpoint": {
+          "label": "エンドポイントごとの Webhook シークレット",
+          "description": "各 Webhook エンドポイントに別の署名シークレットを使います。"
+        },
+        "rotationOverlap": {
+          "label": "Webhook シークレットローテーションの重複",
+          "description": "シークレットのローテーション中に Webhook を二重署名します。"
+        }
+      },
+      "mtls": {
+        "label": "Webhook mTLS",
+        "description": "Webhook 配信時にクライアント証明書を要求します。"
+      },
+      "egress": {
+        "blockPrivate": {
+          "label": "プライベート Webhook 送信をブロック",
+          "description": "プライベート、ULA、ループバックアドレスへの配信をブロックします。"
+        }
+      }
+    },
+    "events": {
+      "store": {
+        "label": "イベントストア",
+        "description": "リプレイ用にイベントを保持します。"
+      },
+      "sse": {
+        "label": "イベント SSE ストリーム",
+        "description": "ライブエンドポイント /v1/events/stream を公開します。"
+      }
+    },
+    "rules": {
+      "enabled": {
+        "label": "ルーティングルール",
+        "description": "ルーティングルールを評価します。"
+      }
+    },
+    "auth": {
+      "password": {
+        "label": "パスワードサインイン",
+        "description": "パスワード認証を許可します。"
+      },
+      "passkeys": {
+        "label": "パスキーサインイン",
+        "description": "パスキー認証を許可します。"
+      },
+      "totp": {
+        "label": "TOTP MFA",
+        "description": "MFA 用の時間ベースのワンタイムパスワードを許可します。"
+      },
+      "emailOtp": {
+        "label": "メール OTP MFA",
+        "description": "MFA 用のメールワンタイムパスワードを許可します（システムメールが必要）。"
+      },
+      "oidc": {
+        "label": "OIDC SSO",
+        "description": "組織向けの OIDC シングルサインオンを許可します。"
+      }
+    },
+    "apikeys": {
+      "accountBound": {
+        "label": "アカウント紐付け API キー",
+        "description": "単一アカウントに紐付く API キーを許可します。"
+      }
+    },
+    "configAsCode": {
+      "enabled": {
+        "label": "Config as code",
+        "description": "CLI と API 経由の YAML plan と apply を有効にします。"
+      }
+    },
+    "mailbox": {
+      "webSafeHtml": {
+        "label": "ペイロード内の安全な HTML",
+        "description": "エンドポイントが有効にしたとき、メッセージペイロード内のサニタイズ済み HTML を許可します。"
+      },
+      "calendarEvents": {
+        "label": "ペイロード内のカレンダーイベント",
+        "description": "エンドポイントが有効にしたとき、解析済み iCalendar データをペイロードに含めます。"
+      }
+    },
+    "attachments": {
+      "s3": {
+        "label": "S3 の添付ファイル",
+        "description": "添付ファイルを S3 に保存し、署名付き URL を提供します。"
+      },
+      "antivirus": {
+        "label": "添付ファイルのウイルス対策",
+        "description": "配信前に ClamAV で添付ファイルをスキャンします。"
+      }
+    },
+    "sending": {
+      "templates": {
+        "label": "送信テンプレート",
+        "description": "送信テンプレートを有効にします。"
+      },
+      "listUnsubscribe": {
+        "label": "List-Unsubscribe",
+        "description": "RFC 8058 List-Unsubscribe ヘッダーを追加します。"
+      },
+      "suppression": {
+        "label": "配信停止リスト",
+        "description": "送信前に配信停止リストを確認します。"
+      },
+      "throttle": {
+        "label": "送信スロットリング",
+        "description": "プロバイダーおよびドメインごとに送信を制限します。"
+      },
+      "sendWindows": {
+        "label": "送信ウィンドウ",
+        "description": "タイムゾーンの時間枠に送信を制限します。"
+      },
+      "preSendHook": {
+        "label": "送信前ポリシーフック",
+        "description": "各送信の前にポリシーフックを実行します。"
+      }
+    },
+    "tracking": {
+      "opens": {
+        "label": "開封トラッキング",
+        "description": "受信者がメッセージを開いたときを追跡します。"
+      },
+      "clicks": {
+        "label": "クリックトラッキング",
+        "description": "受信者がリンクをクリックしたときを追跡します。"
+      }
+    },
+    "oauth": {
+      "tokenExport": {
+        "label": "OAuth トークンエクスポート",
+        "description": "API 経由でアカウントの OAuth トークンのエクスポートを許可します。"
+      }
+    },
+    "accounts": {
+      "authServer": {
+        "label": "外部認証情報サーバー",
+        "description": "外部認証サーバーから認証情報を取得します。"
+      },
+      "ignoreCertErrors": {
+        "label": "証明書エラーを無視",
+        "description": "無効なメールサーバー証明書を受け入れます。"
+      }
+    },
+    "connect": {
+      "hostedPage": {
+        "label": "ホスト型 connect ページ",
+        "description": "ホスト型メールボックス接続ページを有効にします。"
+      }
+    },
+    "protocol": {
+      "msa": {
+        "label": "SMTP サブミッションサーバー",
+        "description": "SMTP メールサブミッションエージェントを実行します。"
+      },
+      "imapProxy": {
+        "label": "IMAP プロキシ",
+        "description": "IMAP プロキシを実行します。"
+      }
+    },
+    "export": {
+      "enabled": {
+        "label": "一括エクスポート",
+        "description": "メールボックスの一括エクスポートを許可します。"
+      }
+    },
+    "ai": {
+      "enabled": {
+        "label": "AI プラグイン",
+        "description": "AI プラグインを有効にします。"
+      },
+      "embeddings": {
+        "label": "セマンティック検索",
+        "description": "AI 設定の埋め込みエンドポイントを使って、意味でメールを探し、メールボックスについて質問できます。全文検索が必要です。アカウント単位で除外できます。"
+      }
+    },
+    "mcp": {
+      "enabled": {
+        "label": "MCP エンドポイント",
+        "description": "MCP エンドポイントを有効にします。"
+      }
+    },
+    "integrations": {
+      "<connector>": {
+        "label": "コネクタ連携",
+        "description": "サードパーティコネクタ連携を有効にします。"
+      },
+      "slack": {
+        "label": "Slack 連携",
+        "description": "Slack 受信 Webhookコネクタを有効にします。"
+      },
+      "zapier": {
+        "label": "Zapier 連携",
+        "description": "Zapier/Make Webhookコネクタを有効にします。"
+      },
+      "rspamd": {
+        "label": "Rspamd 連携",
+        "description": "Rspamd スパムスコアコネクタを有効にします。"
+      },
+      "teams": {
+        "label": "Microsoft Teams 連携",
+        "description": "Microsoft Teams Webhookコネクタを有効にします。"
+      },
+      "discord": {
+        "label": "Discord 連携",
+        "description": "Discord Webhookコネクタを有効にします。"
+      },
+      "telegram": {
+        "label": "Telegram 連携",
+        "description": "Telegram Bot APIコネクタを有効にします。"
+      },
+      "mattermost": {
+        "label": "Mattermost 連携",
+        "description": "Mattermost Webhookコネクタを有効にします。"
+      },
+      "featherdesk": {
+        "label": "FeatherDesk 連携",
+        "description": "FeatherDesk ヘルプデスクコネクタを有効にします。"
+      },
+      "helpdesk": {
+        "label": "ヘルプデスク連携",
+        "description": "汎用ヘルプデスク Webhookコネクタを有効にします。"
+      },
+      "ses": {
+        "label": "Amazon SES 連携",
+        "description": "Amazon SES 送信コネクタを有効にします。"
+      },
+      "postmark": {
+        "label": "Postmark 連携",
+        "description": "Postmark 送信コネクタを有効にします。"
+      },
+      "mailgun": {
+        "label": "Mailgun 連携",
+        "description": "Mailgun 送信コネクタを有効にします。"
+      },
+      "sendgrid": {
+        "label": "SendGrid 連携",
+        "description": "SendGrid 送信コネクタを有効にします。"
+      },
+      "brevo": {
+        "label": "Brevo 連携",
+        "description": "Brevo 送信コネクタを有効にします。"
+      },
+      "gdrive": {
+        "label": "Google Drive 連携",
+        "description": "Google Drive ストレージコネクタを有効にします。"
+      },
+      "onedrive": {
+        "label": "OneDrive 連携",
+        "description": "OneDrive/SharePoint ストレージコネクタを有効にします。"
+      },
+      "hubspot": {
+        "label": "HubSpot 連携",
+        "description": "HubSpot CRMコネクタを有効にします。"
+      },
+      "pipedrive": {
+        "label": "Pipedrive 連携",
+        "description": "Pipedrive CRMコネクタを有効にします。"
+      },
+      "sso-authentik": {
+        "label": "Authentik SSO",
+        "description": "Authentik SSO プリセットを有効にします。"
+      },
+      "sso-keycloak": {
+        "label": "Keycloak SSO",
+        "description": "Keycloak SSO プリセットを有効にします。"
+      },
+      "sso-entra": {
+        "label": "Microsoft Entra ID SSO",
+        "description": "Microsoft Entra ID SSO プリセットを有効にします。"
+      },
+      "sso-google": {
+        "label": "Google Workspace SSO",
+        "description": "Google Workspace SSO プリセットを有効にします。"
+      },
+      "sso-okta": {
+        "label": "Okta SSO",
+        "description": "Okta SSO プリセットを有効にします。"
+      },
+      "sentry": {
+        "label": "Sentry 連携",
+        "description": "Sentry/GlitchTip オブザーバビリティプリセットを有効にします。"
+      },
+      "grafana": {
+        "label": "Grafana 連携",
+        "description": "Grafana ダッシュボードプリセットを有効にします。"
+      },
+      "loki": {
+        "label": "Loki 連携",
+        "description": "Loki ラベルプリセットを有効にします。"
+      },
+      "otel": {
+        "label": "OpenTelemetry 連携",
+        "description": "OpenTelemetry コレクタープリセットを有効にします。"
+      }
+    },
+    "pec": {
+      "enabled": {
+        "label": "PEC",
+        "description": "アカウントの PEC モジュールを有効にします。"
+      },
+      "evidenceArchive": {
+        "label": "PEC 証拠アーカイブ",
+        "description": "Object Lock 付きで PEC の受領証とエンベロープをアーカイブします。"
+      }
+    },
+    "notifications": {
+      "email": {
+        "label": "メール通知",
+        "description": "システム通知をメールで送信します。"
+      }
+    },
+    "sinks": {
+      "nats": {
+        "label": "NATS シンク",
+        "description": "NATS イベントシンクを利用可能にします。"
+      },
+      "kafka": {
+        "label": "Kafka シンク",
+        "description": "Kafka イベントシンクを利用可能にします。"
+      },
+      "sqs": {
+        "label": "Amazon SQS シンク",
+        "description": "Amazon SQS イベントシンクを利用可能にします。"
+      },
+      "sns": {
+        "label": "Amazon SNS シンク",
+        "description": "Amazon SNS イベントシンクを利用可能にします。"
+      },
+      "pubsub": {
+        "label": "Pub/Sub シンク",
+        "description": "Google Pub/Sub イベントシンクを利用可能にします。"
+      }
+    },
+    "search": {
+      "fullText": {
+        "label": "全文検索",
+        "description": "各メッセージの本文をインデックスし、「検索」ページですべてのアカウントのメールを探せるようにします。アカウント単位で除外できます。"
+      }
+    }
+  }
+}

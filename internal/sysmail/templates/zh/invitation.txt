@@ -1,0 +1,7 @@
+EmailBridge
+
+您已收到邀请{{if .OrgName}}，加入 {{.OrgName}}{{end}}{{if .InviterName}}（邀请人：{{.InviterName}}）{{end}}。
+
+接受邀请：{{.InviteURL}}
+
+如果您并未预期此邀请，可以忽略此邮件。

@@ -1,0 +1,7 @@
+{
+  "title": "取消订阅",
+  "confirm": "要取消 {email} 的订阅吗？",
+  "button": "取消订阅",
+  "done_title": "已取消订阅",
+  "done_body": "已取消 {email} 的订阅。"
+}

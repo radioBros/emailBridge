@@ -1,0 +1,83 @@
+{
+  "$defs": {
+    "Mailbox": {
+      "properties": {
+        "mailboxId": {
+          "description": "Mailbox ID (mbx_…)",
+          "type": "string"
+        },
+        "path": {
+          "description": "Folder path as on the server",
+          "type": "string"
+        },
+        "specialUse": {
+          "description": "RFC 6154 special use (\\\\Sent, \\\\Trash, …)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mailboxId",
+        "path"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://emailbridge.dev/schemas/events/mailbox.created/v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "examples": [
+    {
+      "data": {
+        "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+        "externalId": "crm-48213",
+        "mailbox": {
+          "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+          "path": "Clients/2026"
+        }
+      },
+      "datacontenttype": "application/json",
+      "dataschema": "https://emailbridge.dev/schemas/events/mailbox.created/v1.json",
+      "ebaccount": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "eborg": "org_01m5caqpk0kast63yc13wpy2d9",
+      "ebschema": 1,
+      "id": "evt_01m5cshyc0d23xkhrbz7e490pm",
+      "source": "/organizations/org_01m5caqpk0kast63yc13wpy2d9/accounts/acc_01m5cvnpb031g57sqct6mzhq94",
+      "specversion": "1.0",
+      "subject": "mbx_01m5ccvej0khs793a5tesr1an7",
+      "time": "2026-10-21T11:20:33.218Z",
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "type": "mailbox.created"
+    },
+    {
+      "accountId": "acc_01m5cvnpb031g57sqct6mzhq94",
+      "externalId": "crm-48213",
+      "mailbox": {
+        "mailboxId": "mbx_01m5ccvej0khs793a5tesr1an7",
+        "path": "Clients/2026"
+      }
+    }
+  ],
+  "properties": {
+    "accountId": {
+      "description": "Account ID (acc_…)",
+      "type": "string"
+    },
+    "externalId": {
+      "description": "Caller-supplied external ID, or null",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mailbox": {
+      "$ref": "#/$defs/Mailbox",
+      "description": "The folder that was created or deleted"
+    }
+  },
+  "required": [
+    "mailbox",
+    "accountId",
+    "externalId"
+  ],
+  "title": "mailbox.created data (v1)",
+  "type": "object"
+}

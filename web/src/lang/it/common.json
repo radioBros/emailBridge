@@ -1,0 +1,10 @@
+{
+  "common": {
+    "search": "Cerca",
+    "close": "Chiudi",
+    "states": {
+      "loading": "Caricamento in corso",
+      "refreshing": "Aggiornamento in corso"
+    }
+  }
+}

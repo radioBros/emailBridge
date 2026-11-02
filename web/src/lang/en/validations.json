@@ -1,0 +1,19 @@
+{
+  "validations": {
+    "requiredField": "Required field",
+    "invalidValue": "Invalid value",
+    "invalidEmail": "Enter a valid email address",
+    "passwordFormat": "Password must be at least 12 characters",
+    "onlyNumbers": "Enter numbers only",
+    "positiveInteger": "Enter a positive integer",
+    "invalidDate": "Enter a valid date",
+    "dateNotFuture": "Date cannot be in the future",
+    "invalidCodiceFiscale": "Enter a valid tax code",
+    "invalidPhone": "Enter a valid phone number",
+    "invalidUrl": "Enter a valid URL",
+    "maxLength": "Maximum {max} characters",
+    "minLength": "Minimum {min} characters",
+    "maxFileSize": "File cannot exceed {max} MB",
+    "onlyPdf": "Only PDF files are allowed"
+  }
+}

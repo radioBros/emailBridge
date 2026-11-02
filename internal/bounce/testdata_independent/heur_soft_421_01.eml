@@ -1,0 +1,11 @@
+From: postmaster@mx.example.com
+To: sender@example.com
+Subject: Warning: delayed mail
+Message-ID: <heur-heur_soft_421_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Delivery temporarily deferred.
+421 Service not available, try again later for user@example.com
+

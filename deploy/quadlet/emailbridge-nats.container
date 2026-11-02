@@ -1,0 +1,21 @@
+[Unit]
+Description=EmailBridge NATS JetStream
+After=network-online.target
+
+[Container]
+Image=docker.io/library/nats:2.15.1-alpine
+Exec=-js -m 8222 --store_dir /data
+Volume=%h/.local/share/emailbridge/nats:/data:Z
+Network=emailbridge.network
+PublishPort=127.0.0.1:4222:4222
+HealthCmd=wget -qO- http://127.0.0.1:8222/healthz
+HealthInterval=5s
+HealthTimeout=5s
+HealthRetries=30
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

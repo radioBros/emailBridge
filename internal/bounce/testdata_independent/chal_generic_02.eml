@@ -1,0 +1,11 @@
+From: verify@guard.example.com
+To: sender@example.com
+Subject: Confirm you are not a robot
+Message-ID: <chal-chal_generic_02@example.com>
+Date: Mon, 26 Oct 2026 14:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Please confirm delivery by clicking: https://guard.example.com/confirm/xyz
+Challenge-response filter.
+

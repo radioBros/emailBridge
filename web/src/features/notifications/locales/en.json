@@ -1,0 +1,203 @@
+{
+  "nav": {
+    "notifications": "Notifications"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Problems EmailBridge detected in your organisation, newest first. Resolved items stay here for 90 days.",
+    "bell_label": "Notifications",
+    "bell_label_unread": "Notifications, {count} unread",
+    "toast_critical": "Critical problem: {title}",
+    "mark_all_read": "Mark all read",
+    "mark_all_read_short": "All read",
+    "mark_read": "Mark read",
+    "open_centre": "Open notification centre",
+    "open_link": "Go to the problem",
+    "retry": "Retry",
+    "empty_title": "All systems normal",
+    "empty_body": "No open problems. New ones show up here the moment they are detected.",
+    "unread": "Unread",
+    "row_unread": "{title}, unread",
+    "occurrences": "×{count}",
+    "filters": "Filters",
+    "clear_filters": "Clear filters",
+    "no_results": "No notifications match these filters.",
+    "selected": "{count} selected",
+    "clear_selection": "Clear",
+    "select_page": "Select all on this page",
+    "select_row": "Select {title}",
+    "resolve": "Resolve",
+    "resolve_info": "Resolve info ({count})",
+    "bulk_resolve_hint": "Only info items can be resolved in bulk. Resolve warnings and critical problems from their detail.",
+    "resolve_done": "Notification resolved.",
+    "bulk_read_done": "{count} marked as read.",
+    "bulk_resolve_done": "{count} resolved.",
+    "bulk_resolve_failed": "{count} could not be resolved. {reason}",
+    "group": {
+      "critical": "Critical",
+      "warning": "Warning",
+      "info": "Info",
+      "resolved": "Resolved"
+    },
+    "state": {
+      "open": "Open",
+      "resolved": "Resolved"
+    },
+    "severity": {
+      "critical": "Critical",
+      "warning": "Warning",
+      "info": "Info"
+    },
+    "category": {
+      "webhooks": "Webhooks",
+      "queues": "Queues",
+      "accounts": "Accounts",
+      "sending": "Sending",
+      "oauth": "OAuth",
+      "integrations": "Integrations",
+      "pec": "PEC",
+      "storage": "Storage",
+      "platform": "Platform",
+      "security": "Security",
+      "limits": "Limits",
+      "internal": "Internal errors"
+    },
+    "scope": {
+      "organization": "This organisation",
+      "instance": "Whole instance"
+    },
+    "col": {
+      "select": "Select",
+      "severity": "Severity",
+      "problem": "Problem",
+      "category": "Category",
+      "occurrences": "Occurrences",
+      "last_seen": "Last seen",
+      "first_seen": "First seen"
+    },
+    "field": {
+      "first_seen": "First seen",
+      "last_seen": "Last seen",
+      "opened_at": "Reopened",
+      "resolved_at": "Resolved",
+      "scope": "Scope",
+      "data": "Details"
+    },
+    "filter": {
+      "state": "Status",
+      "category": "Category",
+      "severity": "Severity",
+      "unread": "Unread only"
+    },
+    "prefs": {
+      "title": "Notifications",
+      "unsaved": "Unsaved",
+      "org_disabled": "Alert emails are turned off for this organisation. An owner or admin can turn them on in Settings, Switches. The bell keeps working.",
+      "email_label": "Email me about problems",
+      "email_hint": "Critical problems arrive at once; the rest follow your digest.",
+      "email_role_hint": "Off by default for viewers and operators. Turn on to receive alert emails.",
+      "digest": "Digest",
+      "digest_immediate": "Every problem at once",
+      "digest_hourly": "Hourly digest",
+      "digest_daily": "Daily digest",
+      "min_severity": "Email from",
+      "min_info": "Info and above",
+      "min_warning": "Warnings and above",
+      "min_critical": "Critical only",
+      "categories": "Categories",
+      "col_bell": "Bell",
+      "col_email": "Email",
+      "bell_for": "Show {category} in the bell",
+      "email_for": "Email {category}",
+      "quiet": "Quiet hours",
+      "quiet_hint": "Non-critical emails wait for the next digest during these hours.",
+      "quiet_start": "From",
+      "quiet_end": "To",
+      "quiet_tz": "Time zone",
+      "time_invalid": "Use HH:MM",
+      "discard": "Discard",
+      "save": "Save",
+      "saved": "Notification preferences saved."
+    }
+  },
+  "notify": {
+    "webhook": {
+      "failing": {
+        "title": "Webhook {name} is failing",
+        "detail": "{failures} deliveries in a row failed. Check the endpoint and its recent deliveries."
+      },
+      "deadletter": {
+        "title": "Webhook {name} is dead-lettering events",
+        "detail": "{count} deliveries were dead-lettered in the last hour."
+      }
+    },
+    "account": {
+      "auth": {
+        "title": "Mailbox {name} cannot sign in",
+        "detail": "The mail server rejected the credentials. Update them to resume sync."
+      },
+      "connect": {
+        "title": "Mailbox {name} cannot connect",
+        "detail": "The mail server is unreachable or refused the connection."
+      },
+      "disabled": {
+        "title": "Mailbox {name} is disabled",
+        "detail": "Sync is paused until the account is enabled again."
+      },
+      "syncStall": {
+        "title": "Mailbox {name} stopped syncing",
+        "detail": "No successful sync for longer than the configured limit."
+      },
+      "cert": {
+        "title": "Certificate for {name} expires soon",
+        "detail": "Renew the client certificate before it expires to keep the mailbox connected."
+      }
+    },
+    "queue": {
+      "pending": {
+        "title": "Queue {queue} is backing up",
+        "detail": "{pending} messages are waiting and nothing has been acknowledged recently."
+      },
+      "oldest": {
+        "title": "Queue {queue} has stale messages",
+        "detail": "The oldest message has waited longer than the configured limit."
+      },
+      "paused": {
+        "title": "Queue {queue} has been paused for a while",
+        "detail": "Work is piling up while the queue stays paused."
+      }
+    },
+    "sending": {
+      "failures": {
+        "title": "Sending failures are rising",
+        "detail": "{rate}% of an account's messages failed or bounced in the last hour."
+      }
+    },
+    "platform": {
+      "node": {
+        "title": "Node {node} is missing",
+        "detail": "The node stopped reporting without draining first."
+      },
+      "migrations": {
+        "title": "Database migrations are pending",
+        "detail": "Run the pending migrations to finish the upgrade."
+      }
+    },
+    "security": {
+      "apikey": {
+        "title": "API key {name} expires soon",
+        "detail": "Rotate the key before it expires so integrations keep working."
+      }
+    },
+    "integrations": {
+      "failing": {
+        "title": "Integration {name} is failing",
+        "detail": "The last {connector} action failed. Open the integration to see the error."
+      }
+    },
+    "internal": {
+      "title": "Internal error in {component}",
+      "detail": "EmailBridge hit an unexpected error in {component} ({code}). It is grouped here and reported."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+From: marie@example.com
+To: paul@example.com
+Subject: TR: Non remis
+Message-ID: <none-fwd-fr-01@example.com>
+
+Message transféré :
+
+From: Mailer-Daemon <mailer-daemon@mx.example.com>
+Échec de livraison pour gone@example.com
+550 5.1.1 User unknown

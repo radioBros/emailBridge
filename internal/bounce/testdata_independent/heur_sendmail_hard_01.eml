@@ -1,0 +1,15 @@
+From: MAILER-DAEMON@sendmail.example.com
+To: sender@example.com
+Subject: Returned mail: User unknown
+Message-ID: <heur-heur_sendmail_hard_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+The original message was received at Mon, 26 Oct 2026
+from sender@example.com
+
+   ----- The following addresses had permanent fatal errors -----
+<nobody@example.it>
+    (reason: 550 5.1.1 User unknown)
+

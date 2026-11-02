@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -e
+cd "$(dirname "$0")/.."
+ROOT="$(pwd)"
+OPENAPI="$ROOT/../../api/openapi/openapi.yaml"
+TYPES="$ROOT/src/emailbridge/types.py"
+if [ ! -f "$OPENAPI" ]; then
+  echo "missing OpenAPI at $OPENAPI" >&2
+  exit 1
+fi
+echo "OpenAPI source: $OPENAPI"
+echo "TypedDict stubs: $TYPES (hand-maintained; extend when new schemas matter)"
+echo "ok"

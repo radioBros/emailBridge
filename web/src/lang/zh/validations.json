@@ -1,0 +1,19 @@
+{
+  "validations": {
+    "requiredField": "必填字段",
+    "invalidValue": "无效值",
+    "invalidEmail": "请输入有效的电子邮件地址",
+    "passwordFormat": "密码至少需要 12 个字符",
+    "onlyNumbers": "请仅输入数字",
+    "positiveInteger": "请输入正整数",
+    "invalidDate": "请输入有效日期",
+    "dateNotFuture": "日期不能是将来",
+    "invalidCodiceFiscale": "请输入有效的税号",
+    "invalidPhone": "请输入有效的电话号码",
+    "invalidUrl": "请输入有效的 URL",
+    "maxLength": "最多 {max} 个字符",
+    "minLength": "最少 {min} 个字符",
+    "maxFileSize": "文件不能超过 {max} MB",
+    "onlyPdf": "仅允许 PDF 文件"
+  }
+}

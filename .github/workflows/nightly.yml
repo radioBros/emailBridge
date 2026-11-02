@@ -1,0 +1,74 @@
+# Nightly — fuzz, chaos, Trivy filesystem scan, govulncheck.
+name: nightly
+
+on:
+  schedule:
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nightly-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: fuzz packages with Fuzz targets
+        run: |
+          set -euo pipefail
+          pkgs=$(go list -f '{{.ImportPath}} {{.Dir}}' ./... | while read -r path dir; do
+            if grep -Rql --include='*_test.go' '^func Fuzz' "$dir" 2>/dev/null; then
+              echo "$path"
+            fi
+          done)
+          if [ -z "$pkgs" ]; then
+            echo "No fuzz targets yet — placeholder ok."
+            exit 0
+          fi
+          # -fuzz accepts one target per run, so fuzz each target on its own.
+          for p in $pkgs; do
+            for f in $(go test -list '^Fuzz' "$p" | grep '^Fuzz'); do
+              echo "fuzzing $p $f"
+              go test -run=^$ -fuzz="^${f}\$" -fuzztime=5m "$p"
+            done
+          done
+
+  chaos:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: chaos scenarios (simulator only, never the live server)
+        run: go test -count=1 -tags "e2e chaos" -timeout 30m ./test/chaos/...
+
+  trivy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+
+  govulncheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: golang/govulncheck-action@b625fbe08f3bccbe446d94fbf87fcc875a4f50ee # v1.0.4
+        with:
+          go-version-file: go.mod
+          go-package: ./...

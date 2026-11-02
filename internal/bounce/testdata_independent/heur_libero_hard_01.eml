@@ -1,0 +1,12 @@
+From: Mailer-Daemon@libero.example.it
+To: sender@example.com
+Subject: Returned mail: see transcript for details
+Message-ID: <heur-heur_libero_hard_01@example.com>
+Date: Mon, 26 Oct 2026 11:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Il sistema di posta Libero non ha potuto consegnare il messaggio a:
+vuoto@libero.example.it
+Motivo: 550 mailbox unavailable / utente inesistente
+

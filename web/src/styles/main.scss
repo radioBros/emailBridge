@@ -1,0 +1,131 @@
+// The global stylesheet.
+//
+// One partial per concern, all pulled in here with `@use` — the reference project's layout.
+// Order matters: tokens first, because everything below reads them.
+//
+// A rule belongs in one of these partials when it is recurring AND inexpressible as a Vuetify
+// utility class. Anything else is a utility on the element (step 1) or, as a last resort, a scoped
+// block in the one component that needs it (step 3). CLAUDE.md §3.5.
+
+@use "imports/tokens";
+@use "imports/helpers";
+@use "imports/icons";
+@use "imports/cards";
+@use "imports/forms";
+@use "imports/loaders";
+@use "imports/type";
+@use "imports/tables";
+@use "imports/scroll";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+:root {
+  --border: #e0e0e0;
+  --v-list-prepend-gap: 8px;
+  --v-field-border-opacity: 0.12;
+}
+
+.v-field__outline {
+  --v-field-border-opacity: 0.16;
+}
+
+.v-menu > .v-overlay__content > .v-sheet,
+.v-menu > .v-overlay__content > .v-card, 
+.v-menu > .v-overlay__content > .v-list {
+  box-shadow: none !important;
+  width: 100%;
+} 
+
+.v-menu .v-overlay__content {
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 12px;
+}
+
+.v-dialog > .v-overlay__content {
+  padding: 12px;
+}
+
+.v-menu .v-list {
+  padding: 6px !important;
+}
+
+.v-stepper-header {
+  box-shadow: none !important;
+}
+
+html {
+  .v-window {
+    overflow: visible;
+  }
+  .v-stepper-window {
+    margin: 0;
+  }
+}
+
+.v-date-picker-month__days {
+  > .v-date-picker-month__weekday {
+    background-color: rgb(var(--v-theme-background));
+    border-radius: 12px;
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+.flex-2 {
+  flex: 2;
+}
+.flex-3 {
+  flex: 3;
+}
+.flex-10 {
+  flex: 10;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.v-navigation-drawer  {
+  border-radius: 0;
+  .v-navigation-drawer__content {
+    display: flex;
+    flex-direction: column;
+    .v-list-item {
+      padding-left: 12px;
+      padding-right: 12px;
+      min-width: 44px;
+    }
+  }
+}
+
+hr, .v-divider {
+  border-color: var(--border);
+}
+
+.v-data-table-rows-no-data > td  {
+  padding: 16px;
+}
+
+html .v-input__details {
+  padding-top: 0;
+  padding-bottom: 6px;
+}
+
+html .v-table {
+  font-size: 1rem;
+}
+
+.rich-text-editor {
+  .v-field__outline {
+    color: transparent;
+  }
+}

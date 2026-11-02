@@ -1,0 +1,9 @@
+{
+  "update": {
+    "available_title": "有可用更新",
+    "available_body": "有新版本可用。重新加载以使用 — 未保存的内容将丢失。",
+    "reload": "重新加载",
+    "later": "稍后",
+    "indicator_tooltip": "有新版本可用 — 点击重新加载"
+  }
+}

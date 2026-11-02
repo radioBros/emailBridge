@@ -1,0 +1,10 @@
+From: cr@filter.example.com
+To: sender@example.com
+Subject: Human verification needed
+Message-ID: <chal-chal_generic_01@example.com>
+Date: Mon, 26 Oct 2026 14:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+This mailbox uses challenge-response. Complete the challenge to deliver.
+

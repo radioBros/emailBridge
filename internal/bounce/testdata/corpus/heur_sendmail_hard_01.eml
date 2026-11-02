@@ -1,0 +1,15 @@
+From: Mailer-Daemon <mailer-daemon@sendmail.example.com>
+To: sender@example.com
+Subject: Returned mail: User unknown
+Message-ID: <heur-005@example.com>
+In-Reply-To: <orig-heur-005@example.com>
+X-Failed-Recipients: bounce-hint005@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+The original message was received at Mon, 1 Jan 2024
+----- The following addresses had permanent fatal errors -----
+<fail05@example.com>
+(reason: 550 5.1.1 User unknown)
+
+-- Diagnostic-Code: SMTP; 550 5.1.1 User unknown
