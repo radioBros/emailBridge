@@ -42,6 +42,7 @@ func TestP7_Notifications(t *testing.T) {
 	n := harness.StartP1Node(t, p7Env(map[string]string{
 		"EB_BOOTSTRAP_OWNER_EMAIL": notifyOwnerEmail,
 		"EB_SYSMAIL_MODE":          "smtp",
+		"EB_SYSMAIL_ALLOW_LIST":    notifyOwnerEmail,
 		"EB_SYSMAIL_FROM":          "emailbridge@e2e.test",
 		"EB_SYSMAIL_SMTP_HOST":     host,
 		"EB_SYSMAIL_SMTP_PORT":     strconv.Itoa(port),

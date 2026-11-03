@@ -145,7 +145,7 @@ type accountPath struct {
 
 type searchIn struct {
 	AccountID string    `path:"accountId" pattern:"^acc_[0-9a-z]{26}$" doc:"Account ID (acc_…)." example:"acc_01m5cvnpb031g57sqct6mzhq94"`
-	Q         string    `query:"q" required:"true" maxLength:"500" doc:"What to look for, in any language (at most 500 characters)." example:"when is the next condominium assembly"`
+	Q         string    `query:"q" maxLength:"500" doc:"Required. What to look for, in any language (at most 500 characters)." example:"when is the next condominium assembly"`
 	Limit     int       `query:"limit" minimum:"1" maximum:"50" default:"10" doc:"Messages to return (default 10, at most 50)." example:"10"`
 	From      time.Time `query:"from" doc:"Only messages dated at or after this time (RFC 3339)." example:"2026-10-01T00:00:00Z"`
 	To        time.Time `query:"to" doc:"Only messages dated at or before this time (RFC 3339)." example:"2026-10-31T23:59:59Z"`

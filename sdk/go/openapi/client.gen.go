@@ -13276,8 +13276,8 @@ type ResumeAccountParams struct {
 
 // SearchAccountMessagesSemanticParams defines parameters for SearchAccountMessagesSemantic.
 type SearchAccountMessagesSemanticParams struct {
-	// Q What to look for, in any language (at most 500 characters).
-	Q string `form:"q" json:"q"`
+	// Q Required. What to look for, in any language (at most 500 characters).
+	Q *string `form:"q,omitempty" json:"q,omitempty"`
 
 	// Limit Messages to return (default 10, at most 50).
 	Limit *int64 `form:"limit,omitempty" json:"limit,omitempty"`
@@ -14865,8 +14865,8 @@ type PatchMemberParams struct {
 
 // SearchMessagesFullTextParams defines parameters for SearchMessagesFullText.
 type SearchMessagesFullTextParams struct {
-	// Q Search text: words, "exact phrases", -excluded words (at most 256 characters).
-	Q string `form:"q" json:"q"`
+	// Q Required. Search text: words, "exact phrases", -excluded words (at most 256 characters).
+	Q *string `form:"q,omitempty" json:"q,omitempty"`
 
 	// AccountId Only this account (acc_…).
 	AccountId *string `form:"accountId,omitempty" json:"accountId,omitempty"`
@@ -32804,12 +32804,16 @@ func NewSearchAccountMessagesSemanticRequest(server string, accountId string, pa
 		// per the OpenAPI spec (e.g. "color=blue,black,brown").
 		var rawQueryFragments []string
 
-		if queryFrag, err := runtime.StyleParamWithOptions("form", false, "q", params.Q, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-			return nil, err
-		} else {
-			for _, qp := range strings.Split(queryFrag, "&") {
-				rawQueryFragments = append(rawQueryFragments, qp)
+		if params.Q != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", false, "q", *params.Q, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
 			}
+
 		}
 
 		if params.Limit != nil {
@@ -41472,12 +41476,16 @@ func NewSearchMessagesFullTextRequest(server string, params *SearchMessagesFullT
 		// per the OpenAPI spec (e.g. "color=blue,black,brown").
 		var rawQueryFragments []string
 
-		if queryFrag, err := runtime.StyleParamWithOptions("form", false, "q", params.Q, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-			return nil, err
-		} else {
-			for _, qp := range strings.Split(queryFrag, "&") {
-				rawQueryFragments = append(rawQueryFragments, qp)
+		if params.Q != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", false, "q", *params.Q, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
 			}
+
 		}
 
 		if params.AccountId != nil {

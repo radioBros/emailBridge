@@ -25093,9 +25093,9 @@ export interface operations {
     };
     searchAccountMessagesSemantic: {
         parameters: {
-            query: {
-                /** @description What to look for, in any language (at most 500 characters). */
-                q: string;
+            query?: {
+                /** @description Required. What to look for, in any language (at most 500 characters). */
+                q?: string;
                 /** @description Messages to return (default 10, at most 50). */
                 limit?: number;
                 /** @description Only messages dated at or after this time (RFC 3339). */
@@ -36947,9 +36947,9 @@ export interface operations {
     };
     searchMessagesFullText: {
         parameters: {
-            query: {
-                /** @description Search text: words, "exact phrases", -excluded words (at most 256 characters). */
-                q: string;
+            query?: {
+                /** @description Required. Search text: words, "exact phrases", -excluded words (at most 256 characters). */
+                q?: string;
                 /** @description Only this account (acc_…). */
                 accountId?: string;
                 /** @description Only messages dated at or after this time (RFC 3339). */

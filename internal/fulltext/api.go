@@ -92,7 +92,7 @@ func (s *Service) registerAPI(srv *httpapi.Server) {
 }
 
 type searchIn struct {
-	Q         string    `query:"q" required:"true" maxLength:"256" doc:"Search text: words, \"exact phrases\", -excluded words (at most 256 characters)." example:"invoice \"payment due\" -reminder"`
+	Q         string    `query:"q" maxLength:"256" doc:"Required. Search text: words, \"exact phrases\", -excluded words (at most 256 characters)." example:"invoice \"payment due\" -reminder"`
 	AccountID string    `query:"accountId" pattern:"^acc_[0-9a-z]{26}$" doc:"Only this account (acc_…)." example:"acc_01m5cvnpb031g57sqct6mzhq94"`
 	From      time.Time `query:"from" doc:"Only messages dated at or after this time (RFC 3339)." example:"2026-10-01T00:00:00Z"`
 	To        time.Time `query:"to" doc:"Only messages dated at or before this time (RFC 3339)." example:"2026-10-31T23:59:59Z"`

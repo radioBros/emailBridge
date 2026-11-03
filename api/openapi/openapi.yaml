@@ -32478,13 +32478,12 @@ paths:
               - acc_01m5cvnpb031g57sqct6mzhq94
             pattern: ^acc_[0-9a-z]{26}$
             type: string
-        - description: What to look for, in any language (at most 500 characters).
+        - description: Required. What to look for, in any language (at most 500 characters).
           explode: false
           in: query
           name: q
-          required: true
           schema:
-            description: What to look for, in any language (at most 500 characters).
+            description: Required. What to look for, in any language (at most 500 characters).
             examples:
               - when is the next condominium assembly
             maxLength: 500
@@ -52137,13 +52136,12 @@ paths:
       description: "Searches the text of the organisation's messages in every account (subject, sender and body text, the first 64 KiB of each body) in EmailBridge's own text index, instead of the provider's per-account search. Needs the switch `search.fullText` for the organisation (`403 feature_disabled` while it is off); accounts can opt out. Messages are indexed as they arrive; older mail after `POST /v1/accounts/{accountId}/fulltext/reindex`. `q`: words (any of them matches), `\"exact phrases\"` and `-excluded` words; matching is case- and accent-insensitive on whole words, without stemming. Results are ordered by relevance, then newest first, each with a plain-text `snippet` around the first match and the match positions in it (`highlights`, code points). Filter by `accountId` and by the message date (`from` / `to`, RFC 3339, inclusive). Paged with `page` and `limit` (default 25, at most 100) over the first 1000 matches; `total` is capped at 1000 (`totalCapped`). Requires the `read` permission (API keys `messages:read`; a key with only per-account scopes must name `accountId`; an account-bound key always searches its own account). Read-only; no connection to the mail servers is made."
       operationId: searchMessagesFullText
       parameters:
-        - description: "Search text: words, \"exact phrases\", -excluded words (at most 256 characters)."
+        - description: "Required. Search text: words, \"exact phrases\", -excluded words (at most 256 characters)."
           explode: false
           in: query
           name: q
-          required: true
           schema:
-            description: "Search text: words, \"exact phrases\", -excluded words (at most 256 characters)."
+            description: "Required. Search text: words, \"exact phrases\", -excluded words (at most 256 characters)."
             examples:
               - invoice "payment due" -reminder
             maxLength: 256
