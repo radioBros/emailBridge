@@ -11,10 +11,11 @@ cross-engine path; these units are the Podman-native install.
 
 ## Secrets
 
-Create Podman secrets from the files produced by `emailbridge secrets init`:
+Generate the secret files with the image itself, then create Podman secrets from them:
 
 ```bash
-emailbridge secrets init --dir ./secrets
+mkdir -p secrets
+podman run --rm --userns=keep-id -v "$PWD/secrets:/secrets:Z" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
 podman secret create mongo_keyfile      ./secrets/mongo_keyfile
 podman secret create mongo_root_password ./secrets/mongo_root_password
 podman secret create mongo_uri          ./secrets/mongo_uri

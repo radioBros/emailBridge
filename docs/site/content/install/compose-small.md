@@ -3,7 +3,9 @@
 All EmailBridge roles in one container plus NATS, MongoDB, and SeaweedFS S3.
 
 ```bash
-emailbridge secrets init   # creates ./secrets/* (0600)
+mkdir -p secrets
+podman run --rm --userns=keep-id -v "$PWD/secrets:/secrets:Z" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
+# Docker: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD/secrets:/secrets" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
 podman compose -p emailbridge --project-directory . -f deploy/compose/small.yml up -d
 # or: docker compose -p emailbridge --project-directory . -f deploy/compose/small.yml up -d
 ```

@@ -1,7 +1,9 @@
 # EmailBridge medium tier — project name `emailbridge`.
 #
 # From the repository root (secrets in ./secrets/, data in ./.data/):
-#   emailbridge secrets init
+#   mkdir -p secrets
+#   podman run --rm --userns=keep-id -v "$PWD/secrets:/secrets:Z" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
+#   (Docker: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD/secrets:/secrets" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets)
 #   # Set secrets/mongo_uri to all three members, e.g.
 #   # mongodb://root:…@mongo-1:27017,mongo-2:27017,mongo-3:27017/?authSource=admin&replicaSet=rs0
 #   podman compose -p emailbridge --project-directory . -f deploy/compose/medium.yml up -d

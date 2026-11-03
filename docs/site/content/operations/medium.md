@@ -11,7 +11,8 @@ Kubernetes (large tier).
 2. From the repository root, create secrets (same file names as the small tier):
 
    ```bash
-   emailbridge secrets init
+   mkdir -p secrets
+   podman run --rm --userns=keep-id -v "$PWD/secrets:/secrets:Z" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
    ```
 
 3. Edit `secrets/mongo_uri` so it lists all three members and the replica set name:
@@ -21,7 +22,7 @@ Kubernetes (large tier).
    ```
 
    Use the same root password as `secrets/mongo_root_password`. Every other secret stays as
-   `emailbridge secrets init` wrote it (`*_FILE` in compose).
+   `secrets init` wrote it (`*_FILE` in compose).
 
 4. Create data directories (optional — Compose creates them on first start):
 

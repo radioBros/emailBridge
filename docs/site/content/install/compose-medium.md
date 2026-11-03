@@ -4,7 +4,8 @@ Three-node NATS JetStream, three-member MongoDB replica set, role-split EmailBri
 `gateway` entry point. File: `deploy/compose/medium.yml`. Ops: [Medium tier](../operations/medium.md).
 
 ```bash
-emailbridge secrets init
+mkdir -p secrets
+podman run --rm --userns=keep-id -v "$PWD/secrets:/secrets:Z" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
 # Set secrets/mongo_uri to all three members with replicaSet=rs0
 podman compose -p emailbridge --project-directory . -f deploy/compose/medium.yml up -d
 ```

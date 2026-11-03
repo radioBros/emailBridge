@@ -111,12 +111,13 @@ EmailBridge needs **NATS**, **MongoDB** (replica set) and **S3-compatible storag
 runs all of them next to one EmailBridge container.
 
 ```bash
-# 1. Get the code and the binary (from the v1.0.0 release, or build it)
+# 1. Get the deployment files
 git clone https://github.com/radioBros/emailBridge.git && cd emailBridge
-go build -o emailbridge ./cmd/emailbridge
 
-# 2. Create the secrets the stack needs (written to ./secrets, mode 0600)
-./emailbridge secrets init
+# 2. Create the secrets the stack needs (written to ./secrets, mode 0600) with the image itself
+mkdir -p secrets
+podman run --rm --userns=keep-id -v "$PWD/secrets:/secrets:Z" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
+#    Docker: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD/secrets:/secrets" ghcr.io/radiobros/emailbridge:v1.0.0 secrets init --dir /secrets
 
 # 3. Start the stack (Podman or Docker)
 podman compose -p emailbridge --project-directory . -f deploy/compose/small.yml up -d
