@@ -1,9 +1,7 @@
-# Nightly — fuzz, chaos, Trivy filesystem scan, govulncheck.
-name: nightly
+# Deep checks, manual only (no schedule): fuzz, chaos, Trivy filesystem scan, govulncheck.
+name: deep-checks (manual)
 
 on:
-  schedule:
-    - cron: "30 2 * * *"
   workflow_dispatch:
 
 permissions:
